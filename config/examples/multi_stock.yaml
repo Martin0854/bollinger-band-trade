@@ -1,0 +1,27 @@
+# Example: Multi-Stock Portfolio (Diversified Strategy)
+# Top 3 Korean tech stocks
+
+seed_money: 10000000
+
+stocks:
+  - "005930"  # Samsung Electronics
+  - "000660"  # SK Hynix
+  - "035720"  # Kakao
+
+date_range:
+  start: "2024-01-01"
+  end: "2024-12-31"
+
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+squeeze_threshold_percent: 30
+squeeze_lookback_days: 10
+
+stop_loss_percent: 5
+max_position_size_percent: 30  # Max 30% per stock (can hold up to 3 stocks simultaneously)
+
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+initial_positions: {}

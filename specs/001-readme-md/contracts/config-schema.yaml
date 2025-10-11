@@ -1,0 +1,174 @@
+# Configuration Schema Contract
+# Defines the expected structure for backtest configuration YAML files
+# Used for validation via Pydantic BacktestConfiguration model
+
+schema_version: "1.0"
+description: "Backtest configuration schema for Bollinger Band squeeze strategy"
+
+properties:
+  seed_money:
+    type: integer
+    description: "Initial capital in KRW"
+    constraints:
+      - gt: 0
+    required: true
+    example: 10000000
+
+  stocks:
+    type: array
+    description: "List of 6-digit Korean stock codes (KOSPI/KOSDAQ)"
+    items:
+      type: string
+      pattern: "^\\d{6}$"
+    constraints:
+      - min_length: 1
+      - max_length: 10  # Practical limit for MVP
+    required: true
+    example: ["005930", "000660", "035720"]
+
+  date_range:
+    type: object
+    description: "Backtest period (inclusive)"
+    properties:
+      start:
+        type: date
+        format: "YYYY-MM-DD"
+        required: true
+      end:
+        type: date
+        format: "YYYY-MM-DD"
+        required: true
+    constraints:
+      - start < end
+    example:
+      start: "2024-01-01"
+      end: "2024-12-31"
+
+  bollinger_period:
+    type: integer
+    description: "Moving average window (days)"
+    constraints:
+      - ge: 5
+      - le: 200
+    default: 20
+    example: 20
+
+  bollinger_std_dev:
+    type: float
+    description: "Standard deviation multiplier for band calculation"
+    constraints:
+      - gt: 0
+      - le: 5
+    default: 2.0
+    example: 2.0
+
+  squeeze_threshold_percent:
+    type: float
+    description: "Band width decrease threshold to trigger squeeze detection (%)"
+    constraints:
+      - ge: 5
+      - le: 100
+    default: 30
+    example: 30
+
+  squeeze_lookback_days:
+    type: integer
+    description: "Number of days to look back when comparing band width"
+    constraints:
+      - ge: 2
+      - le: 30
+    default: 10
+    example: 10
+
+  stop_loss_percent:
+    type: float
+    description: "Maximum loss per position before auto-exit (%)"
+    constraints:
+      - ge: 0
+      - le: 100
+    default: 5
+    example: 5
+
+  max_position_size_percent:
+    type: float
+    description: "Maximum portfolio allocation per stock (%)"
+    constraints:
+      - gt: 0
+      - le: 100
+    default: 30
+    example: 30
+
+  initial_positions:
+    type: object
+    description: "Existing positions at backtest start (optional)"
+    additionalProperties:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          constraints: [gt: 0]
+        purchase_price:
+          type: float
+          constraints: [gt: 0]
+    default: {}
+    example:
+      "005930":
+        quantity: 10
+        purchase_price: 60000
+
+  risk_free_rate:
+    type: float
+    description: "Annual risk-free rate for Sharpe ratio calculation"
+    constraints:
+      - ge: 0
+      - le: 0.5  # 50% max
+    default: 0.03
+    example: 0.03
+
+  transaction_cost_percent:
+    type: float
+    description: "Commission and slippage per trade (%)"
+    constraints:
+      - ge: 0
+      - le: 5
+    default: 0.0
+    example: 0.015  # 0.015% typical Korean brokerage
+
+# Example valid configuration
+example_config: |
+  seed_money: 10000000
+  stocks:
+    - "005930"  # Samsung Electronics
+    - "000660"  # SK Hynix
+  date_range:
+    start: "2024-01-01"
+    end: "2024-12-31"
+  bollinger_period: 20
+  bollinger_std_dev: 2.0
+  squeeze_threshold_percent: 30
+  squeeze_lookback_days: 10
+  stop_loss_percent: 5
+  max_position_size_percent: 30
+  initial_positions: {}
+  risk_free_rate: 0.03
+  transaction_cost_percent: 0.0
+
+# Validation error examples
+validation_errors:
+  - invalid_input: |
+      seed_money: -1000
+    error: "seed_money must be > 0"
+
+  - invalid_input: |
+      stocks: ["12345"]  # Only 5 digits
+    error: "Stock codes must be 6 digits"
+
+  - invalid_input: |
+      date_range:
+        start: "2024-12-31"
+        end: "2024-01-01"
+    error: "Start date must be before end date"
+
+  - invalid_input: |
+      squeeze_threshold_percent: 150
+    error: "squeeze_threshold_percent must be <= 100"

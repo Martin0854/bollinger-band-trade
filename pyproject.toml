@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "bollinger-band-trade"
+version = "0.1.0"
+description = "Bollinger Band Squeeze Backtesting for Korean Stock Market"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.0.0"
+numpy = "^1.24.0"
+pyarrow = "^14.0.0"
+pydantic = "^2.0.0"
+pyyaml = "^6.0.0"
+pytz = "^2023.3"
+yfinance = "^0.2.66"
+openpyxl = "^3.1.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-benchmark = "^4.0.0"
+hypothesis = "^6.92.0"
+black = "^23.12.0"
+mypy = "^1.7.0"
+ruff = "^0.1.9"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.scripts]
+bb-backtest = "src.cli.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers --tb=short"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "contract: marks tests as contract tests",
+]

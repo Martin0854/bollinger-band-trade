@@ -1,0 +1,38 @@
+# Default Backtest Configuration for Bollinger Band Squeeze Strategy
+# Korean Stock Market (KOSPI/KOSDAQ)
+
+# Portfolio Settings
+seed_money: 10000000  # Initial capital (10 million KRW ≈ $7,500 USD)
+
+# Stock Selection (Korean 6-digit stock codes)
+stocks:
+  - "005930"  # Samsung Electronics
+
+# Backtest Period
+date_range:
+  start: "2024-01-01"
+  end: "2024-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20          # 20-day moving average
+bollinger_std_dev: 2.0        # 2 standard deviations
+
+# Squeeze Detection
+squeeze_threshold_percent: 30  # Detect 30% band width decrease
+squeeze_lookback_days: 10      # Over 10-day window
+
+# Risk Management
+stop_loss_percent: 5           # Auto-exit at 5% loss
+max_position_size_percent: 30  # Max 30% portfolio allocation per stock
+
+# Advanced Settings (Optional)
+risk_free_rate: 0.03           # 3% annual (Korean government bonds)
+transaction_cost_percent: 0.0  # Zero fees (simplified MVP)
+
+# Initial Positions (optional - start with existing holdings)
+initial_positions: {}
+# Example:
+# initial_positions:
+#   "005930":
+#     quantity: 10
+#     purchase_price: 60000

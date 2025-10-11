@@ -1,0 +1,38 @@
+# Bollinger Band Backtest Configuration
+# Copy this file and modify for your own backtests
+
+# Portfolio Settings
+seed_money: 10000000  # Starting capital in KRW (10 million)
+
+# Stock Selection
+stocks:
+  - "005930"  # Samsung Electronics
+  - "035720"  # Kakao
+  - "000660"  # SK Hynix
+
+# Backtest Period
+date_range:
+  start: "2024-01-01"
+  end: "2024-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20          # Moving average window (days)
+bollinger_std_dev: 2.0        # Standard deviation multiplier
+
+# Squeeze Detection
+squeeze_threshold_percent: 30.0  # Band width decrease threshold (%)
+squeeze_lookback_days: 10        # Comparison window (days)
+
+# Risk Management
+stop_loss_percent: 5.0        # Maximum loss per position (%)
+max_position_percent: 30.0    # Max portfolio allocation per stock (%)
+max_positions: 5              # Maximum concurrent positions
+
+# Advanced Settings (optional)
+risk_free_rate: 0.03          # Annual risk-free rate (3%)
+transaction_cost_percent: 0.0 # Commission + slippage (%)
+initial_positions: {}         # Existing positions at backtest start
+
+# File Paths (optional)
+data_cache_dir: "data/cache"
+log_dir: "data/logs"

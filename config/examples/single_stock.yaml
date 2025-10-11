@@ -1,0 +1,25 @@
+# Example: Single Stock Backtest (Conservative Strategy)
+# Samsung Electronics with tight risk controls
+
+seed_money: 10000000
+
+stocks:
+  - "005930"  # Samsung Electronics
+
+date_range:
+  start: "2024-01-01"
+  end: "2024-12-31"
+
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+squeeze_threshold_percent: 40  # Higher threshold = fewer, stronger signals
+squeeze_lookback_days: 10
+
+stop_loss_percent: 3           # Tighter stop-loss (3%)
+max_position_size_percent: 20  # Smaller position size (20%)
+
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+initial_positions: {}
