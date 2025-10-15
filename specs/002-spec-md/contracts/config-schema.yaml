@@ -1,0 +1,453 @@
+# Configuration Schema: 볼린저 밴드 스퀴즈 전략 개선
+# Feature: 002-spec-md | Date: 2025-10-15
+# Purpose: Define YAML configuration schema for enhanced strategy with validation rules
+
+---
+
+# Top-level configuration structure
+type: object
+required:
+  - bollinger
+  - backtest
+  - portfolio
+properties:
+  # Existing configuration (preserved)
+  bollinger:
+    type: object
+    description: 볼린저 밴드 파라미터
+    required:
+      - period
+      - std_dev
+    properties:
+      period:
+        type: integer
+        minimum: 5
+        maximum: 100
+        default: 20
+        description: 이동평균 기간 (일수)
+      std_dev:
+        type: number
+        minimum: 1.0
+        maximum: 4.0
+        default: 2.0
+        description: 표준편차 배수
+
+  squeeze:
+    type: object
+    description: 스퀴즈 감지 파라미터
+    required:
+      - lookback_days
+      - threshold_percent
+    properties:
+      lookback_days:
+        type: integer
+        minimum: 5
+        maximum: 60
+        default: 10
+        description: 대역폭 비교 기간 (일수)
+      threshold_percent:
+        type: number
+        minimum: 10.0
+        maximum: 50.0
+        default: 30.0
+        description: 대역폭 감소 임계값 (%)
+
+  backtest:
+    type: object
+    description: 백테스트 설정
+    required:
+      - start_date
+      - end_date
+    properties:
+      start_date:
+        type: string
+        format: date
+        description: 백테스트 시작일 (YYYY-MM-DD)
+        example: "2023-01-01"
+      end_date:
+        type: string
+        format: date
+        description: 백테스트 종료일 (YYYY-MM-DD)
+        example: "2023-12-31"
+
+  portfolio:
+    type: object
+    description: 포트폴리오 설정
+    required:
+      - initial_capital
+    properties:
+      initial_capital:
+        type: number
+        minimum: 1000000
+        default: 10000000
+        description: 초기 시드머니 (원)
+      max_position_size:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        default: 0.3
+        description: 최대 포지션 크기 (포트폴리오 대비 비율)
+      stop_loss_percent:
+        type: number
+        minimum: 1.0
+        maximum: 20.0
+        default: 5.0
+        description: 고정 손절매 비율 (%)
+
+  # NEW: Enhanced strategy configuration
+  enhanced_strategy:
+    type: object
+    description: 보조 지표 기반 개선된 전략 설정 (Phase 1~4)
+    properties:
+      volume_filter:
+        type: object
+        description: 거래량 필터 설정 (Phase 1)
+        required:
+          - enabled
+        properties:
+          enabled:
+            type: boolean
+            default: true
+            description: 거래량 필터 활성화 여부
+          window_days:
+            type: integer
+            minimum: 5
+            maximum: 252
+            default: 20
+            description: 평균 거래량 계산 기간 (일수)
+          multiplier:
+            type: number
+            minimum: 1.0
+            maximum: 10.0
+            default: 1.5
+            description: 평균 거래량 배수 임계값
+            example: 1.5  # 평균의 1.5배 이상이어야 진입
+
+      rsi:
+        type: object
+        description: RSI (Relative Strength Index) 설정 (Phase 1)
+        required:
+          - enabled
+        properties:
+          enabled:
+            type: boolean
+            default: true
+            description: RSI 필터 활성화 여부
+          period:
+            type: integer
+            minimum: 5
+            maximum: 100
+            default: 14
+            description: RSI 계산 기간 (일수)
+          overbought:
+            type: integer
+            minimum: 50
+            maximum: 100
+            default: 70
+            description: 과매수 판단 임계값
+          oversold:
+            type: integer
+            minimum: 0
+            maximum: 50
+            default: 30
+            description: 과매도 판단 임계값
+        # Cross-field validation (handled by pydantic in code)
+        x-validation:
+          - overbought > oversold
+
+      macd:
+        type: object
+        description: MACD (Moving Average Convergence Divergence) 설정 (Phase 2)
+        required:
+          - enabled
+        properties:
+          enabled:
+            type: boolean
+            default: false  # Phase 2에서 활성화
+            description: MACD 필터 활성화 여부
+          fast_period:
+            type: integer
+            minimum: 5
+            maximum: 50
+            default: 12
+            description: 빠른 EMA 기간 (일수)
+          slow_period:
+            type: integer
+            minimum: 10
+            maximum: 100
+            default: 26
+            description: 느린 EMA 기간 (일수)
+          signal_period:
+            type: integer
+            minimum: 5
+            maximum: 50
+            default: 9
+            description: 시그널 라인 EMA 기간 (일수)
+        x-validation:
+          - slow_period > fast_period
+
+      atr:
+        type: object
+        description: ATR (Average True Range) 동적 손절매 설정 (Phase 4)
+        required:
+          - enabled
+        properties:
+          enabled:
+            type: boolean
+            default: false  # Phase 4에서 활성화
+            description: ATR 기반 동적 손절매 활성화 여부
+          period:
+            type: integer
+            minimum: 5
+            maximum: 100
+            default: 14
+            description: ATR 계산 기간 (일수)
+          multiplier:
+            type: number
+            minimum: 0.5
+            maximum: 10.0
+            default: 2.0
+            description: ATR 손절가 배수
+            example: 2.0  # 진입가 - (ATR * 2)
+
+      confidence:
+        type: object
+        description: 신호 신뢰도 평가 시스템 (Phase 3)
+        properties:
+          threshold:
+            type: integer
+            minimum: 0
+            maximum: 100
+            default: 60
+            description: 진입 허용 최소 신뢰도 점수
+          scoring:
+            type: object
+            description: 각 필터별 점수 배분 (합계 ≤ 100 - 25(base))
+            properties:
+              base_score:
+                type: integer
+                minimum: 0
+                maximum: 100
+                default: 25
+                description: 볼린저 밴드 돌파 기본 점수
+              volume_score:
+                type: integer
+                minimum: 0
+                maximum: 100
+                default: 25
+                description: 거래량 필터 통과 시 점수
+              rsi_score:
+                type: integer
+                minimum: 0
+                maximum: 100
+                default: 20
+                description: RSI 필터 통과 시 점수
+              macd_score:
+                type: integer
+                minimum: 0
+                maximum: 100
+                default: 30
+                description: MACD 필터 통과 시 점수
+            x-validation:
+              - base_score + volume_score + rsi_score + macd_score <= 100
+
+  # Stock selection
+  stocks:
+    type: array
+    description: 백테스트 대상 종목 목록
+    minItems: 1
+    maxItems: 200
+    items:
+      type: object
+      required:
+        - ticker
+      properties:
+        ticker:
+          type: string
+          pattern: "^[0-9]{6}\\.K[SQ]$"
+          description: 종목 티커 (6자리 + .KS 또는 .KQ)
+          example: "005930.KS"  # 삼성전자
+        name:
+          type: string
+          description: 종목명 (선택사항)
+          example: "삼성전자"
+
+---
+
+# Example Configurations
+
+examples:
+  - name: phase1_volume_rsi
+    description: Phase 1 전략 (거래량 + RSI)
+    config:
+      bollinger:
+        period: 20
+        std_dev: 2.0
+      squeeze:
+        lookback_days: 10
+        threshold_percent: 30.0
+      backtest:
+        start_date: "2023-01-01"
+        end_date: "2023-12-31"
+      portfolio:
+        initial_capital: 10000000
+        max_position_size: 0.3
+        stop_loss_percent: 5.0
+      enhanced_strategy:
+        volume_filter:
+          enabled: true
+          window_days: 20
+          multiplier: 1.5
+        rsi:
+          enabled: true
+          period: 14
+          overbought: 70
+          oversold: 30
+        macd:
+          enabled: false
+        atr:
+          enabled: false
+        confidence:
+          threshold: 60
+      stocks:
+        - ticker: "005930.KS"
+          name: "삼성전자"
+
+  - name: phase2_with_macd
+    description: Phase 2 전략 (거래량 + RSI + MACD)
+    config:
+      bollinger:
+        period: 20
+        std_dev: 2.0
+      enhanced_strategy:
+        volume_filter:
+          enabled: true
+          window_days: 20
+          multiplier: 1.5
+        rsi:
+          enabled: true
+          period: 14
+          overbought: 70
+          oversold: 30
+        macd:
+          enabled: true  # Phase 2 활성화
+          fast_period: 12
+          slow_period: 26
+          signal_period: 9
+        atr:
+          enabled: false
+        confidence:
+          threshold: 70  # MACD 추가로 임계값 상향
+
+  - name: phase3_confidence
+    description: Phase 3 전략 (신뢰도 평가 시스템)
+    config:
+      bollinger:
+        period: 20
+        std_dev: 2.0
+      enhanced_strategy:
+        volume_filter:
+          enabled: true
+        rsi:
+          enabled: true
+        macd:
+          enabled: true
+        atr:
+          enabled: false
+        confidence:
+          threshold: 60
+          scoring:
+            base_score: 25
+            volume_score: 25
+            rsi_score: 20
+            macd_score: 30
+
+  - name: phase4_dynamic_stop
+    description: Phase 4 전략 (ATR 동적 손절매)
+    config:
+      bollinger:
+        period: 20
+        std_dev: 2.0
+      portfolio:
+        initial_capital: 10000000
+        # stop_loss_percent는 무시됨 (atr.enabled=true 시)
+      enhanced_strategy:
+        volume_filter:
+          enabled: true
+        rsi:
+          enabled: true
+        macd:
+          enabled: true
+        atr:
+          enabled: true  # Phase 4 활성화
+          period: 14
+          multiplier: 2.0
+        confidence:
+          threshold: 60
+
+---
+
+# Validation Rules (implemented in pydantic models)
+
+validation_rules:
+  - rule: "At least one filter (volume, rsi, macd) must be enabled"
+    code: |
+      if not (volume_filter.enabled or rsi.enabled or macd.enabled):
+        raise ValidationError("At least one indicator filter must be enabled")
+
+  - rule: "MACD slow_period must be greater than fast_period"
+    code: |
+      if macd.enabled and macd.slow_period <= macd.fast_period:
+        raise ValidationError("MACD slow_period must be > fast_period")
+
+  - rule: "RSI overbought must be greater than oversold"
+    code: |
+      if rsi.enabled and rsi.overbought <= rsi.oversold:
+        raise ValidationError("RSI overbought must be > oversold")
+
+  - rule: "Confidence scoring must not exceed 100 points total"
+    code: |
+      total = (confidence.scoring.base_score +
+               confidence.scoring.volume_score +
+               confidence.scoring.rsi_score +
+               confidence.scoring.macd_score)
+      if total > 100:
+        raise ValidationError(f"Total confidence score {total} exceeds 100")
+
+  - rule: "Confidence threshold must be achievable with enabled filters"
+    code: |
+      max_score = confidence.scoring.base_score
+      if volume_filter.enabled:
+        max_score += confidence.scoring.volume_score
+      if rsi.enabled:
+        max_score += confidence.scoring.rsi_score
+      if macd.enabled:
+        max_score += confidence.scoring.macd_score
+      if confidence.threshold > max_score:
+        raise ValidationError(f"Threshold {confidence.threshold} exceeds max achievable score {max_score}")
+
+  - rule: "Backtest end_date must be after start_date"
+    code: |
+      if backtest.end_date <= backtest.start_date:
+        raise ValidationError("end_date must be after start_date")
+
+  - rule: "Stock tickers must be valid Korean exchange format"
+    code: |
+      for stock in stocks:
+        if not re.match(r"^[0-9]{6}\.(KS|KQ)$", stock.ticker):
+          raise ValidationError(f"Invalid ticker format: {stock.ticker}")
+
+---
+
+# Migration Notes
+
+backward_compatibility:
+  - description: "기존 설정 파일 (enhanced_strategy 섹션 없음)은 기본 전략으로 작동"
+  - behavior: "enhanced_strategy가 없으면 모든 필터 disabled로 간주"
+  - migration_path: |
+      1. 기존 YAML 파일 로드
+      2. enhanced_strategy 섹션이 없으면 기본값으로 채우기
+      3. 사용자에게 경고 메시지 출력: "Using legacy configuration without enhanced filters"
+
+breaking_changes:
+  - none: "모든 새 설정 옵션은 선택사항 (enabled=false 기본값)"

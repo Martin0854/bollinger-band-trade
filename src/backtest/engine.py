@@ -10,10 +10,13 @@ from typing import Dict, List, Optional
 import pytz
 
 from src.models.portfolio import Portfolio, Position
-from src.models.trade import Trade, TradeAction
+from src.models.trade import Trade, TradeAction, EnhancedSignal
 from src.models.config import BacktestConfiguration
 from src.indicators.bollinger import calculate_bollinger_bands
 from src.indicators.squeeze import detect_squeeze, SqueezeEvent
+from src.indicators.volume import VolumeFilter
+from src.indicators.momentum import RSIIndicator
+from src.signals.generator import EnhancedSignalGenerator
 from src.backtest.metrics import PerformanceReport, calculate_metrics_from_trades
 
 
@@ -27,6 +30,9 @@ class BacktestEngine:
         trades: List of all executed trades
         squeeze_events: List of all detected squeezes
         mock_data: Dict of stock_code -> DataFrame for testing
+        volume_filter: Optional VolumeFilter instance
+        rsi_indicator: Optional RSIIndicator instance
+        signal_generator: EnhancedSignalGenerator for filtering signals
     """
 
     def __init__(self, config: BacktestConfiguration):
@@ -44,6 +50,39 @@ class BacktestEngine:
         self.trades: List[Trade] = []
         self.squeeze_events: List[SqueezeEvent] = []
         self.mock_data: Dict[str, pd.DataFrame] = {}
+
+        # Initialize enhanced strategy filters (FR-001, FR-003)
+        self.volume_filter: Optional[VolumeFilter] = None
+        self.rsi_indicator: Optional[RSIIndicator] = None
+
+        # Initialize filters from config
+        if hasattr(config, 'enhanced_strategy') and config.enhanced_strategy is not None:
+            # Initialize Volume Filter (User Story 1)
+            if config.enhanced_strategy.volume_filter.enabled:
+                self.volume_filter = VolumeFilter(
+                    window_days=config.enhanced_strategy.volume_filter.window_days,
+                    multiplier=config.enhanced_strategy.volume_filter.multiplier
+                )
+
+            # Initialize RSI Indicator (User Story 2)
+            if config.enhanced_strategy.rsi.enabled:
+                self.rsi_indicator = RSIIndicator(
+                    period=config.enhanced_strategy.rsi.period,
+                    overbought=config.enhanced_strategy.rsi.overbought,
+                    oversold=config.enhanced_strategy.rsi.oversold
+                )
+
+        # Initialize EnhancedSignalGenerator
+        confidence_threshold = 60  # Default
+        if hasattr(config, 'enhanced_strategy') and config.enhanced_strategy is not None:
+            confidence_threshold = config.enhanced_strategy.confidence.threshold
+
+        self.signal_generator = EnhancedSignalGenerator(
+            volume_filter=self.volume_filter,
+            rsi_indicator=self.rsi_indicator,
+            macd_indicator=None,  # Phase 2
+            confidence_threshold=confidence_threshold
+        )
 
     def load_mock_data(self, stock_code: str, data: pd.DataFrame) -> None:
         """
@@ -91,6 +130,16 @@ class BacktestEngine:
                 period=self.config.bollinger_period,
                 std_multiplier=self.config.bollinger_std_dev
             )
+
+            # Calculate Volume Average (for Volume Filter)
+            volume_avg = None
+            if self.volume_filter is not None and 'Volume' in ohlcv.columns:
+                volume_avg = self.volume_filter.calculate_average_volume(ohlcv['Volume'])
+
+            # Calculate RSI (for RSI Filter)
+            rsi_values = None
+            if self.rsi_indicator is not None:
+                rsi_values = self.rsi_indicator.calculate(ohlcv['Close'])
 
             # Detect squeezes
             squeeze_signals = detect_squeeze(
@@ -146,27 +195,56 @@ class BacktestEngine:
                     bandwidth_expanding = band_width >= min_bandwidth * Decimal('1.1')
 
                     if current_price > bollinger_values['upper'] and bandwidth_expanding:
-                        # Check portfolio limits
-                        if len(self.portfolio.positions) < self.config.max_positions:
-                            # Calculate position size
-                            from src.risk.controls import calculate_position_size
-                            quantity = calculate_position_size(
-                                portfolio_value=self.portfolio.total_value,
-                                stock_price=current_price,
-                                max_position_percent=Decimal(str(self.config.max_position_percent))
-                            )
+                        # Get current volume and RSI for filtering
+                        current_volume = None
+                        avg_volume_value = None
+                        rsi_value = None
 
-                            if quantity > 0:
-                                self._execute_buy(
-                                    stock_code=stock_code,
-                                    price=current_price,
-                                    quantity=quantity,
-                                    date=current_date,
-                                    reason="squeeze_breakout_buy",
-                                    bollinger_values=bollinger_values,
-                                    band_width=band_width
+                        if volume_avg is not None and 'Volume' in ohlcv.columns:
+                            current_volume = float(ohlcv.loc[current_date, 'Volume'])
+                            avg_volume_value = float(volume_avg.loc[current_date]) if current_date in volume_avg.index else None
+
+                        if rsi_values is not None and current_date in rsi_values.index:
+                            rsi_value = float(rsi_values.loc[current_date])
+
+                        # Use EnhancedSignalGenerator to filter signal (FR-002, FR-004, FR-006, FR-007)
+                        enhanced_signal = self.signal_generator.generate_enhanced_signal(
+                            date=current_date,
+                            stock_code=stock_code,
+                            signal_type='BUY',
+                            reason='squeeze_breakout_buy',
+                            price=current_price,
+                            bollinger_values=bollinger_values,
+                            current_volume=current_volume,
+                            avg_volume=avg_volume_value,
+                            rsi_value=rsi_value,
+                            macd_value=None  # Phase 2
+                        )
+
+                        # Only execute if signal passes filters
+                        if enhanced_signal is not None:
+                            # Check portfolio limits
+                            if len(self.portfolio.positions) < self.config.max_positions:
+                                # Calculate position size
+                                from src.risk.controls import calculate_position_size
+                                quantity = calculate_position_size(
+                                    portfolio_value=self.portfolio.total_value,
+                                    stock_price=current_price,
+                                    max_position_percent=Decimal(str(self.config.max_position_percent))
                                 )
-                                in_squeeze_or_consolidation = False  # Reset after entry
+
+                                if quantity > 0:
+                                    self._execute_buy(
+                                        stock_code=stock_code,
+                                        price=current_price,
+                                        quantity=quantity,
+                                        date=current_date,
+                                        reason="squeeze_breakout_buy",
+                                        bollinger_values=bollinger_values,
+                                        band_width=band_width,
+                                        enhanced_signal=enhanced_signal
+                                    )
+                                    in_squeeze_or_consolidation = False  # Reset after entry
 
                 # Check for exit signals if we have a position
                 if position is not None:
@@ -199,9 +277,31 @@ class BacktestEngine:
                         )
 
         # Calculate final report
+        # Get backtest start/end dates from config for accurate CAGR
+        from datetime import datetime
+        backtest_start = None
+        backtest_end = None
+
+        if hasattr(self.config, 'date_range') and self.config.date_range:
+            # Handle both string and date objects
+            start_val = self.config.date_range[0]
+            end_val = self.config.date_range[1]
+
+            if isinstance(start_val, str):
+                backtest_start = datetime.strptime(start_val, '%Y-%m-%d')
+            elif hasattr(start_val, 'year'):  # date or datetime object
+                backtest_start = datetime(start_val.year, start_val.month, start_val.day)
+
+            if isinstance(end_val, str):
+                backtest_end = datetime.strptime(end_val, '%Y-%m-%d')
+            elif hasattr(end_val, 'year'):  # date or datetime object
+                backtest_end = datetime(end_val.year, end_val.month, end_val.day)
+
         report = calculate_metrics_from_trades(
             trades=self.trades,
-            initial_capital=self.portfolio.initial_capital
+            initial_capital=self.portfolio.initial_capital,
+            backtest_start_date=backtest_start,
+            backtest_end_date=backtest_end
         )
 
         return report
@@ -214,7 +314,8 @@ class BacktestEngine:
         date: datetime,
         reason: str,
         bollinger_values: Dict[str, Decimal],
-        band_width: Decimal
+        band_width: Decimal,
+        enhanced_signal: Optional['EnhancedSignal'] = None
     ) -> None:
         """
         Execute a buy trade.
@@ -227,6 +328,7 @@ class BacktestEngine:
             reason: Entry reason
             bollinger_values: Bollinger Band values
             band_width: Band width at execution
+            enhanced_signal: Optional EnhancedSignal with filter results
         """
         # Calculate trade cost
         cost = price * quantity

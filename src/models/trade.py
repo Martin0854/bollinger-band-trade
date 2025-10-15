@@ -1,6 +1,7 @@
 """
 Trade model (data-model.md Entity 3).
 Immutable audit record of executed trades with complete context.
+Enhanced with auxiliary indicator data for Phase 1-4 features.
 """
 
 from dataclasses import dataclass
@@ -118,4 +119,119 @@ class Trade:
             'portfolio_value_after': float(self.portfolio_value_after),
             'cash_after': float(self.cash_after),
             'realized_pnl': float(self.realized_pnl) if self.realized_pnl is not None else None
+        }
+
+
+# ========================================================================
+# Enhanced Trade Model (Entity 6: EnhancedSignal)
+# Extends base Trade with auxiliary indicator data and confidence scoring
+# ========================================================================
+
+
+@dataclass(frozen=True)
+class EnhancedSignal:
+    """
+    Entity 6: EnhancedSignal represents a trading signal with auxiliary indicator data.
+
+    Extends the base Trade concept with:
+    - Confidence score (0-100 points)
+    - Individual filter pass/fail status
+    - Indicator values at signal generation time
+    - Dynamic stop-loss price (ATR-based)
+
+    Attributes:
+        stock_code: 6-digit Korean stock code
+        signal_type: "BUY" or "SELL"
+        execution_price: Price at signal generation
+        execution_timestamp: Timezone-aware timestamp (Asia/Seoul)
+        reason: Signal generation reason
+        bollinger_values: Dict with 'upper', 'middle', 'lower' band values
+        confidence_score: Signal confidence (0-100 points)
+        volume_pass: Volume filter passed
+        rsi_pass: RSI filter passed
+        macd_pass: MACD filter passed
+        rsi_value: RSI value at signal time (if calculated)
+        macd_value: MACD histogram value at signal time (if calculated)
+        atr_value: ATR value at signal time (if calculated)
+        dynamic_stop_loss: ATR-based stop-loss price (if enabled)
+    """
+    stock_code: str
+    signal_type: str  # "BUY" or "SELL"
+    execution_price: Decimal
+    execution_timestamp: datetime
+    reason: str
+    bollinger_values: Dict[str, Decimal]
+
+    # Enhanced fields (Phase 1-4)
+    confidence_score: int  # 0-100 points
+    volume_pass: bool = False
+    rsi_pass: bool = False
+    macd_pass: bool = False
+
+    # Indicator values at signal time
+    rsi_value: Optional[float] = None
+    macd_value: Optional[float] = None  # Histogram value
+    atr_value: Optional[float] = None
+
+    # Dynamic stop-loss (Phase 4)
+    dynamic_stop_loss: Optional[Decimal] = None
+
+    def __post_init__(self):
+        """Validate EnhancedSignal fields."""
+        # Validate stock_code: exactly 6 digits
+        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
+            raise ValueError(
+                f"stock_code must be exactly 6 digits, got: '{self.stock_code}'"
+            )
+
+        # Validate execution_price > 0
+        if self.execution_price <= 0:
+            raise ValueError(
+                f"execution_price must be positive, got: {self.execution_price}"
+            )
+
+        # Validate confidence_score in range
+        if not (0 <= self.confidence_score <= 100):
+            raise ValueError(
+                f"confidence_score must be 0-100, got: {self.confidence_score}"
+            )
+
+        # Validate signal_type
+        if self.signal_type not in ["BUY", "SELL"]:
+            raise ValueError(
+                f"signal_type must be BUY or SELL, got: '{self.signal_type}'"
+            )
+
+        # Validate dynamic_stop_loss < execution_price (if set)
+        if self.dynamic_stop_loss is not None and self.dynamic_stop_loss >= self.execution_price:
+            raise ValueError(
+                f"dynamic_stop_loss ({self.dynamic_stop_loss}) must be less than "
+                f"execution_price ({self.execution_price})"
+            )
+
+    def to_log_dict(self) -> Dict:
+        """
+        Convert EnhancedSignal to JSON-serializable dict for logging.
+
+        Returns:
+            Dictionary suitable for JSON logging and database insertion
+        """
+        return {
+            'timestamp': self.execution_timestamp.isoformat(),
+            'stock_code': self.stock_code,
+            'signal_type': self.signal_type,
+            'price': float(self.execution_price),
+            'reason': self.reason,
+            'bollinger_upper': float(self.bollinger_values.get('upper', 0)),
+            'bollinger_middle': float(self.bollinger_values.get('middle', 0)),
+            'bollinger_lower': float(self.bollinger_values.get('lower', 0)),
+            # Enhanced fields
+            'confidence_score': self.confidence_score,
+            'volume_pass': self.volume_pass,
+            'rsi_pass': self.rsi_pass,
+            'macd_pass': self.macd_pass,
+            'rsi_value': self.rsi_value,
+            'macd_value': self.macd_value,
+            'atr_value': self.atr_value,
+            'dynamic_stop_loss': float(self.dynamic_stop_loss) if self.dynamic_stop_loss else None,
         }

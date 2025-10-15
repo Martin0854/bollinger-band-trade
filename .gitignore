@@ -62,11 +62,17 @@ data/
 *.db
 *.sqlite
 *.sqlite3
+logs/
 
 # Backtest results
 results/
 *.xlsx
 *.csv
+
+# SpecKit artifacts
+.serena/
+tasks.md
+plan.md
 
 # Benchmarks
 .benchmarks/

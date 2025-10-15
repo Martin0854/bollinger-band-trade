@@ -1,6 +1,7 @@
 """
 Signal generation for entry and exit signals.
 Implements squeeze-based entry logic and band-touch exit logic.
+Enhanced with auxiliary indicator filters (Phase 1-4).
 """
 
 import pandas as pd
@@ -10,6 +11,9 @@ from typing import Optional, Dict
 from dataclasses import dataclass
 import pytz
 import uuid
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -160,3 +164,234 @@ def generate_exit_signals(
             break
 
     return signals
+
+
+# ========================================================================
+# Enhanced Signal Generator (Phase 1-4)
+# Integrates auxiliary indicator filters with confidence scoring
+# ========================================================================
+
+class EnhancedSignalGenerator:
+    """
+    Enhanced signal generator with auxiliary indicator filters.
+
+    Integrates Volume, RSI, MACD filters with confidence scoring
+    to reduce false signals and improve win rate.
+
+    Attributes:
+        volume_filter: Optional VolumeFilter instance
+        rsi_indicator: Optional RSIIndicator instance
+        macd_indicator: Optional MACDIndicator instance
+        confidence_threshold: Minimum confidence score (0-100) to enter
+    """
+
+    def __init__(
+        self,
+        volume_filter: Optional['VolumeFilter'] = None,
+        rsi_indicator: Optional['RSIIndicator'] = None,
+        macd_indicator: Optional['MACDIndicator'] = None,
+        confidence_threshold: int = 60
+    ):
+        """
+        Initialize enhanced signal generator with optional filters.
+
+        Args:
+            volume_filter: VolumeFilter instance (Phase 1)
+            rsi_indicator: RSIIndicator instance (Phase 1)
+            macd_indicator: MACDIndicator instance (Phase 2)
+            confidence_threshold: Minimum confidence score for entry
+        """
+        self.volume_filter = volume_filter
+        self.rsi_indicator = rsi_indicator
+        self.macd_indicator = macd_indicator
+        self.confidence_threshold = confidence_threshold
+
+    def check_volume_condition(
+        self,
+        current_volume: float,
+        avg_volume: float
+    ) -> bool:
+        """
+        Check if volume condition is met (FR-002, FR-006).
+
+        Returns True if:
+        - Volume filter is disabled, OR
+        - Volume filter passes (volume >= avg * multiplier)
+
+        Returns False if volume data is missing or filter fails.
+        """
+        if self.volume_filter is None:
+            # Filter disabled - allow signal
+            return True
+
+        # Check volume spike
+        passes = self.volume_filter.check_volume_spike(current_volume, avg_volume)
+
+        if not passes:
+            logger.debug("Signal filtered by volume condition")
+
+        return passes
+
+    def check_rsi_condition(self, rsi_value: Optional[float]) -> bool:
+        """
+        Check if RSI condition is met (FR-004, FR-007).
+
+        Returns True if:
+        - RSI indicator is disabled, OR
+        - RSI is in neutral zone (oversold < RSI < overbought)
+
+        Returns False if RSI data is missing or overbought.
+        """
+        if self.rsi_indicator is None:
+            # Filter disabled - allow signal
+            return True
+
+        if rsi_value is None or pd.isna(rsi_value):
+            # Insufficient data (FR-007) - skip filter
+            logger.warning("RSI filter skipped: insufficient data (FR-007)")
+            return False
+
+        # Check if RSI is neutral (not overbought/oversold)
+        is_neutral = self.rsi_indicator.is_neutral(rsi_value)
+
+        if not is_neutral:
+            logger.debug(f"Signal filtered by RSI condition (RSI={rsi_value:.1f})")
+
+        return is_neutral
+
+    def calculate_confidence_score(
+        self,
+        volume_pass: bool,
+        rsi_pass: bool,
+        macd_pass: bool
+    ) -> int:
+        """
+        Calculate signal confidence score (0-100 points).
+
+        Scoring (default):
+        - Base (Bollinger breakout): 25 points
+        - Volume filter pass: +25 points
+        - RSI filter pass: +20 points
+        - MACD filter pass: +30 points
+
+        Args:
+            volume_pass: Volume filter passed
+            rsi_pass: RSI filter passed
+            macd_pass: MACD filter passed
+
+        Returns:
+            int: Confidence score (0-100)
+        """
+        score = 25  # Base score for Bollinger breakout
+
+        if volume_pass:
+            score += 25
+        if rsi_pass:
+            score += 20
+        if macd_pass:
+            score += 30
+
+        return score
+
+    def generate_enhanced_signal(
+        self,
+        date: datetime,
+        stock_code: str,
+        signal_type: str,
+        reason: str,
+        price: Decimal,
+        bollinger_values: Dict[str, Decimal],
+        current_volume: Optional[float] = None,
+        avg_volume: Optional[float] = None,
+        rsi_value: Optional[float] = None,
+        macd_value: Optional[float] = None
+    ) -> Optional['EnhancedSignal']:
+        """
+        Generate enhanced signal with filter checks and confidence scoring.
+
+        Returns None if filters fail or confidence below threshold.
+        Returns EnhancedSignal if all conditions met.
+
+        Args:
+            date: Signal date
+            stock_code: 6-digit stock code
+            signal_type: BUY or SELL
+            reason: Signal reason
+            price: Signal price
+            bollinger_values: Bollinger band values
+            current_volume: Current volume (for filter)
+            avg_volume: Average volume (for filter)
+            rsi_value: Current RSI value (for filter)
+            macd_value: Current MACD histogram (for filter)
+
+        Returns:
+            EnhancedSignal if conditions met, None otherwise
+        """
+        from src.models.trade import EnhancedSignal
+
+        # Check volume condition (FR-002, FR-006)
+        # If filter is disabled (None), treat as passing
+        if self.volume_filter is None:
+            volume_pass = True
+        elif current_volume is not None and avg_volume is not None:
+            volume_pass = self.check_volume_condition(current_volume, avg_volume)
+            if not volume_pass:
+                # Volume filter enabled and failed
+                return None
+        else:
+            # Volume filter enabled but data missing
+            volume_pass = False
+
+        # Check RSI condition (FR-004, FR-007)
+        # If filter is disabled (None), treat as passing
+        if self.rsi_indicator is None:
+            rsi_pass = True
+        elif rsi_value is not None:
+            rsi_pass = self.check_rsi_condition(rsi_value)
+            if not rsi_pass:
+                # RSI filter enabled and failed
+                return None
+        else:
+            # RSI filter enabled but data missing
+            rsi_pass = False
+
+        # Check MACD condition (Phase 2 - not implemented yet)
+        macd_pass = False  # Will be implemented in Phase 2
+
+        # Calculate confidence score
+        confidence_score = self.calculate_confidence_score(
+            volume_pass, rsi_pass, macd_pass
+        )
+
+        # Check confidence threshold
+        if confidence_score < self.confidence_threshold:
+            logger.info(
+                f"Signal filtered by confidence: score={confidence_score}, "
+                f"threshold={self.confidence_threshold}"
+            )
+            return None
+
+        # Create enhanced signal
+        enhanced_signal = EnhancedSignal(
+            stock_code=stock_code,
+            signal_type=signal_type,
+            execution_price=price,
+            execution_timestamp=date,
+            reason=reason,
+            bollinger_values=bollinger_values,
+            confidence_score=confidence_score,
+            volume_pass=volume_pass,
+            rsi_pass=rsi_pass,
+            macd_pass=macd_pass,
+            rsi_value=rsi_value,
+            macd_value=macd_value,
+            atr_value=None,  # Phase 4
+            dynamic_stop_loss=None  # Phase 4
+        )
+
+        logger.info(
+            f"Enhanced signal generated: {signal_type} {stock_code} @ {price} "
+            f"(confidence={confidence_score}, volume={volume_pass}, rsi={rsi_pass})"
+        )
+
+        return enhanced_signal

@@ -7,6 +7,7 @@ import pandas as pd
 from decimal import Decimal
 from typing import List, Optional
 from dataclasses import dataclass
+from datetime import datetime
 import numpy as np
 
 
@@ -169,7 +170,9 @@ def calculate_profit_factor(realized_pnls: List[Decimal]) -> Optional[Decimal]:
 
 def calculate_metrics_from_trades(
     trades: List,
-    initial_capital: Decimal
+    initial_capital: Decimal,
+    backtest_start_date: Optional[datetime] = None,
+    backtest_end_date: Optional[datetime] = None
 ) -> PerformanceReport:
     """
     Calculate all performance metrics from trade history.
@@ -177,6 +180,8 @@ def calculate_metrics_from_trades(
     Args:
         trades: List of Trade objects
         initial_capital: Starting capital
+        backtest_start_date: Backtest start date (for CAGR calculation)
+        backtest_end_date: Backtest end date (for CAGR calculation)
 
     Returns:
         PerformanceReport with all metrics
@@ -235,8 +240,14 @@ def calculate_metrics_from_trades(
     # Calculate CAGR
     cagr = Decimal('0')
     if trades:
-        start_date = trades[0].execution_timestamp
-        end_date = trades[-1].execution_timestamp
+        # Use backtest period if provided, otherwise fall back to trade dates
+        if backtest_start_date and backtest_end_date:
+            start_date = backtest_start_date
+            end_date = backtest_end_date
+        else:
+            start_date = trades[0].execution_timestamp
+            end_date = trades[-1].execution_timestamp
+
         days = (end_date - start_date).days
         if days > 0:
             cagr = calculate_cagr(initial_capital, final_value, days)
