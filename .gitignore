@@ -63,6 +63,14 @@ data/
 *.sqlite
 *.sqlite3
 
+# Backtest results
+results/
+*.xlsx
+*.csv
+
+# Benchmarks
+.benchmarks/
+
 # Temporary files
 *.tmp
 *.bak
