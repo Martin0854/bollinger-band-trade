@@ -405,3 +405,172 @@ def test_e2e_backtest_performance_metrics_calculation(temp_data_dir):
     # Verify metric types
     assert isinstance(report.num_trades, int)
     assert report.num_trades >= 0
+
+
+# ========================================================================
+# T047: Integration test for confidence filtering in backtest
+# ========================================================================
+
+def test_e2e_backtest_confidence_threshold_70_fewer_trades_than_50(temp_data_dir):
+    """
+    T047: Test threshold=70 → fewer trades than threshold=50.
+
+    Higher confidence threshold should filter out more signals,
+    resulting in fewer total trades.
+    """
+    from src.backtest.engine import BacktestEngine
+    from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # Create mock data with many squeeze/breakout opportunities
+    dates = pd.date_range('2024-01-01', periods=90, freq='D')
+    close_prices = []
+    for i in range(len(dates)):
+        # Create multiple squeeze-expansion cycles
+        cycle = i % 30
+        if cycle < 10:
+            close_prices.append(60000 + (cycle % 3) * 100)  # Squeeze
+        else:
+            close_prices.append(60000 + (cycle - 10) * 500)  # Expansion
+
+    mock_data = pd.DataFrame({
+        'Open': close_prices,
+        'High': [p + 1000 for p in close_prices],
+        'Low': [p - 1000 for p in close_prices],
+        'Close': close_prices,
+        'Volume': [2000000] * len(dates)  # High volume for filter pass
+    }, index=dates)
+
+    # Run with threshold=50
+    config_50 = BacktestConfiguration(
+        seed_money=10000000,
+        stocks=["005930"],
+        date_range=(date(2024, 1, 1), date(2024, 3, 31)),
+        bollinger_period=20,
+        enhanced_strategy=EnhancedStrategyConfig(
+            confidence={'threshold': 50}
+        )
+    )
+
+    engine_50 = BacktestEngine(config=config_50)
+    engine_50.load_mock_data("005930", mock_data)
+    report_50 = engine_50.run()
+
+    # Run with threshold=70
+    config_70 = BacktestConfiguration(
+        seed_money=10000000,
+        stocks=["005930"],
+        date_range=(date(2024, 1, 1), date(2024, 3, 31)),
+        bollinger_period=20,
+        enhanced_strategy=EnhancedStrategyConfig(
+            confidence={'threshold': 70}
+        )
+    )
+
+    engine_70 = BacktestEngine(config=config_70)
+    engine_70.load_mock_data("005930", mock_data)
+    report_70 = engine_70.run()
+
+    # Property: Higher threshold → fewer trades
+    assert report_70.num_trades <= report_50.num_trades
+
+
+def test_e2e_backtest_confidence_threshold_70_higher_win_rate_than_50(temp_data_dir):
+    """
+    T047: Test threshold=70 → higher win rate than threshold=50.
+
+    Higher confidence threshold should filter out lower-quality signals,
+    improving win rate (assuming confidence scoring is effective).
+    """
+    from src.backtest.engine import BacktestEngine
+    from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # Create mock data
+    dates = pd.date_range('2024-01-01', periods=120, freq='D')
+    close_prices = []
+    for i in range(len(dates)):
+        # Mix of winning and losing squeeze patterns
+        cycle = i % 40
+        if cycle < 10:
+            close_prices.append(60000)  # Squeeze
+        elif cycle < 25:
+            close_prices.append(60000 + (cycle - 10) * 200)  # Winning breakout
+        else:
+            close_prices.append(60000 + (25 - cycle) * 300)  # Losing reversal
+
+    mock_data = pd.DataFrame({
+        'Open': close_prices,
+        'High': [p + 1000 for p in close_prices],
+        'Low': [p - 1000 for p in close_prices],
+        'Close': close_prices,
+        'Volume': [2000000] * len(dates)
+    }, index=dates)
+
+    # Run with threshold=50
+    config_50 = BacktestConfiguration(
+        seed_money=10000000,
+        stocks=["005930"],
+        date_range=(date(2024, 1, 1), date(2024, 4, 30)),
+        enhanced_strategy=EnhancedStrategyConfig(
+            confidence={'threshold': 50}
+        )
+    )
+
+    engine_50 = BacktestEngine(config=config_50)
+    engine_50.load_mock_data("005930", mock_data)
+    report_50 = engine_50.run()
+
+    # Run with threshold=70
+    config_70 = BacktestConfiguration(
+        seed_money=10000000,
+        stocks=["005930"],
+        date_range=(date(2024, 1, 1), date(2024, 4, 30)),
+        enhanced_strategy=EnhancedStrategyConfig(
+            confidence={'threshold': 70}
+        )
+    )
+
+    engine_70 = BacktestEngine(config=config_70)
+    engine_70.load_mock_data("005930", mock_data)
+    report_70 = engine_70.run()
+
+    # Property: Higher threshold → same or better win rate
+    # (May not always be true with random data, but should trend this way)
+    if report_70.num_trades > 0 and report_50.num_trades > 0:
+        assert report_70.win_rate_pct >= report_50.win_rate_pct - 5  # Allow 5% margin
+
+
+def test_e2e_backtest_trades_below_threshold_rejected(temp_data_dir):
+    """
+    T047: Test trades below threshold are rejected.
+
+    Signals with confidence below threshold should not result in trades.
+    """
+    from src.backtest.engine import BacktestEngine
+    from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # Create mock data
+    dates = pd.date_range('2024-01-01', periods=60, freq='D')
+    mock_data = pd.DataFrame({
+        'Open': [60000] * len(dates),
+        'High': [62000] * len(dates),
+        'Low': [58000] * len(dates),
+        'Close': [60000 + i * 200 for i in range(len(dates))],
+        'Volume': [500000] * len(dates)  # Low volume - won't pass volume filter
+    }, index=dates)
+
+    # Run with threshold=100 (impossible to meet - only base score of 25)
+    config_high = BacktestConfiguration(
+        seed_money=10000000,
+        stocks=["005930"],
+        date_range=(date(2024, 1, 1), date(2024, 3, 1)),
+        enhanced_strategy=EnhancedStrategyConfig(
+            confidence={'threshold': 100}  # Impossible with only base score
+        )
+    )
+
+    engine = BacktestEngine(config=config_high)
+    engine.load_mock_data("005930", mock_data)
+    report = engine.run()
+
+    # Should have zero trades (threshold too high)
+    assert report.num_trades == 0

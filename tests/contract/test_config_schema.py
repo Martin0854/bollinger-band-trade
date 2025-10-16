@@ -360,3 +360,221 @@ def test_backtest_config_with_enhanced_strategy():
 
     assert config.enhanced_strategy is not None
     assert config.enhanced_strategy.volume_filter.enabled is True
+
+
+# ========================================================================
+# T036: Contract tests for MACD Configuration (User Story 3)
+# ========================================================================
+
+def test_macd_config_valid():
+    """T036: Test valid MACD configuration loads correctly."""
+    from src.models.config import MACDConfig
+
+    config = MACDConfig(
+        enabled=True,
+        fast_period=12,
+        slow_period=26,
+        signal_period=9
+    )
+
+    assert config.enabled is True
+    assert config.fast_period == 12
+    assert config.slow_period == 26
+    assert config.signal_period == 9
+
+
+def test_macd_fast_period_bounds():
+    """T036: Test fast_period bounds (5-50)."""
+    from src.models.config import MACDConfig
+
+    # Valid boundaries
+    MACDConfig(fast_period=5, slow_period=10)  # Min
+    MACDConfig(fast_period=50, slow_period=60)  # Max
+
+    # Invalid: below minimum
+    with pytest.raises(ValidationError):
+        MACDConfig(fast_period=4, slow_period=10)
+
+    # Invalid: above maximum
+    with pytest.raises(ValidationError):
+        MACDConfig(fast_period=51, slow_period=60)
+
+
+def test_macd_slow_period_bounds():
+    """T036: Test slow_period bounds (10-100)."""
+    from src.models.config import MACDConfig
+
+    # Valid boundaries
+    MACDConfig(fast_period=5, slow_period=10)  # Min
+    MACDConfig(fast_period=50, slow_period=100)  # Max
+
+    # Invalid: below minimum
+    with pytest.raises(ValidationError):
+        MACDConfig(fast_period=5, slow_period=9)
+
+    # Invalid: above maximum
+    with pytest.raises(ValidationError):
+        MACDConfig(fast_period=50, slow_period=101)
+
+
+def test_macd_signal_period_bounds():
+    """T036: Test signal_period bounds (5-50)."""
+    from src.models.config import MACDConfig
+
+    # Valid boundaries
+    MACDConfig(signal_period=5)  # Min
+    MACDConfig(signal_period=50)  # Max
+
+    # Invalid: below minimum
+    with pytest.raises(ValidationError):
+        MACDConfig(signal_period=4)
+
+    # Invalid: above maximum
+    with pytest.raises(ValidationError):
+        MACDConfig(signal_period=51)
+
+
+def test_macd_validation_slow_greater_than_fast():
+    """T036: Test validation - slow_period > fast_period."""
+    from src.models.config import MACDConfig
+
+    # Valid: slow > fast
+    config = MACDConfig(fast_period=12, slow_period=26)
+    assert config.slow_period > config.fast_period
+
+    # Invalid: slow <= fast
+    with pytest.raises(ValidationError) as exc_info:
+        MACDConfig(fast_period=26, slow_period=26)  # Equal
+    # Check for key parts of the error message (pydantic v2 adds extra formatting)
+    error_str = str(exc_info.value).lower()
+    assert "slow_period" in error_str
+    assert "fast_period" in error_str
+    assert "greater" in error_str
+
+    with pytest.raises(ValidationError):
+        MACDConfig(fast_period=30, slow_period=20)  # Slow < fast
+
+
+# ========================================================================
+# T048: Contract tests for Confidence Configuration (User Story 4)
+# ========================================================================
+
+def test_confidence_config_valid():
+    """T048: Test valid confidence config loads correctly."""
+    from src.models.config import ConfidenceConfig
+
+    config = ConfidenceConfig(
+        threshold=60,
+        scoring={
+            'base_score': 25,
+            'volume_score': 25,
+            'rsi_score': 20,
+            'macd_score': 30
+        }
+    )
+
+    assert config.threshold == 60
+    assert config.scoring['base_score'] == 25
+    assert config.scoring['volume_score'] == 25
+    assert config.scoring['rsi_score'] == 20
+    assert config.scoring['macd_score'] == 30
+
+
+def test_confidence_threshold_bounds():
+    """T048: Test threshold bounds (0-100)."""
+    from src.models.config import ConfidenceConfig
+
+    # Valid boundaries
+    ConfidenceConfig(threshold=0)  # Min (accept all)
+    ConfidenceConfig(threshold=100)  # Max (only perfect signals)
+
+    # Invalid: negative
+    with pytest.raises(ValidationError):
+        ConfidenceConfig(threshold=-1)
+
+    # Invalid: above maximum
+    with pytest.raises(ValidationError):
+        ConfidenceConfig(threshold=101)
+
+
+def test_confidence_scoring_section_validation():
+    """T048: Test scoring section validation."""
+    from src.models.config import ConfidenceConfig
+
+    # Valid scoring
+    config = ConfidenceConfig(
+        threshold=60,
+        scoring={
+            'base_score': 25,
+            'volume_score': 25,
+            'rsi_score': 20,
+            'macd_score': 30
+        }
+    )
+    assert config.scoring is not None
+
+    # Test that all required scoring keys are present
+    required_keys = {'base_score', 'volume_score', 'rsi_score', 'macd_score'}
+    assert set(config.scoring.keys()) == required_keys
+
+
+def test_confidence_total_scoring_le_100():
+    """T048: Test base_score + volume_score + rsi_score + macd_score ≤ 100."""
+    from src.models.config import ConfidenceConfig
+
+    # Valid: total = 100
+    config_100 = ConfidenceConfig(
+        threshold=60,
+        scoring={
+            'base_score': 25,
+            'volume_score': 25,
+            'rsi_score': 25,
+            'macd_score': 25
+        }
+    )
+    total = sum(config_100.scoring.values())
+    assert total == 100
+
+    # Valid: total < 100
+    config_70 = ConfidenceConfig(
+        threshold=60,
+        scoring={
+            'base_score': 20,
+            'volume_score': 20,
+            'rsi_score': 15,
+            'macd_score': 15
+        }
+    )
+    total = sum(config_70.scoring.values())
+    assert total == 70
+
+    # Invalid: total > 100
+    with pytest.raises(ValidationError) as exc_info:
+        ConfidenceConfig(
+            threshold=60,
+            scoring={
+                'base_score': 30,
+                'volume_score': 30,
+                'rsi_score': 30,
+                'macd_score': 30  # Total = 120
+            }
+        )
+    assert "100" in str(exc_info.value) or "total" in str(exc_info.value).lower()
+
+
+def test_confidence_config_defaults():
+    """T048: Test ConfidenceConfig defaults."""
+    from src.models.config import ConfidenceConfig
+
+    # Create with defaults
+    config = ConfidenceConfig()
+
+    # Should have default threshold
+    assert config.threshold == 60
+
+    # Should have default scoring
+    assert config.scoring['base_score'] == 25
+    assert config.scoring['volume_score'] == 25
+    assert config.scoring['rsi_score'] == 20
+    assert config.scoring['macd_score'] == 30
+    assert sum(config.scoring.values()) == 100

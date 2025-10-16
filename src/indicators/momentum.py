@@ -186,8 +186,155 @@ class RSIIndicator:
 # Entity 2: MACD Indicator (Phase 2 - User Story 3)
 # ========================================================================
 
-# Placeholder for MACD implementation (Phase 2)
-# Will be implemented in Phase 5
+class MACDIndicator:
+    """
+    Entity 2: MACD (Moving Average Convergence Divergence) trend indicator.
+
+    Detects trend direction and momentum using the difference between
+    fast and slow EMAs:
+    - MACD > Signal: Bullish (golden cross, uptrend)
+    - MACD < Signal: Bearish (death cross, downtrend)
+    - Histogram > 0: Momentum increasing
+    - Histogram < 0: Momentum decreasing
+
+    Implements FR-008, FR-009, FR-010, FR-011 from spec.md.
+
+    Attributes:
+        fast_period (int): Fast EMA period (default: 12 days)
+        slow_period (int): Slow EMA period (default: 26 days)
+        signal_period (int): Signal line EMA period (default: 9 days)
+
+    Example:
+        >>> macd = MACDIndicator(fast_period=12, slow_period=26, signal_period=9)
+        >>> result = macd.calculate(close_prices)
+        >>> if macd.is_bullish(result['macd'].iloc[-1], result['signal'].iloc[-1]):
+        >>>     # MACD bullish, allow entry
+    """
+
+    def __init__(
+        self,
+        fast_period: int = 12,
+        slow_period: int = 26,
+        signal_period: int = 9
+    ):
+        """
+        Initialize MACD indicator with configuration parameters.
+
+        Args:
+            fast_period: Fast EMA period (days)
+            slow_period: Slow EMA period (days)
+            signal_period: Signal line EMA period (days)
+
+        Raises:
+            ValueError: If parameters are invalid
+        """
+        if fast_period <= 0:
+            raise ValueError(f"MACD fast_period must be positive, got: {fast_period}")
+        if slow_period <= 0:
+            raise ValueError(f"MACD slow_period must be positive, got: {slow_period}")
+        if signal_period <= 0:
+            raise ValueError(f"MACD signal_period must be positive, got: {signal_period}")
+        if slow_period <= fast_period:
+            raise ValueError(
+                f"MACD slow_period ({slow_period}) must be > fast_period ({fast_period})"
+            )
+
+        self.fast_period = fast_period
+        self.slow_period = slow_period
+        self.signal_period = signal_period
+
+    def calculate(self, prices: pd.Series) -> pd.DataFrame:
+        """
+        Calculate MACD, signal line, and histogram (FR-008).
+
+        Formula:
+            MACD Line = EMA(fast_period) - EMA(slow_period)
+            Signal Line = EMA(MACD Line, signal_period)
+            Histogram = MACD Line - Signal Line
+
+        Args:
+            prices: Time series of closing prices
+
+        Returns:
+            DataFrame with columns: macd, signal, histogram
+            NaN values where insufficient data.
+
+        Edge Cases (FR-011):
+            - Insufficient data (< slow_period days) → NaN for early values
+            - EMA calculation requires warmup period
+        """
+        # Calculate fast and slow EMAs
+        ema_fast = prices.ewm(span=self.fast_period, adjust=False).mean()
+        ema_slow = prices.ewm(span=self.slow_period, adjust=False).mean()
+
+        # MACD line = fast EMA - slow EMA
+        macd_line = ema_fast - ema_slow
+
+        # Signal line = EMA of MACD line
+        signal_line = macd_line.ewm(span=self.signal_period, adjust=False).mean()
+
+        # Histogram = MACD line - signal line
+        histogram = macd_line - signal_line
+
+        # Return as DataFrame
+        return pd.DataFrame({
+            'macd': macd_line,
+            'signal': signal_line,
+            'histogram': histogram
+        })
+
+    def is_bullish(self, macd: float, signal: float) -> bool:
+        """
+        Check if MACD indicates bullish trend (FR-009).
+
+        Bullish condition: MACD line > signal line (golden cross)
+        - Indicates upward momentum
+        - Confirms breakout validity
+
+        Args:
+            macd: Current MACD line value
+            signal: Current signal line value
+
+        Returns:
+            bool: True if MACD > signal (bullish), False otherwise
+
+        Example:
+            >>> macd.is_bullish(5.0, 3.0)  # True - bullish
+            >>> macd.is_bullish(2.0, 4.0)  # False - bearish
+        """
+        # Handle NaN (FR-011 - insufficient data)
+        if pd.isna(macd) or pd.isna(signal):
+            logger.warning("MACD is NaN (insufficient data - FR-011)")
+            return False
+
+        # Check if MACD above signal (bullish)
+        is_bullish = macd > signal
+
+        if not is_bullish:
+            logger.debug(f"MACD bearish: {macd:.2f} <= {signal:.2f}")
+
+        return is_bullish
+
+    def is_bearish(self, macd: float, signal: float) -> bool:
+        """
+        Check if MACD indicates bearish trend (FR-010).
+
+        Bearish condition: MACD line < signal line (death cross)
+        - Indicates downward momentum
+        - Used for exit signals
+
+        Args:
+            macd: Current MACD line value
+            signal: Current signal line value
+
+        Returns:
+            bool: True if MACD < signal (bearish), False otherwise
+        """
+        # Handle NaN
+        if pd.isna(macd) or pd.isna(signal):
+            return False
+
+        return macd < signal
 
 
 # ========================================================================

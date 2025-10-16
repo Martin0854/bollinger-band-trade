@@ -240,7 +240,12 @@ def export_trades_to_excel(engine, filename="거래내역.xlsx"):
             '대역폭': float(trade.band_width_at_entry),
             '포트폴리오(전)': int(trade.portfolio_value_before),
             '포트폴리오(후)': int(trade.portfolio_value_after),
-            '현금잔고': int(trade.cash_after)
+            '현금잔고': int(trade.cash_after),
+            # Phase 3: Confidence scoring fields (T054)
+            '신뢰도점수': trade.confidence_score if trade.confidence_score is not None else '',
+            '거래량통과': 'O' if trade.volume_pass else ('X' if trade.volume_pass is not None else ''),
+            'RSI통과': 'O' if trade.rsi_pass else ('X' if trade.rsi_pass is not None else ''),
+            'MACD통과': 'O' if trade.macd_pass else ('X' if trade.macd_pass is not None else '')
         })
 
     df = pd.DataFrame(trades_data)

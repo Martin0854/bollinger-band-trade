@@ -1,0 +1,107 @@
+# Phase 3 Configuration: Volume + RSI + MACD + Confidence Scoring
+# Enhanced Bollinger Band Squeeze Strategy - Flexible Strategy Tuning
+# User Stories: US1 (Volume), US2 (RSI), US3 (MACD), US4 (Confidence)
+# Expected Metrics: 70-75% win rate, +10-15% annual return, tunable frequency
+
+# Portfolio Settings
+seed_money: 10000000  # Initial capital (10 million KRW)
+
+# Stock Selection
+stocks:
+  - "005930"  # Samsung Electronics
+  - "000660"  # SK Hynix
+
+# Backtest Period
+date_range:
+  start: "2025-01-01"
+  end: "2025-09-30"
+
+# Bollinger Band Parameters (baseline strategy)
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection
+squeeze_threshold_percent: 50.0
+squeeze_lookback_days: 5
+
+# Risk Management (baseline)
+stop_loss_percent: 5.0
+max_position_percent: 30.0
+max_positions: 5
+
+# Advanced Settings
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+# ========================================================================
+# Enhanced Strategy Configuration (Phase 3)
+# ========================================================================
+
+enhanced_strategy:
+  # Volume Filter (User Story 1)
+  volume_filter:
+    enabled: true              # Enable volume spike detection
+    window_days: 20            # 20-day rolling average
+    multiplier: 1.5            # Require 1.5x average volume
+
+  # RSI Filter (User Story 2)
+  rsi:
+    enabled: true              # Enable RSI filter
+    period: 14                 # Standard 14-day RSI
+    overbought: 70             # Avoid entry when RSI >= 70
+    oversold: 30               # Oversold threshold
+
+  # MACD Filter (User Story 3)
+  macd:
+    enabled: true              # Enable MACD trend confirmation
+    fast_period: 12            # Standard fast EMA
+    slow_period: 26            # Standard slow EMA
+    signal_period: 9           # Signal line EMA
+
+  # ATR Dynamic Stop-Loss (Phase 4 - disabled for now)
+  atr:
+    enabled: false             # Will be enabled in Phase 4
+    period: 14
+    multiplier: 2.0
+
+  # Confidence Scoring (User Story 4 - Phase 3)
+  confidence:
+    threshold: 60              # Minimum confidence to enter (0-100)
+                                # Try 50 for more trades, 70 for fewer but higher quality
+    scoring:
+      base_score: 25           # Bollinger breakout base (always counted)
+      volume_score: 25         # Volume filter pass adds 25
+      rsi_score: 20            # RSI filter pass adds 20
+      macd_score: 30           # MACD filter pass adds 30
+                                # Total: 100 points max
+
+# ========================================================================
+# Confidence Threshold Tuning Guide
+# ========================================================================
+#
+# threshold: 50 → More aggressive (accepts partial confirmations)
+#   - More trades (higher frequency)
+#   - Lower win rate (~60-65%)
+#   - Good for volatile markets with many opportunities
+#
+# threshold: 60 → Balanced (default)
+#   - Moderate trade frequency
+#   - Good win rate (~65-70%)
+#   - Recommended starting point
+#
+# threshold: 70 → Conservative (requires multiple confirmations)
+#   - Fewer trades (lower frequency)
+#   - Higher win rate (~70-75%)
+#   - Good for risk-averse strategies
+#
+# threshold: 80+ → Very selective (requires almost all filters)
+#   - Very few trades
+#   - Highest quality signals
+#   - May miss opportunities
+#
+# Score Breakdown:
+# - Base (Bollinger): 25 points (always present)
+# - +Volume: +25 points (volume spike detected)
+# - +RSI: +20 points (RSI neutral, not overbought)
+# - +MACD: +30 points (MACD bullish, positive momentum)
+# Maximum: 100 points (all filters pass)

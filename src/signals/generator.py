@@ -182,7 +182,8 @@ class EnhancedSignalGenerator:
         volume_filter: Optional VolumeFilter instance
         rsi_indicator: Optional RSIIndicator instance
         macd_indicator: Optional MACDIndicator instance
-        confidence_threshold: Minimum confidence score (0-100) to enter
+        confidence: SignalConfidence instance for scoring and threshold checking
+        confidence_threshold: Minimum confidence score (kept for backward compatibility)
     """
 
     def __init__(
@@ -190,7 +191,8 @@ class EnhancedSignalGenerator:
         volume_filter: Optional['VolumeFilter'] = None,
         rsi_indicator: Optional['RSIIndicator'] = None,
         macd_indicator: Optional['MACDIndicator'] = None,
-        confidence_threshold: int = 60
+        confidence_threshold: int = 60,
+        confidence_scoring: Optional[Dict[str, int]] = None
     ):
         """
         Initialize enhanced signal generator with optional filters.
@@ -199,11 +201,22 @@ class EnhancedSignalGenerator:
             volume_filter: VolumeFilter instance (Phase 1)
             rsi_indicator: RSIIndicator instance (Phase 1)
             macd_indicator: MACDIndicator instance (Phase 2)
-            confidence_threshold: Minimum confidence score for entry
+            confidence_threshold: Minimum confidence score for entry (Phase 3)
+            confidence_scoring: Optional custom scoring weights (Phase 3)
         """
+        from src.signals.confidence import SignalConfidence
+
         self.volume_filter = volume_filter
         self.rsi_indicator = rsi_indicator
         self.macd_indicator = macd_indicator
+
+        # Initialize SignalConfidence with threshold and optional custom scoring
+        self.confidence = SignalConfidence(
+            threshold=confidence_threshold,
+            scoring=confidence_scoring
+        )
+
+        # Keep for backward compatibility
         self.confidence_threshold = confidence_threshold
 
     def check_volume_condition(
@@ -259,6 +272,39 @@ class EnhancedSignalGenerator:
 
         return is_neutral
 
+    def check_macd_condition(self, macd_histogram: Optional[float]) -> bool:
+        """
+        Check if MACD condition is met (FR-009, FR-011).
+
+        Returns True if:
+        - MACD indicator is disabled, OR
+        - MACD histogram > 0 (bullish trend confirmed)
+
+        Returns False if MACD data is missing or bearish.
+
+        Args:
+            macd_histogram: Current MACD histogram value (macd_line - signal_line)
+
+        Returns:
+            bool: True if MACD condition met, False otherwise
+        """
+        if self.macd_indicator is None:
+            # Filter disabled - allow signal
+            return True
+
+        if macd_histogram is None or pd.isna(macd_histogram):
+            # Insufficient data (FR-011) - skip filter
+            logger.warning("MACD filter skipped: insufficient data (FR-011)")
+            return False
+
+        # Check if MACD is bullish (histogram > 0)
+        is_bullish = macd_histogram > 0
+
+        if not is_bullish:
+            logger.debug(f"Signal filtered by MACD condition (histogram={macd_histogram:.2f})")
+
+        return is_bullish
+
     def calculate_confidence_score(
         self,
         volume_pass: bool,
@@ -268,11 +314,7 @@ class EnhancedSignalGenerator:
         """
         Calculate signal confidence score (0-100 points).
 
-        Scoring (default):
-        - Base (Bollinger breakout): 25 points
-        - Volume filter pass: +25 points
-        - RSI filter pass: +20 points
-        - MACD filter pass: +30 points
+        Now delegates to SignalConfidence class for flexible scoring.
 
         Args:
             volume_pass: Volume filter passed
@@ -282,16 +324,7 @@ class EnhancedSignalGenerator:
         Returns:
             int: Confidence score (0-100)
         """
-        score = 25  # Base score for Bollinger breakout
-
-        if volume_pass:
-            score += 25
-        if rsi_pass:
-            score += 20
-        if macd_pass:
-            score += 30
-
-        return score
+        return self.confidence.calculate_score(volume_pass, rsi_pass, macd_pass)
 
     def generate_enhanced_signal(
         self,
@@ -355,19 +388,29 @@ class EnhancedSignalGenerator:
             # RSI filter enabled but data missing
             rsi_pass = False
 
-        # Check MACD condition (Phase 2 - not implemented yet)
-        macd_pass = False  # Will be implemented in Phase 2
+        # Check MACD condition (FR-009, FR-011) - Phase 2
+        # If filter is disabled (None), treat as passing
+        if self.macd_indicator is None:
+            macd_pass = True
+        elif macd_value is not None:
+            macd_pass = self.check_macd_condition(macd_value)
+            if not macd_pass:
+                # MACD filter enabled and failed
+                return None
+        else:
+            # MACD filter enabled but data missing
+            macd_pass = False
 
         # Calculate confidence score
         confidence_score = self.calculate_confidence_score(
             volume_pass, rsi_pass, macd_pass
         )
 
-        # Check confidence threshold
-        if confidence_score < self.confidence_threshold:
+        # Check confidence threshold using SignalConfidence class
+        if not self.confidence.meets_threshold(confidence_score):
             logger.info(
                 f"Signal filtered by confidence: score={confidence_score}, "
-                f"threshold={self.confidence_threshold}"
+                f"threshold={self.confidence.threshold}"
             )
             return None
 
@@ -391,7 +434,7 @@ class EnhancedSignalGenerator:
 
         logger.info(
             f"Enhanced signal generated: {signal_type} {stock_code} @ {price} "
-            f"(confidence={confidence_score}, volume={volume_pass}, rsi={rsi_pass})"
+            f"(confidence={confidence_score}, volume={volume_pass}, rsi={rsi_pass}, macd={macd_pass})"
         )
 
         return enhanced_signal

@@ -15,7 +15,7 @@ from src.models.config import BacktestConfiguration
 from src.indicators.bollinger import calculate_bollinger_bands
 from src.indicators.squeeze import detect_squeeze, SqueezeEvent
 from src.indicators.volume import VolumeFilter
-from src.indicators.momentum import RSIIndicator
+from src.indicators.momentum import RSIIndicator, MACDIndicator
 from src.signals.generator import EnhancedSignalGenerator
 from src.backtest.metrics import PerformanceReport, calculate_metrics_from_trades
 
@@ -30,8 +30,9 @@ class BacktestEngine:
         trades: List of all executed trades
         squeeze_events: List of all detected squeezes
         mock_data: Dict of stock_code -> DataFrame for testing
-        volume_filter: Optional VolumeFilter instance
-        rsi_indicator: Optional RSIIndicator instance
+        volume_filter: Optional VolumeFilter instance (Phase 1)
+        rsi_indicator: Optional RSIIndicator instance (Phase 1)
+        macd_indicator: Optional MACDIndicator instance (Phase 2)
         signal_generator: EnhancedSignalGenerator for filtering signals
     """
 
@@ -51,9 +52,10 @@ class BacktestEngine:
         self.squeeze_events: List[SqueezeEvent] = []
         self.mock_data: Dict[str, pd.DataFrame] = {}
 
-        # Initialize enhanced strategy filters (FR-001, FR-003)
+        # Initialize enhanced strategy filters (FR-001, FR-003, FR-008)
         self.volume_filter: Optional[VolumeFilter] = None
         self.rsi_indicator: Optional[RSIIndicator] = None
+        self.macd_indicator: Optional[MACDIndicator] = None
 
         # Initialize filters from config
         if hasattr(config, 'enhanced_strategy') and config.enhanced_strategy is not None:
@@ -72,16 +74,30 @@ class BacktestEngine:
                     oversold=config.enhanced_strategy.rsi.oversold
                 )
 
-        # Initialize EnhancedSignalGenerator
+            # Initialize MACD Indicator (User Story 3 - Phase 2)
+            if config.enhanced_strategy.macd.enabled:
+                self.macd_indicator = MACDIndicator(
+                    fast_period=config.enhanced_strategy.macd.fast_period,
+                    slow_period=config.enhanced_strategy.macd.slow_period,
+                    signal_period=config.enhanced_strategy.macd.signal_period
+                )
+
+        # Initialize EnhancedSignalGenerator with confidence configuration (Phase 3)
         confidence_threshold = 60  # Default
+        confidence_scoring = None  # Use SignalConfidence defaults
+
         if hasattr(config, 'enhanced_strategy') and config.enhanced_strategy is not None:
             confidence_threshold = config.enhanced_strategy.confidence.threshold
+            # Extract custom scoring if provided
+            if hasattr(config.enhanced_strategy.confidence, 'scoring'):
+                confidence_scoring = config.enhanced_strategy.confidence.scoring
 
         self.signal_generator = EnhancedSignalGenerator(
             volume_filter=self.volume_filter,
             rsi_indicator=self.rsi_indicator,
-            macd_indicator=None,  # Phase 2
-            confidence_threshold=confidence_threshold
+            macd_indicator=self.macd_indicator,  # Phase 2
+            confidence_threshold=confidence_threshold,  # Phase 3
+            confidence_scoring=confidence_scoring  # Phase 3: Custom scoring weights
         )
 
     def load_mock_data(self, stock_code: str, data: pd.DataFrame) -> None:
@@ -140,6 +156,11 @@ class BacktestEngine:
             rsi_values = None
             if self.rsi_indicator is not None:
                 rsi_values = self.rsi_indicator.calculate(ohlcv['Close'])
+
+            # Calculate MACD (for MACD Filter - Phase 2)
+            macd_results = None
+            if self.macd_indicator is not None:
+                macd_results = self.macd_indicator.calculate(ohlcv['Close'])
 
             # Detect squeezes
             squeeze_signals = detect_squeeze(
@@ -207,7 +228,12 @@ class BacktestEngine:
                         if rsi_values is not None and current_date in rsi_values.index:
                             rsi_value = float(rsi_values.loc[current_date])
 
-                        # Use EnhancedSignalGenerator to filter signal (FR-002, FR-004, FR-006, FR-007)
+                        # Get MACD histogram for filtering (Phase 2: FR-008, FR-009, FR-011)
+                        macd_histogram = None
+                        if macd_results is not None and current_date in macd_results.index:
+                            macd_histogram = float(macd_results.loc[current_date, 'histogram'])
+
+                        # Use EnhancedSignalGenerator to filter signal (FR-002, FR-004, FR-006, FR-007, FR-009)
                         enhanced_signal = self.signal_generator.generate_enhanced_signal(
                             date=current_date,
                             stock_code=stock_code,
@@ -218,7 +244,7 @@ class BacktestEngine:
                             current_volume=current_volume,
                             avg_volume=avg_volume_value,
                             rsi_value=rsi_value,
-                            macd_value=None  # Phase 2
+                            macd_value=macd_histogram  # Phase 2: MACD histogram
                         )
 
                         # Only execute if signal passes filters
@@ -350,6 +376,18 @@ class BacktestEngine:
         self.portfolio.cash_balance -= cost
         self.portfolio.add_position(position)
 
+        # Extract confidence data from EnhancedSignal (Phase 3: T054)
+        confidence_score = None
+        volume_pass = None
+        rsi_pass = None
+        macd_pass = None
+        
+        if enhanced_signal is not None:
+            confidence_score = enhanced_signal.confidence_score
+            volume_pass = enhanced_signal.volume_pass
+            rsi_pass = enhanced_signal.rsi_pass
+            macd_pass = enhanced_signal.macd_pass
+
         # Record trade
         trade = Trade(
             stock_code=stock_code,
@@ -362,7 +400,12 @@ class BacktestEngine:
             portfolio_value_before=self.portfolio.total_value + cost,
             portfolio_value_after=self.portfolio.total_value,
             cash_after=self.portfolio.cash_balance,
-            entry_reason=reason
+            entry_reason=reason,
+            # Phase 3: Confidence scoring fields (T054)
+            confidence_score=confidence_score,
+            volume_pass=volume_pass,
+            rsi_pass=rsi_pass,
+            macd_pass=macd_pass
         )
 
         self.trades.append(trade)

@@ -16,80 +16,41 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
-
-# Virtual environments
-venv/
-env/
-ENV/
-.venv/
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
+.benchmarks/
 .tox/
-.nox/
-coverage.xml
-*.cover
 .hypothesis/
 
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Virtual environments
+venv/
+ENV/
+env/
 
-# Ruff
-.ruff_cache/
-
-# IDEs
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# Project specific
+data/cache/*
+!data/cache/.gitkeep
+data/logs/*.db
+data/logs/*.log
+results/*.xlsx
+results/*.csv
+
+# OS
 .DS_Store
 Thumbs.db
 
-# Project-specific
-data/
-*.log
-*.db
-*.sqlite
-*.sqlite3
-logs/
-
-# Backtest results
-results/
-*.xlsx
-*.csv
-
-# SpecKit artifacts
-.serena/
-tasks.md
-plan.md
-
-# Benchmarks
-.benchmarks/
-
-# Temporary files
-*.tmp
-*.bak
-*.cache
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Jupyter Notebooks
+# Jupyter
 .ipynb_checkpoints/
-*.ipynb
-
-# Distribution / packaging
-*.whl

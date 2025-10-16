@@ -40,6 +40,10 @@ class Trade:
         exit_reason: Required for SELL trades (e.g., "band_upper_exit", "stop_loss")
         realized_pnl: Required for SELL trades (profit/loss realized)
         trade_id: Unique identifier (auto-generated UUID)
+        confidence_score: Optional confidence score (0-100) from enhanced signal (Phase 3)
+        volume_pass: Optional volume filter pass/fail (Phase 3)
+        rsi_pass: Optional RSI filter pass/fail (Phase 3)
+        macd_pass: Optional MACD filter pass/fail (Phase 3)
     """
     stock_code: str
     action: TradeAction
@@ -55,6 +59,11 @@ class Trade:
     exit_reason: Optional[str] = None
     realized_pnl: Optional[Decimal] = None
     trade_id: str = None
+    # Phase 3: Confidence scoring fields (optional for backward compatibility)
+    confidence_score: Optional[int] = None
+    volume_pass: Optional[bool] = None
+    rsi_pass: Optional[bool] = None
+    macd_pass: Optional[bool] = None
 
     def __post_init__(self):
         """
@@ -118,7 +127,12 @@ class Trade:
             'portfolio_value_before': float(self.portfolio_value_before),
             'portfolio_value_after': float(self.portfolio_value_after),
             'cash_after': float(self.cash_after),
-            'realized_pnl': float(self.realized_pnl) if self.realized_pnl is not None else None
+            'realized_pnl': float(self.realized_pnl) if self.realized_pnl is not None else None,
+            # Phase 3: Confidence fields
+            'confidence_score': self.confidence_score,
+            'volume_pass': self.volume_pass,
+            'rsi_pass': self.rsi_pass,
+            'macd_pass': self.macd_pass
         }
 
 
