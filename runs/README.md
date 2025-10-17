@@ -22,7 +22,19 @@ runs/
 
 ## 빠른 시작
 
-### Phase 4 백테스트 실행
+### Phase별 백테스트 실행
+
+**Phase 1: Volume + RSI (Mock 데이터)**
+```bash
+poetry run python runs/scripts/phases/run_phase1_backtest.py
+```
+
+**Phase 3: MACD + Confidence (KOSPI 100, 2020-2024) ⭐ 권장**
+```bash
+poetry run python runs/scripts/phases/run_phase3_backtest.py
+```
+
+**Phase 4: Full Strategy with ATR (KOSPI 100, 2020-2024)**
 ```bash
 poetry run python runs/scripts/phases/run_phase4_backtest.py
 ```
@@ -32,12 +44,14 @@ poetry run python runs/scripts/phases/run_phase4_backtest.py
 poetry run python runs/scripts/phases/validate_all_phases.py
 ```
 
-### 실제 데이터로 백테스트
+### 유틸리티 도구
+
+**실제 데이터로 백테스트**
 ```bash
 poetry run python runs/scripts/utils/backtest_with_real_data.py
 ```
 
-### 거래 분석
+**거래 분석**
 ```bash
 poetry run python runs/scripts/analysis/analyze_trades.py <result_file>
 ```
@@ -45,14 +59,36 @@ poetry run python runs/scripts/analysis/analyze_trades.py <result_file>
 ## 설정 파일
 
 ### Phase별 설정
-- `configs/phases/phase1_volume_rsi.yaml` - Volume + RSI 필터
-- `configs/phases/phase2_with_macd.yaml` - MACD 추가
-- `configs/phases/phase3_confidence.yaml` - 신뢰도 점수
-- `configs/phases/phase4_dynamic_stop.yaml` - ATR 동적 손절
+- `configs/phases/phase1_volume_rsi.yaml` - Phase 1: Volume + RSI 필터
+- `configs/phases/phase2_with_macd.yaml` - Phase 2: MACD 추가
+- `configs/phases/phase3_confidence.yaml` - Phase 3: 신뢰도 점수 (권장) ⭐
+- `configs/phases/phase4_dynamic_stop.yaml` - Phase 4: ATR 동적 손절
 
 ### 예제 설정
 - `configs/examples/single_stock.yaml` - 단일 종목 백테스트
 - `configs/examples/multi_stock.yaml` - 다중 종목 백테스트
+
+## Phase별 백테스트 스크립트
+
+### Phase 1 - Volume + RSI (MVP)
+**스크립트**: `runs/scripts/phases/run_phase1_backtest.py`
+**설정 파일**: `runs/configs/phases/phase1_volume_rsi.yaml`
+**데이터**: Mock 데이터 (1년, 2종목)
+**목적**: 기본 필터 검증, 학습용
+
+### Phase 3 - MACD + Confidence Scoring (권장) ⭐
+**스크립트**: `runs/scripts/phases/run_phase3_backtest.py`
+**설정 파일**: `runs/configs/phases/phase3_confidence.yaml`
+**데이터**: KOSPI 100 실제 데이터 (2020-2024, 5년)
+**실제 성과**: 평균 수익률 +2.82%, 승률 31.1%
+**목적**: 실전 투자 전략 검증
+
+### Phase 4 - Full Strategy with ATR
+**스크립트**: `runs/scripts/phases/run_phase4_backtest.py`
+**설정 파일**: `runs/configs/phases/phase4_dynamic_stop.yaml`
+**데이터**: KOSPI 100 실제 데이터 (2020-2024, 5년)
+**실제 성과**: 평균 수익률 +2.89%, 승률 31.1% (Phase 3 대비 +0.07%p)
+**목적**: ATR 효과 연구 (효과 제한적 확인)
 
 ## 결과 파일
 

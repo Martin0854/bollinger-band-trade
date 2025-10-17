@@ -1,0 +1,68 @@
+# Phase 4: Full Strategy with ATR Dynamic Stop-Loss
+# Volume + RSI + MACD + Confidence + ATR
+
+# Portfolio Settings
+seed_money: 100000000  # 100 million KRW
+max_positions: 15      # Maximum concurrent positions
+
+# Stock Selection (will be overridden by script with KOSPI 100)
+stocks:
+  - "005930"  # Samsung Electronics (placeholder)
+
+# Backtest Period (will be overridden by script)
+date_range:
+  start: "2020-01-01"
+  end: "2024-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection
+squeeze_threshold_percent: 30
+squeeze_lookback_days: 10
+
+# Risk Management
+stop_loss_percent: 5         # Fallback when ATR unavailable
+max_position_size_percent: 30
+
+# Advanced Settings
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+# Enhanced Strategy Configuration (Phase 4 - Full)
+enhanced_strategy:
+  # Volume Filter (Phase 1)
+  volume_filter:
+    enabled: true
+    window_days: 20
+    multiplier: 1.5
+
+  # RSI Filter (Phase 1)
+  rsi:
+    enabled: true
+    period: 14
+    overbought: 70
+    oversold: 30
+
+  # MACD Filter (Phase 2)
+  macd:
+    enabled: true
+    fast_period: 12
+    slow_period: 26
+    signal_period: 9
+
+  # ATR Dynamic Stop-Loss (Phase 4) ⭐ ENABLED
+  atr:
+    enabled: true
+    period: 14
+    multiplier: 2.0   # Conservative: wider stops for high volatility
+
+  # Confidence Scoring (Phase 3)
+  confidence:
+    threshold: 60
+    scoring:
+      base_score: 25
+      volume_score: 25
+      rsi_score: 20
+      macd_score: 30

@@ -1,5 +1,5 @@
 """
-Phase 4 Backtest: Full Strategy with ATR Dynamic Stop-Loss
+Latest Strategy Backtest (Phase 3: MACD + Confidence Scoring)
 KOSPI 100 종목으로 2020-2024년 각 연도별 성과 비교
 """
 
@@ -52,11 +52,11 @@ def load_kospi_top100(filepath: str = "kospi_top100.txt") -> list:
 def run_backtest_for_year(year: int, kospi_stocks: list) -> dict:
     """특정 연도의 백테스트 실행"""
     print(f"\n{'='*80}")
-    print(f"📅 {year}년 백테스트 (Phase 4: Full Strategy with ATR)")
+    print(f"📅 {year}년 백테스트 (Phase 3: MACD + Confidence Scoring)")
     print(f"{'='*80}")
 
     # 연도 설정
-    config = BacktestConfiguration.from_yaml("runs/configs/phases/phase4_dynamic_stop.yaml")
+    config = BacktestConfiguration.from_yaml("runs/configs/phases/phase3_confidence.yaml")
     config.stocks = kospi_stocks
     config.seed_money = 100_000_000
     config.max_positions = 15
@@ -105,7 +105,7 @@ def run_backtest_for_year(year: int, kospi_stocks: list) -> dict:
 
 
 print("=" * 80)
-print("Phase 4 Backtest: Full Strategy with ATR Dynamic Stop-Loss")
+print("Latest Strategy Backtest (Phase 3: MACD + Confidence Scoring)")
 print("2020-2024년 각 연도별 성과 분석 - KOSPI 100")
 print("=" * 80)
 
@@ -125,7 +125,7 @@ for year in years:
 
 # 결과 출력
 print("\n" + "=" * 80)
-print("📊 연도별 백테스트 결과 종합 (Phase 4)")
+print("📊 연도별 백테스트 결과 종합")
 print("=" * 80)
 
 # 테이블 헤더
@@ -203,13 +203,9 @@ losing_years = [r for r in results if r['total_return'] < 0]
 print(f"\n✅ 수익 연도: {len(profitable_years)}년 ({', '.join([str(r['year']) for r in profitable_years])})")
 print(f"❌ 손실 연도: {len(losing_years)}년 ({', '.join([str(r['year']) for r in losing_years])})")
 
-print(f"\n전략: Phase 4 (Volume + RSI + MACD + Confidence + ATR Dynamic Stop)")
+print(f"\n전략: Phase 3 (Volume + RSI + MACD + Confidence Scoring)")
 print(f"평균 수익률: {avg_return:.2f}%")
 print(f"평균 승률: {avg_win_rate:.2f}%")
-
-print("\n⚠️  ATR 동적 손절매 효과:")
-print("   - 고변동성 종목: 넓은 손절폭으로 불필요한 손절 감소")
-print("   - 저변동성 종목: 타이트한 손절폭으로 자본 효율성 개선")
 
 print("\n" + "=" * 80)
 print("✅ 백테스트 완료")
