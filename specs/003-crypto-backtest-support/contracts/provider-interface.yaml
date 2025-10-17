@@ -1,0 +1,366 @@
+# MarketDataProvider Interface Contract
+# This contract defines the expected behavior of all market data provider implementations
+
+provider_interface:
+  name: MarketDataProvider
+  type: abstract_base_class
+  purpose: Abstract interface for fetching market data from different sources (stocks, crypto)
+
+  methods:
+    - name: fetch_ohlcv
+      description: Fetch OHLCV (Open, High, Low, Close, Volume) data for a symbol
+      signature: "fetch_ohlcv(symbol: str, start_date: date, end_date: date) -> Optional[pd.DataFrame]"
+
+      parameters:
+        - name: symbol
+          type: str
+          description: Asset identifier (6-digit stock code or crypto pair like "BTCUSDT")
+          constraints:
+            - must_not_be_empty: true
+            - format_depends_on_market_type: true
+
+        - name: start_date
+          type: date
+          description: Start of date range (inclusive)
+          constraints:
+            - must_be_valid_date: true
+            - must_be_before_end_date: true
+
+        - name: end_date
+          type: date
+          description: End of date range (inclusive)
+          constraints:
+            - must_be_valid_date: true
+            - must_be_after_start_date: true
+
+      returns:
+        type: Optional[pd.DataFrame]
+        description: DataFrame with OHLCV data or None if unavailable
+
+        on_success:
+          type: pd.DataFrame
+          structure:
+            columns:
+              - name: Open
+                dtype: float64
+                description: Opening price
+                constraints:
+                  - must_be_positive: true
+                  - no_nan_values: true
+
+              - name: High
+                dtype: float64
+                description: Highest price in period
+                constraints:
+                  - must_be_positive: true
+                  - no_nan_values: true
+                  - must_be_gte_open: true
+                  - must_be_gte_close: true
+
+              - name: Low
+                dtype: float64
+                description: Lowest price in period
+                constraints:
+                  - must_be_positive: true
+                  - no_nan_values: true
+                  - must_be_lte_open: true
+                  - must_be_lte_close: true
+
+              - name: Close
+                dtype: float64
+                description: Closing price
+                constraints:
+                  - must_be_positive: true
+                  - no_nan_values: true
+
+              - name: Volume
+                dtype: float64
+                description: Trading volume in base currency
+                constraints:
+                  - must_be_non_negative: true
+                  - no_nan_values: true
+
+            index:
+              type: DatetimeIndex
+              description: Datetime of each candle
+              constraints:
+                - must_be_sorted_ascending: true
+                - must_be_within_requested_range: true
+                - timezone_aware_for_crypto: true
+                - timezone_naive_for_stocks: true
+
+              frequency:
+                stocks: daily (excluding weekends/holidays)
+                crypto: daily (24/7, includes weekends)
+
+        on_failure:
+          type: None
+          when:
+            - symbol_not_found: true
+            - api_unavailable: true
+            - insufficient_data: true
+            - invalid_date_range: true
+
+      exceptions:
+        - type: ValueError
+          when: Invalid parameter types or values
+        - type: ConnectionError
+          when: Network/API errors (optional, can return None instead)
+
+    - name: validate_symbol
+      description: Validate symbol format for this market type
+      signature: "validate_symbol(symbol: str) -> bool"
+
+      parameters:
+        - name: symbol
+          type: str
+          description: Symbol to validate
+
+      returns:
+        type: bool
+        description: True if symbol format valid for this provider's market
+
+        validation_rules:
+          YahooFinanceStockProvider:
+            - pattern: "^[0-9]{6}$"
+            - description: Exactly 6 digits (Korean stock codes)
+            - examples:
+                valid: ["005930", "000660", "035720"]
+                invalid: ["5930", "SAMSUNG", "BTC-USD"]
+
+          BinanceCryptoProvider:
+            - pattern: "^[A-Z]{3,10}USDT$"  # Simplified, actual may vary
+            - description: Crypto pair ending with USDT
+            - examples:
+                valid: ["BTCUSDT", "ETHUSDT", "BNBUSDT"]
+                invalid: ["BTC", "btcusdt", "005930"]
+
+      exceptions: []
+
+    - name: get_market_type
+      description: Return market type identifier
+      signature: "get_market_type() -> str"
+
+      parameters: []
+
+      returns:
+        type: str
+        description: Market type identifier
+        allowed_values: ["stock", "crypto"]
+
+        implementation_returns:
+          YahooFinanceStockProvider: "stock"
+          BinanceCryptoProvider: "crypto"
+
+      exceptions: []
+
+# Implementation Requirements
+
+implementations:
+  - name: YahooFinanceStockProvider
+    market_type: stock
+    data_source: Yahoo Finance API (yfinance library)
+
+    behavior:
+      fetch_ohlcv:
+        - appends_exchange_suffix: ".KS for KOSPI or .KQ for KOSDAQ"
+        - timezone: naive (no timezone info)
+        - excludes_weekends: true
+        - excludes_holidays: true (Korean market holidays)
+
+      validate_symbol:
+        - checks: "6-digit numeric string"
+
+      get_market_type:
+        - returns: "stock"
+
+  - name: BinanceCryptoProvider
+    market_type: crypto
+    data_source: Binance API (python-binance library)
+
+    constructor:
+      parameters:
+        - name: testnet
+          type: bool
+          default: false
+          description: Use testnet API instead of production
+
+      notes:
+        - "No API key required for public OHLCV data"
+        - "Rate limit: 1200 requests/minute"
+
+    behavior:
+      fetch_ohlcv:
+        - endpoint: "/api/v3/klines"
+        - interval: "1d (daily candles)"
+        - timezone: "UTC (timezone-aware index)"
+        - includes_weekends: true
+        - continuous_trading: "24/7"
+
+      validate_symbol:
+        - checks: "Minimum 3 characters, typically ends with USDT/BTC/ETH"
+        - note: "Basic validation only, full validation happens at API call"
+
+      get_market_type:
+        - returns: "crypto"
+
+# Contract Testing
+
+contract_tests:
+  - test_name: test_fetch_ohlcv_returns_valid_dataframe
+    description: Verify fetch_ohlcv returns DataFrame with correct structure
+    steps:
+      - given: "Valid symbol and date range"
+      - when: "fetch_ohlcv called"
+      - then: "Returns DataFrame with columns [Open, High, Low, Close, Volume]"
+      - and: "All columns are float64"
+      - and: "Index is DatetimeIndex"
+      - and: "No NaN values in OHLCV columns"
+
+  - test_name: test_fetch_ohlcv_invalid_symbol_returns_none
+    description: Verify fetch_ohlcv returns None for invalid symbols
+    steps:
+      - given: "Invalid symbol (e.g., 'INVALID')"
+      - when: "fetch_ohlcv called"
+      - then: "Returns None"
+
+  - test_name: test_validate_symbol_correct_format
+    description: Verify validate_symbol enforces market-specific rules
+    steps:
+      - given: "Stock provider and 6-digit code"
+      - when: "validate_symbol called"
+      - then: "Returns True"
+      - given: "Stock provider and crypto symbol"
+      - when: "validate_symbol called"
+      - then: "Returns False"
+
+  - test_name: test_get_market_type_returns_correct_value
+    description: Verify get_market_type returns expected market type
+    steps:
+      - given: "YahooFinanceStockProvider instance"
+      - when: "get_market_type called"
+      - then: "Returns 'stock'"
+      - given: "BinanceCryptoProvider instance"
+      - when: "get_market_type called"
+      - then: "Returns 'crypto'"
+
+  - test_name: test_crypto_data_has_timezone_aware_index
+    description: Verify crypto provider returns UTC timestamps
+    steps:
+      - given: "BinanceCryptoProvider"
+      - when: "fetch_ohlcv called for valid crypto symbol"
+      - then: "DataFrame index has tz attribute"
+      - and: "tz is UTC"
+
+  - test_name: test_stock_data_excludes_weekends
+    description: Verify stock provider doesn't return weekend data
+    steps:
+      - given: "YahooFinanceStockProvider"
+      - when: "fetch_ohlcv called spanning multiple weeks"
+      - then: "DataFrame contains only weekday dates"
+      - and: "No Saturday or Sunday dates in index"
+
+  - test_name: test_crypto_data_includes_weekends
+    description: Verify crypto provider returns 24/7 data
+    steps:
+      - given: "BinanceCryptoProvider"
+      - when: "fetch_ohlcv called spanning multiple weeks"
+      - then: "DataFrame contains all 7 days of week"
+      - and: "Weekend dates present in index"
+
+# Usage Examples
+
+examples:
+  stock_provider:
+    language: python
+    code: |
+      from src.data.providers.stock_provider import YahooFinanceStockProvider
+      from datetime import date
+
+      provider = YahooFinanceStockProvider()
+
+      # Validate symbol
+      assert provider.validate_symbol("005930") == True  # Samsung
+      assert provider.validate_symbol("BTC") == False
+
+      # Fetch data
+      df = provider.fetch_ohlcv(
+          symbol="005930",
+          start_date=date(2023, 1, 1),
+          end_date=date(2023, 12, 31)
+      )
+
+      if df is not None:
+          print(f"Fetched {len(df)} rows")
+          print(f"Columns: {df.columns.tolist()}")
+          # Output: Columns: ['Open', 'High', 'Low', 'Close', 'Volume']
+
+  crypto_provider:
+    language: python
+    code: |
+      from src.data.providers.crypto_provider import BinanceCryptoProvider
+      from datetime import date
+
+      provider = BinanceCryptoProvider()
+
+      # Validate symbol
+      assert provider.validate_symbol("BTCUSDT") == True
+      assert provider.validate_symbol("005930") == False
+
+      # Fetch data
+      df = provider.fetch_ohlcv(
+          symbol="BTCUSDT",
+          start_date=date(2024, 1, 1),
+          end_date=date(2024, 1, 31)
+      )
+
+      if df is not None:
+          print(f"Fetched {len(df)} rows")
+          print(f"Timezone: {df.index.tz}")  # Output: UTC
+          print(f"Weekend data: {df.index.dayofweek.isin([5, 6]).any()}")  # True
+
+  factory_usage:
+    language: python
+    code: |
+      from src.data.providers.factory import DataProviderFactory
+
+      # Create provider based on market type
+      stock_provider = DataProviderFactory.create_provider("stock")
+      crypto_provider = DataProviderFactory.create_provider("crypto")
+
+      # Type checking
+      assert stock_provider.get_market_type() == "stock"
+      assert crypto_provider.get_market_type() == "crypto"
+
+# Backward Compatibility Notes
+
+compatibility:
+  existing_code:
+    - pattern: "Direct yfinance calls in examples/"
+      status: "Will be refactored to use YahooFinanceStockProvider"
+      impact: "Low - isolated to example scripts"
+
+    - pattern: "BacktestEngine expects MarketData with stock_code"
+      status: "MarketData renamed fields to symbol, market_type"
+      impact: "Medium - requires update to engine code"
+
+    - pattern: "Tests mock yfinance directly"
+      status: "Tests will mock MarketDataProvider interface instead"
+      impact: "Medium - test fixtures need update"
+
+  migration_path:
+    - step: 1
+      action: "Create provider implementations"
+      risk: "None - new code"
+
+    - step: 2
+      action: "Update BacktestEngine to use factory"
+      risk: "Low - backward compatible if default market_type='stock'"
+
+    - step: 3
+      action: "Refactor examples to use providers"
+      risk: "Low - examples are not production code"
+
+    - step: 4
+      action: "Update tests to mock provider interface"
+      risk: "Medium - test suite must pass before deployment"

@@ -22,7 +22,28 @@ runs/
 
 ## 빠른 시작
 
-### Phase별 백테스트 실행
+### 🪙 암호화폐 백테스트 (NEW!) ⭐
+
+**기본 실행 (BTC+ETH 2023)**
+```bash
+python runs/scripts/run_crypto_backtest.py
+```
+
+**공격적 전략 (더 많은 거래)**
+```bash
+python runs/scripts/run_crypto_backtest.py runs/configs/examples/crypto_btc_eth_2023_aggressive.yaml
+```
+
+**다중 코인 백테스트 (BTC, ETH, BNB, SOL, ADA)**
+```bash
+python runs/scripts/run_crypto_backtest.py runs/configs/examples/crypto_major_coins_2024.yaml
+```
+
+📚 **상세 가이드**: [CRYPTO_QUICKSTART.md](CRYPTO_QUICKSTART.md)
+
+---
+
+### Phase별 백테스트 실행 (한국 주식)
 
 **Phase 1: Volume + RSI (Mock 데이터)**
 ```bash
@@ -64,7 +85,12 @@ poetry run python runs/scripts/analysis/analyze_trades.py <result_file>
 - `configs/phases/phase3_confidence.yaml` - Phase 3: 신뢰도 점수 (권장) ⭐
 - `configs/phases/phase4_dynamic_stop.yaml` - Phase 4: ATR 동적 손절
 
-### 예제 설정
+### 암호화폐 예제 설정 (NEW!)
+- `configs/examples/crypto_btc_eth_2023.yaml` - BTC+ETH 2023년 (기본값)
+- `configs/examples/crypto_btc_eth_2023_aggressive.yaml` - 공격적 전략 (더 많은 거래)
+- `configs/examples/crypto_major_coins_2024.yaml` - 5개 메이저 코인 2024년
+
+### 주식 예제 설정
 - `configs/examples/single_stock.yaml` - 단일 종목 백테스트
 - `configs/examples/multi_stock.yaml` - 다중 종목 백테스트
 

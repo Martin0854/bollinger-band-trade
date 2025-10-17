@@ -66,26 +66,29 @@ def test_position_purchase_price_must_be_positive():
 
 
 def test_position_stock_code_must_be_6_digits():
-    """Test Position validates stock_code format (6 digits)."""
+    """Test Position accepts both stock codes and crypto symbols (multi-market support)."""
     from src.models.portfolio import Position
 
-    with pytest.raises(ValueError, match="6"):
-        Position(
-            stock_code="12345",  # Invalid: 5 digits
-            quantity=10,
-            purchase_price=Decimal('60000'),
-            purchase_date=datetime(2024, 1, 15),
-            entry_reason="squeeze_expansion_buy"
-        )
+    # Note: Validation is lenient for multi-market support
+    # Stock codes (6 digits) are accepted
+    position1 = Position(
+        stock_code="005930",  # Valid stock code
+        quantity=10,
+        purchase_price=Decimal('60000'),
+        purchase_date=datetime(2024, 1, 15),
+        entry_reason="squeeze_expansion_buy"
+    )
+    assert position1.stock_code == "005930"
 
-    with pytest.raises(ValueError, match="6"):
-        Position(
-            stock_code="00593A",  # Invalid: contains letter
-            quantity=10,
-            purchase_price=Decimal('60000'),
-            purchase_date=datetime(2024, 1, 15),
-            entry_reason="squeeze_expansion_buy"
-        )
+    # Crypto symbols (uppercase) are also accepted
+    position2 = Position(
+        stock_code="BTCUSDT",  # Valid crypto symbol
+        quantity=10,
+        purchase_price=Decimal('60000'),
+        purchase_date=datetime(2024, 1, 15),
+        entry_reason="squeeze_expansion_buy"
+    )
+    assert position2.stock_code == "BTCUSDT"
 
 
 def test_position_market_value_calculation():

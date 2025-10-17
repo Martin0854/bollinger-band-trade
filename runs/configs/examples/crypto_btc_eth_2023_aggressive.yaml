@@ -1,0 +1,78 @@
+# Cryptocurrency Backtest Configuration - Aggressive Strategy
+# Market: Bitcoin (BTC) and Ethereum (ETH)
+# Period: Full Year 2023
+# Strategy: More aggressive parameters to capture more trades
+
+# Portfolio Settings
+seed_money: 10000  # Starting capital: $10,000 USDT
+
+# Market Type
+market_type: crypto
+
+# Asset Selection
+symbols:
+  - BTCUSDT  # Bitcoin
+  - ETHUSDT  # Ethereum
+
+# Backtest Period - 2023 Full Year
+date_range:
+  start: "2023-01-01"
+  end: "2023-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection - More aggressive
+squeeze_threshold_percent: 20   # Lower threshold = more signals
+squeeze_lookback_days: 7        # Shorter lookback = more signals
+
+# Risk Management
+stop_loss_percent: 10.0         # Higher stop-loss tolerance
+max_position_percent: 45.0      # Larger positions
+max_positions: 3
+
+# Transaction Costs
+transaction_cost_percent: 0.0
+
+# Cryptocurrency Configuration
+crypto_config:
+  trading_fee_percent: 0.1
+  min_order_value_usdt: 10.0
+  quote_currency: USDT
+
+# Enhanced Strategy - Relaxed filters for more trades
+enhanced_strategy:
+  # Volume Filter - Lower threshold
+  volume_filter:
+    enabled: true
+    window_days: 20
+    multiplier: 1.3             # Lower = more signals pass
+
+  # RSI Filter - Wider range
+  rsi:
+    enabled: true
+    period: 14
+    overbought: 80              # Higher = allows more buys
+    oversold: 20                # Lower = allows more buys
+
+  # MACD Filter - Disabled
+  macd:
+    enabled: false
+
+  # ATR - Disabled
+  atr:
+    enabled: false
+
+  # Confidence Scoring - Lower threshold
+  confidence:
+    threshold: 40               # Lower = more trades
+    scoring:
+      base_score: 30
+      volume_score: 30
+      rsi_score: 30
+      macd_score: 10
+
+# File Paths
+data_cache_dir: data/cache
+log_dir: data/logs

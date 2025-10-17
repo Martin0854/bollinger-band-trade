@@ -1,0 +1,45 @@
+# Cryptocurrency Backtest Configuration Example
+# Market: Bitcoin (BTC) and Ethereum (ETH) vs USDT
+# Strategy: Bollinger Band Squeeze Breakout
+
+# Portfolio Settings
+seed_money: 10000  # Starting capital in USDT
+
+# Market Type (NEW: crypto support)
+market_type: crypto
+
+# Asset Selection
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+
+# Backtest Period
+date_range:
+  start: "2023-01-01"
+  end: "2023-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection
+squeeze_threshold_percent: 30
+squeeze_lookback_days: 10
+
+# Risk Management
+stop_loss_percent: 5.0
+max_position_percent: 30.0
+max_positions: 5
+
+# Transaction Costs
+transaction_cost_percent: 0.0  # Handled by crypto_config
+
+# Cryptocurrency-Specific Configuration
+crypto_config:
+  trading_fee_percent: 0.1      # Binance default: 0.1% maker/taker
+  min_order_value_usdt: 10.0    # Binance minimum order
+  quote_currency: USDT
+
+# File Paths
+data_cache_dir: data/cache
+log_dir: data/logs

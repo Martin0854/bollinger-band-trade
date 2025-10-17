@@ -14,6 +14,49 @@ from typing import Optional
 import pandas as pd
 
 
+def _migrate_trade_log_schema(cursor: sqlite3.Cursor) -> None:
+    """
+    Migrate existing trade_log table to support crypto markets.
+
+    Adds:
+    - symbol column (alias for stock_code)
+    - market_type column (default 'stock')
+    - Changes quantity from INTEGER to REAL for fractional crypto support
+
+    This migration is safe for existing data - all defaults preserve backward compatibility.
+
+    Args:
+        cursor: Active SQLite cursor
+    """
+    # Check if symbol column exists
+    cursor.execute("PRAGMA table_info(trade_log)")
+    columns = {row[1] for row in cursor.fetchall()}
+
+    # Add symbol column if missing
+    if 'symbol' not in columns:
+        cursor.execute("""
+            ALTER TABLE trade_log
+            ADD COLUMN symbol TEXT
+        """)
+        # Backfill symbol from stock_code for existing rows
+        cursor.execute("""
+            UPDATE trade_log
+            SET symbol = stock_code
+            WHERE symbol IS NULL
+        """)
+
+    # Add market_type column if missing
+    if 'market_type' not in columns:
+        cursor.execute("""
+            ALTER TABLE trade_log
+            ADD COLUMN market_type TEXT DEFAULT 'stock'
+        """)
+
+    # Note: SQLite doesn't support changing column types directly
+    # quantity column will store REAL values even if declared as INTEGER
+    # This is acceptable because SQLite uses dynamic typing
+
+
 def initialize_database(db_path: str = "data/logs/backtest.db") -> None:
     """
     Initialize SQLite database with required tables and indexes.
@@ -33,14 +76,16 @@ def initialize_database(db_path: str = "data/logs/backtest.db") -> None:
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # Table 1: Trade Log (FR-038)
+    # Table 1: Trade Log (FR-038) - Updated schema for crypto support
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS trade_log (
             trade_id TEXT PRIMARY KEY,
             timestamp TEXT NOT NULL,
             stock_code TEXT NOT NULL,
+            symbol TEXT,
+            market_type TEXT DEFAULT 'stock',
             action TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
+            quantity REAL NOT NULL,
             price REAL NOT NULL,
             reason TEXT,
             bollinger_upper REAL,
@@ -55,6 +100,9 @@ def initialize_database(db_path: str = "data/logs/backtest.db") -> None:
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
     """)
+
+    # Migration: Add new columns if they don't exist (for existing databases)
+    _migrate_trade_log_schema(cursor)
 
     cursor.execute("""
         CREATE INDEX IF NOT EXISTS idx_trade_timestamp
@@ -137,24 +185,32 @@ def save_to_parquet(
     stock_code: str,
     start_date: date,
     end_date: date,
-    cache_dir: str = "data/cache"
+    cache_dir: str = "data/cache",
+    market_type: str = "stock"
 ) -> str:
     """
     Save DataFrame to Parquet file with compression.
 
     Args:
         df: DataFrame to save
-        stock_code: Stock code
+        stock_code: Stock code or crypto symbol
         start_date: Data start date
         end_date: Data end date
         cache_dir: Cache directory path
+        market_type: Market type ('stock' or 'crypto') for filename prefix
 
     Returns:
         Path to saved Parquet file
     """
     Path(cache_dir).mkdir(parents=True, exist_ok=True)
 
-    filename = f"{stock_code}_{start_date}_{end_date}.parquet"
+    # T051-T052: Sanitize symbol for safe filenames and add market_type prefix
+    # Crypto symbols may contain special chars (e.g., BTC-USD, BTC/USDT)
+    safe_symbol = stock_code.replace('/', '_').replace('-', '_')
+
+    # Use market_type prefix for organization
+    prefix = "crypto" if market_type == "crypto" else "stock"
+    filename = f"{prefix}_{safe_symbol}_{start_date}_{end_date}.parquet"
     filepath = Path(cache_dir) / filename
 
     df.to_parquet(filepath, engine='pyarrow', compression='snappy')
@@ -166,21 +222,26 @@ def load_from_parquet(
     stock_code: str,
     start_date: date,
     end_date: date,
-    cache_dir: str = "data/cache"
+    cache_dir: str = "data/cache",
+    market_type: str = "stock"
 ) -> Optional[pd.DataFrame]:
     """
     Load DataFrame from Parquet cache.
 
     Args:
-        stock_code: Stock code
+        stock_code: Stock code or crypto symbol
         start_date: Data start date
         end_date: Data end date
         cache_dir: Cache directory path
+        market_type: Market type ('stock' or 'crypto') for filename prefix
 
     Returns:
         DataFrame if cache exists, None otherwise
     """
-    filename = f"{stock_code}_{start_date}_{end_date}.parquet"
+    # T053: Use same sanitization and prefix logic as save_to_parquet
+    safe_symbol = stock_code.replace('/', '_').replace('-', '_')
+    prefix = "crypto" if market_type == "crypto" else "stock"
+    filename = f"{prefix}_{safe_symbol}_{start_date}_{end_date}.parquet"
     filepath = Path(cache_dir) / filename
 
     if not filepath.exists():

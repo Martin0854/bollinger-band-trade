@@ -1,0 +1,89 @@
+# Phase 4 Configuration: KOSPI Top 100 - 2025 Backtest
+# Volume + RSI + MACD + Confidence + ATR Dynamic Stop-Loss
+# Enhanced Bollinger Band Squeeze Strategy - Full Feature Set
+
+# Portfolio Settings
+seed_money: 100000000  # Initial capital (100 million KRW for 100 stocks)
+
+# Stock Selection - KOSPI Top 100 loaded from file
+stocks:
+  - "005930"  # Placeholder, will be overridden by script
+
+# Backtest Period - 2025 Full Year
+date_range:
+  start: "2025-01-01"
+  end: "2025-10-17"
+
+# Bollinger Band Parameters (baseline strategy)
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection
+squeeze_threshold_percent: 50.0
+squeeze_lookback_days: 5
+
+# Risk Management (baseline)
+# NOTE: stop_loss_percent is used as fallback when ATR is disabled or unavailable
+stop_loss_percent: 5.0
+max_position_percent: 30.0
+max_positions: 15  # Max 15 positions for 100 stocks
+
+# Advanced Settings
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+# ========================================================================
+# Enhanced Strategy Configuration (Phase 4 - Full Strategy)
+# ========================================================================
+
+enhanced_strategy:
+  # Volume Filter (User Story 1)
+  volume_filter:
+    enabled: true              # Enable volume spike detection
+    window_days: 20            # 20-day rolling average
+    multiplier: 1.5            # Require 1.5x average volume
+
+  # RSI Filter (User Story 2)
+  rsi:
+    enabled: true              # Enable RSI filter
+    period: 14                 # Standard 14-day RSI
+    overbought: 70             # Avoid entry when RSI >= 70
+    oversold: 30               # Oversold threshold
+
+  # MACD Filter (User Story 3)
+  macd:
+    enabled: true              # Enable MACD trend confirmation
+    fast_period: 12            # Standard fast EMA
+    slow_period: 26            # Standard slow EMA
+    signal_period: 9           # Signal line EMA
+
+  # ATR Dynamic Stop-Loss (User Story 5 - Phase 4)
+  atr:
+    enabled: true              # Enable ATR-based dynamic stop-loss
+    period: 14                 # 14-day ATR calculation
+    multiplier: 2.0            # Stop-loss distance = ATR * 2.0
+                                # High volatility stocks get wider stops
+                                # Low volatility stocks get tighter stops
+
+  # Confidence Scoring (User Story 4)
+  confidence:
+    threshold: 60              # Minimum confidence to enter (0-100)
+    scoring:
+      base_score: 25           # Bollinger breakout base (always counted)
+      volume_score: 25         # Volume filter pass adds 25
+      rsi_score: 20            # RSI filter pass adds 20
+      macd_score: 30           # MACD filter pass adds 30
+                                # Total: 100 points max
+
+# ========================================================================
+# Performance Targets (Phase 4 - KOSPI 100)
+# ========================================================================
+#
+# With all filters enabled (Volume + RSI + MACD + Confidence + ATR):
+# - Win Rate: 70-75%
+# - Annual Return: +15-20%
+# - Trade Frequency: Moderate (selective entries)
+# - Stop-Out Reduction: 20%+ fewer unnecessary stops
+# - Sharpe Ratio: ≥ 1.5
+# - Maximum Drawdown: < 15%
+#

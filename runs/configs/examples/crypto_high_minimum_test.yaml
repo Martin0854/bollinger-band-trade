@@ -1,0 +1,71 @@
+# Cryptocurrency Backtest Configuration - High Minimum Order Test
+# Purpose: Test minimum order value validation by setting very high threshold
+# This demonstrates that trades below min_order_value_usdt will be rejected
+
+# Portfolio Settings
+seed_money: 1000  # Small capital: only $1,000 USDT
+
+# Market Type
+market_type: crypto
+
+# Asset Selection
+symbols:
+  - BTCUSDT  # Bitcoin
+
+# Backtest Period - Short period for testing
+date_range:
+  start: "2023-06-01"
+  end: "2023-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection - Aggressive to generate signals
+squeeze_threshold_percent: 20
+squeeze_lookback_days: 7
+
+# Risk Management
+stop_loss_percent: 10.0
+max_position_percent: 40.0  # Allow 40% = $400 per trade
+max_positions: 2
+
+# Transaction Costs
+transaction_cost_percent: 0.0
+
+# Cryptocurrency Configuration - HIGH MINIMUM FOR TESTING
+crypto_config:
+  trading_fee_percent: 0.1
+  min_order_value_usdt: 500.0    # 🔴 Very high minimum - trades < $500 will be rejected!
+  quote_currency: USDT
+
+# Enhanced Strategy - Aggressive to generate signals
+enhanced_strategy:
+  volume_filter:
+    enabled: true
+    window_days: 20
+    multiplier: 1.3
+
+  rsi:
+    enabled: true
+    period: 14
+    overbought: 80
+    oversold: 20
+
+  macd:
+    enabled: false
+
+  atr:
+    enabled: false
+
+  confidence:
+    threshold: 40
+    scoring:
+      base_score: 30
+      volume_score: 30
+      rsi_score: 30
+      macd_score: 10
+
+# File Paths
+data_cache_dir: data/cache
+log_dir: data/logs

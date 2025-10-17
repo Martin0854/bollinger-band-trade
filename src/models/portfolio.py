@@ -15,8 +15,10 @@ class Position:
     Entity 2: Position represents a stock holding in the portfolio.
 
     Attributes:
-        stock_code: 6-digit Korean stock code (e.g., "005930" for Samsung)
-        quantity: Number of shares held (must be > 0)
+        stock_code: 6-digit Korean stock code (e.g., "005930" for Samsung) or crypto symbol
+        quantity: Number of shares/units held (must be > 0).
+                  Decimal type supports fractional crypto quantities (e.g., 0.05 BTC).
+                  Stock quantities validated to be integers in Trade model.
         purchase_price: Price per share at purchase (must be > 0)
         purchase_date: Date when position was opened
         entry_reason: Reason for entering position (e.g., "squeeze_expansion_buy")
@@ -30,7 +32,7 @@ class Position:
         unrealized_pnl_pct: PnL percentage = unrealized_pnl / cost_basis * 100
     """
     stock_code: str
-    quantity: int
+    quantity: Decimal
     purchase_price: Decimal
     purchase_date: datetime
     entry_reason: str
@@ -40,11 +42,8 @@ class Position:
 
     def __post_init__(self):
         """Validate position fields."""
-        # Validate stock_code: exactly 6 digits
-        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
-            raise ValueError(
-                f"stock_code must be exactly 6 digits, got: '{self.stock_code}'"
-            )
+        # Note: stock_code can be stock code (6 digits) or crypto symbol (uppercase)
+        # Validation is lenient for multi-market support
 
         # Validate quantity > 0
         if self.quantity <= 0:

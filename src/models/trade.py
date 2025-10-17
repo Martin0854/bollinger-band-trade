@@ -26,10 +26,12 @@ class Trade:
     This is a frozen dataclass (immutable) for audit integrity.
 
     Attributes:
-        stock_code: 6-digit Korean stock code
+        stock_code: 6-digit Korean stock code (deprecated, use symbol)
+        symbol: Asset identifier (6-digit code for stocks, "BTCUSDT" for crypto)
+        market_type: Market type ("stock" or "crypto")
         action: BUY or SELL
         execution_price: Price at which trade was executed
-        quantity: Number of shares traded
+        quantity: Number of units traded (Decimal for fractional crypto support)
         execution_timestamp: Timezone-aware timestamp (Asia/Seoul)
         band_width_at_entry: Bollinger Band width at trade time
         bollinger_values: Dict with 'upper', 'middle', 'lower' band values
@@ -48,10 +50,12 @@ class Trade:
         dynamic_stop_loss: Optional ATR-based stop-loss price (Phase 4)
         stop_loss_type: Optional stop-loss type - "FIXED" or "ATR_DYNAMIC" (Phase 4)
     """
-    stock_code: str
+    stock_code: str  # Deprecated, use symbol
+    symbol: str
+    market_type: str
     action: TradeAction
     execution_price: Decimal
-    quantity: int
+    quantity: Decimal
     execution_timestamp: datetime
     band_width_at_entry: Decimal
     bollinger_values: Dict[str, Decimal]
@@ -82,11 +86,27 @@ class Trade:
         if self.trade_id is None:
             object.__setattr__(self, 'trade_id', str(uuid.uuid4()))
 
-        # Validate stock_code: exactly 6 digits
-        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
+        # Validate market_type
+        if self.market_type not in ('stock', 'crypto'):
             raise ValueError(
-                f"stock_code must be exactly 6 digits, got: '{self.stock_code}'"
+                f"Invalid market_type: '{self.market_type}'. Must be 'stock' or 'crypto'"
             )
+
+        # Validate symbol format based on market type
+        if self.market_type == 'stock':
+            if not (self.symbol.isdigit() and len(self.symbol) == 6):
+                raise ValueError(
+                    f"Invalid stock symbol: '{self.symbol}'. "
+                    f"Korean stock codes must be exactly 6 digits (e.g., '005930')"
+                )
+        elif self.market_type == 'crypto':
+            if not self.symbol.isupper():
+                raise ValueError(
+                    f"Invalid crypto symbol: '{self.symbol}'. "
+                    f"Crypto symbols must be uppercase (e.g., 'BTCUSDT')"
+                )
+
+        # Note: stock_code is deprecated, validation skipped for backward compatibility
 
         # Validate execution_price > 0
         if self.execution_price <= 0:
@@ -99,6 +119,13 @@ class Trade:
             raise ValueError(
                 f"quantity must be positive, got: {self.quantity}"
             )
+
+        # Validate stock quantities are integers (crypto can be fractional)
+        if self.market_type == 'stock':
+            if self.quantity != int(self.quantity):
+                raise ValueError(
+                    f"Stock quantities must be integers, got: {self.quantity}"
+                )
 
         # Validate BUY trades have entry_reason
         if self.action == TradeAction.BUY and not self.entry_reason:
@@ -122,9 +149,11 @@ class Trade:
         return {
             'trade_id': self.trade_id,
             'timestamp': self.execution_timestamp.isoformat(),
-            'stock_code': self.stock_code,
+            'stock_code': self.stock_code,  # Deprecated, use symbol
+            'symbol': self.symbol,
+            'market_type': self.market_type,
             'action': self.action.value,
-            'quantity': self.quantity,
+            'quantity': float(self.quantity),  # Convert Decimal to float for JSON
             'price': float(self.execution_price),
             'reason': self.entry_reason if self.action == TradeAction.BUY else self.exit_reason,
             'bollinger_upper': float(self.bollinger_values.get('upper', 0)),
@@ -203,11 +232,8 @@ class EnhancedSignal:
 
     def __post_init__(self):
         """Validate EnhancedSignal fields."""
-        # Validate stock_code: exactly 6 digits
-        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
-            raise ValueError(
-                f"stock_code must be exactly 6 digits, got: '{self.stock_code}'"
-            )
+        # Note: stock_code can be stock code (6 digits) or crypto symbol (uppercase)
+        # Validation is lenient for backward compatibility
 
         # Validate execution_price > 0
         if self.execution_price <= 0:

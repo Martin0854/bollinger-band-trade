@@ -197,11 +197,12 @@ class TestVolumeFilterProperties:
         # Property: If current >= avg * multiplier, spike detected
         if not pd.isna(avg) and avg > 0:
             threshold = avg * multiplier
-            # Test just above threshold
-            assert filter.check_volume_spike(threshold + 1, avg) is True
-            # Test just below threshold
-            if threshold > 1:  # Avoid negative volume
-                assert filter.check_volume_spike(threshold - 1, avg) is False
+            # Test well above threshold (use 1% margin to avoid floating-point edge cases)
+            margin = max(1.0, threshold * 0.01)
+            assert filter.check_volume_spike(threshold + margin, avg) == True
+            # Test well below threshold
+            if threshold > margin:
+                assert filter.check_volume_spike(threshold - margin, avg) == False
 
     @given(
         window_days=st.integers(min_value=5, max_value=30),

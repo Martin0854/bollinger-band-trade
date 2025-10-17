@@ -55,18 +55,22 @@ def check_stop_loss(
 def calculate_position_size(
     portfolio_value: Decimal,
     stock_price: Decimal,
-    max_position_percent: Decimal
-) -> int:
+    max_position_percent: Decimal,
+    market_type: str = 'stock'
+) -> Decimal:
     """
-    Calculate number of shares to buy based on position sizing rules.
+    Calculate number of shares/units to buy based on position sizing rules.
 
     Args:
         portfolio_value: Total portfolio value
-        stock_price: Current stock price
+        stock_price: Current stock/asset price
         max_position_percent: Maximum allocation percentage (e.g., 30 for 30%)
+        market_type: Market type ('stock' or 'crypto') - affects rounding
 
     Returns:
-        Number of shares to buy (integer)
+        Number of shares/units to buy
+        - Stocks: Integer quantity (floor)
+        - Crypto: Decimal quantity (up to 8 decimal places)
 
     Raises:
         ValueError: If max_position_percent not in (0, 100]
@@ -77,12 +81,19 @@ def calculate_position_size(
         )
 
     # Calculate max allocation in currency
-    max_allocation = portfolio_value * (max_position_percent / 100)
+    max_allocation = portfolio_value * (max_position_percent / Decimal('100'))
 
-    # Calculate number of shares (floor division)
-    quantity = int(max_allocation / stock_price)
+    # Calculate quantity
+    quantity = max_allocation / stock_price
 
-    return quantity
+    # Round based on market type
+    if market_type == 'stock':
+        # Stocks: integer quantities only (floor division)
+        return Decimal(int(quantity))
+    else:
+        # Crypto: allow fractional quantities (round to 8 decimal places - standard for Bitcoin)
+        from decimal import ROUND_DOWN
+        return quantity.quantize(Decimal('0.00000001'), rounding=ROUND_DOWN)
 
 
 def can_open_new_position(
@@ -123,20 +134,59 @@ def validate_sufficient_cash(
 
 
 def calculate_trade_value(
-    quantity: int,
+    quantity: Decimal,
     price: Decimal
 ) -> Decimal:
     """
     Calculate total trade value.
 
     Args:
-        quantity: Number of shares
-        price: Price per share
+        quantity: Number of shares/units (Decimal to support fractional crypto)
+        price: Price per share/unit
 
     Returns:
         Total trade value
     """
     return quantity * price
+
+
+def validate_minimum_order_value(
+    trade_value: Decimal,
+    min_order_value: float,
+    market_type: str,
+    quote_currency: str = "USDT"
+) -> bool:
+    """
+    Validate that trade value meets minimum order requirements.
+    
+    This is primarily for cryptocurrency exchanges which have minimum
+    order values (e.g., Binance requires 10 USDT minimum).
+    
+    Args:
+        trade_value: Total value of the trade
+        min_order_value: Minimum order value required
+        market_type: 'stock' or 'crypto'
+        quote_currency: Quote currency (e.g., 'USDT')
+    
+    Returns:
+        True if trade meets minimum requirements, False otherwise
+    
+    Example:
+        >>> validate_minimum_order_value(Decimal('15.5'), 10.0, 'crypto', 'USDT')
+        True  # 15.5 USDT >= 10 USDT minimum
+        
+        >>> validate_minimum_order_value(Decimal('8.0'), 10.0, 'crypto', 'USDT')
+        False  # 8.0 USDT < 10 USDT minimum
+    """
+    # Stock markets don't have minimum order value constraints
+    if market_type == 'stock':
+        return True
+    
+    # For crypto, check minimum order value
+    if trade_value < Decimal(str(min_order_value)):
+        return False
+    
+    return True
 
 
 def check_positions_for_stop_loss(

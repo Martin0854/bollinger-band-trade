@@ -17,6 +17,9 @@ print(f"  - Bollinger period: {config.bollinger_period}")
 print(f"  - Stop loss: {config.stop_loss_percent}%")
 
 # Step 2: Load data for each stock
+# The BacktestEngine will automatically select the appropriate provider:
+#   - YahooFinanceStockProvider for market_type='stock'
+#   - BinanceCryptoProvider for market_type='crypto'
 # TODO: Replace with actual data fetching from KRW-API
 engine = BacktestEngine(config=config)
 

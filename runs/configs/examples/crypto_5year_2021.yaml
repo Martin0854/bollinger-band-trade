@@ -1,0 +1,49 @@
+# Cryptocurrency Backtest: 2021 Analysis
+# Major Coins: BTC, ETH, BNB, SOL, ADA
+
+seed_money: 10000
+market_type: crypto
+
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - BNBUSDT
+  - SOLUSDT
+  - ADAUSDT
+
+date_range:
+  start: "2021-01-01"
+  end: "2021-12-31"
+
+bollinger_period: 20
+bollinger_std_dev: 2.0
+squeeze_threshold_percent: 30
+squeeze_lookback_days: 10
+stop_loss_percent: 5.0
+max_position_percent: 30.0
+max_positions: 5
+
+crypto_config:
+  trading_fee_percent: 0.1
+  min_order_value_usdt: 10.0
+  quote_currency: USDT
+
+enhanced_strategy:
+  volume_filter:
+    enabled: true
+    window_days: 20
+    multiplier: 1.5
+  rsi:
+    enabled: true
+    period: 14
+    overbought: 70
+    oversold: 30
+  macd:
+    enabled: false
+  atr:
+    enabled: false
+  confidence:
+    threshold: 60
+
+data_cache_dir: data/cache
+log_dir: data/logs

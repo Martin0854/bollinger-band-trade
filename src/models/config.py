@@ -144,6 +144,50 @@ class EnhancedStrategyConfig(BaseModel):
 
 
 # ========================================================================
+# Crypto-Specific Configuration (Entity 8: CryptoSpecificConfig)
+# Implements crypto trading parameters (spec.md)
+# ========================================================================
+
+
+class CryptoSpecificConfig(BaseModel):
+    """
+    Cryptocurrency-specific trading parameters.
+
+    Defines crypto market trading constraints and costs:
+    - Trading fees (Binance default: 0.1% maker/taker)
+    - Minimum order values (Binance: 10 USDT)
+    - Quote currency (default: USDT)
+
+    Only applicable when market_type='crypto' in BacktestConfiguration.
+    """
+    trading_fee_percent: float = Field(
+        default=0.1,
+        ge=0,
+        le=10.0,
+        description="Trading fee percentage (maker/taker)"
+    )
+    min_order_value_usdt: float = Field(
+        default=10.0,
+        ge=0,
+        description="Minimum order value in quote currency"
+    )
+    quote_currency: str = Field(
+        default="USDT",
+        min_length=3,
+        max_length=5,
+        description="Quote currency (e.g., USDT, BUSD)"
+    )
+
+    @field_validator('quote_currency')
+    @classmethod
+    def validate_quote_currency(cls, v: str) -> str:
+        """Validate quote currency is uppercase."""
+        if not v.isupper():
+            raise ValueError(f"Quote currency must be uppercase: '{v}'")
+        return v
+
+
+# ========================================================================
 # Original Backtest Configuration (Backward Compatible)
 # ========================================================================
 
@@ -167,8 +211,17 @@ class BacktestConfiguration(BaseModel):
     # Portfolio Settings
     seed_money: int = Field(gt=0, description="Initial capital (KRW)")
 
-    # Stock Selection
-    stocks: List[str] = Field(min_length=1, description="6-digit Korean stock codes")
+    # Market Type (new field for crypto support)
+    market_type: str = Field(
+        default="stock",
+        description="Market type: 'stock' or 'crypto'"
+    )
+
+    # Symbol Selection (renamed from stocks for market-neutral terminology)
+    symbols: Optional[List[str]] = Field(default=None, description="Asset symbols (6-digit codes for stocks, e.g. 'BTCUSDT' for crypto)")
+
+    # Backward compatibility alias (deprecated, use symbols instead)
+    stocks: Optional[List[str]] = Field(default=None, description="Deprecated: use 'symbols' instead")
 
     # Backtest Period
     date_range: Tuple[date, date] = Field(description="(start_date, end_date)")
@@ -210,17 +263,86 @@ class BacktestConfiguration(BaseModel):
         default=None, description="Auxiliary indicator configuration (Volume, RSI, MACD, ATR)"
     )
 
+    # Crypto-Specific Configuration (only for market_type='crypto')
+    crypto_config: Optional[CryptoSpecificConfig] = Field(
+        default=None, description="Cryptocurrency trading parameters (fees, minimums, quote currency)"
+    )
+
+    @field_validator('market_type')
+    @classmethod
+    def validate_market_type(cls, v: str) -> str:
+        """Validate market_type is either 'stock' or 'crypto'."""
+        if v not in ('stock', 'crypto'):
+            raise ValueError(
+                f"Invalid market_type: '{v}'. Must be 'stock' or 'crypto'"
+            )
+        return v
+
     @field_validator('stocks')
     @classmethod
-    def validate_stock_codes(cls, v: List[str]) -> List[str]:
-        """Validate that all stock codes are exactly 6 digits (Korean market format)."""
-        for code in v:
-            if not (code.isdigit() and len(code) == 6):
-                raise ValueError(
-                    f"Invalid stock code: '{code}'. "
-                    f"Korean stock codes must be exactly 6 digits (e.g., '005930')"
-                )
+    def validate_stock_codes(cls, v: Optional[List[str]]) -> Optional[List[str]]:
+        """
+        Lenient validation for backward compatibility.
+        Strict validation happens in validate_symbols_and_compatibility model validator.
+        """
+        # Allow None
+        if v is None:
+            return None
+        # Only validate 6-digit codes if they look like stock codes
+        # (let crypto symbols pass through for backward compat with symbols field)
         return v
+
+    @model_validator(mode='after')
+    def validate_symbols_and_compatibility(self):
+        """Handle stocks→symbols backward compatibility and validate symbols."""
+        # If stocks is provided but symbols is not, copy stocks to symbols
+        if self.stocks is not None and len(self.stocks) > 0:
+            if self.symbols is None or len(self.symbols) == 0:
+                self.symbols = self.stocks
+
+        # If symbols is provided but stocks is not (new configs), ensure stocks is set for backward compat
+        elif self.symbols is not None and len(self.symbols) > 0:
+            if self.stocks is None:
+                self.stocks = self.symbols
+
+        # Neither provided - error
+        else:
+            raise ValueError("Either 'symbols' or 'stocks' must be provided")
+
+        # Validate symbols based on market_type
+        if self.market_type == 'stock':
+            for symbol in self.symbols:
+                if not (symbol.isdigit() and len(symbol) == 6):
+                    raise ValueError(
+                        f"Invalid stock symbol: '{symbol}'. "
+                        f"Korean stock codes must be exactly 6 digits (e.g., '005930')"
+                    )
+        elif self.market_type == 'crypto':
+            for symbol in self.symbols:
+                if not symbol.isupper():
+                    raise ValueError(
+                        f"Invalid crypto symbol: '{symbol}'. "
+                        f"Crypto symbols must be uppercase (e.g., 'BTCUSDT')"
+                    )
+
+        return self
+
+    @model_validator(mode='after')
+    def validate_crypto_config(self):
+        """Apply default crypto_config when market_type='crypto' and warn if mismatched."""
+        if self.market_type == 'crypto':
+            # Apply default crypto_config if not provided
+            if self.crypto_config is None:
+                self.crypto_config = CryptoSpecificConfig()
+        elif self.market_type == 'stock' and self.crypto_config is not None:
+            # Warn if crypto_config provided for stock market
+            import warnings
+            warnings.warn(
+                "crypto_config is ignored for market_type='stock'",
+                UserWarning
+            )
+
+        return self
 
     @field_validator('date_range')
     @classmethod

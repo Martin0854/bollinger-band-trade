@@ -17,9 +17,11 @@ def test_trade_buy_creation():
 
     trade = Trade(
         stock_code="005930",
+        symbol="005930",
+        market_type="stock",
         action=TradeAction.BUY,
         execution_price=Decimal('60000'),
-        quantity=10,
+        quantity=Decimal("10"),
         execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
         band_width_at_entry=Decimal('5000'),
         bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},
@@ -41,9 +43,11 @@ def test_trade_sell_creation():
 
     trade = Trade(
         stock_code="005930",
+        symbol="005930",
+        market_type="stock",
         action=TradeAction.SELL,
         execution_price=Decimal('65000'),
-        quantity=10,
+        quantity=Decimal("10"),
         execution_timestamp=datetime(2024, 2, 15, 15, 30, 0, tzinfo=pytz.timezone('Asia/Seoul')),
         band_width_at_entry=Decimal('6000'),
         bollinger_values={'upper': Decimal('68000'), 'middle': Decimal('63000'), 'lower': Decimal('58000')},
@@ -67,9 +71,11 @@ def test_trade_buy_must_have_entry_reason():
     with pytest.raises(ValueError, match="entry_reason"):
         Trade(
             stock_code="005930",
+        symbol="005930",
+        market_type="stock",
             action=TradeAction.BUY,
             execution_price=Decimal('60000'),
-            quantity=10,
+            quantity=Decimal("10"),
             execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
             band_width_at_entry=Decimal('5000'),
             bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},
@@ -87,9 +93,11 @@ def test_trade_sell_must_have_exit_reason():
     with pytest.raises(ValueError, match="exit_reason"):
         Trade(
             stock_code="005930",
+        symbol="005930",
+        market_type="stock",
             action=TradeAction.SELL,
             execution_price=Decimal('65000'),
-            quantity=10,
+            quantity=Decimal("10"),
             execution_timestamp=datetime(2024, 2, 15, 15, 30, 0, tzinfo=pytz.timezone('Asia/Seoul')),
             band_width_at_entry=Decimal('6000'),
             bollinger_values={'upper': Decimal('68000'), 'middle': Decimal('63000'), 'lower': Decimal('58000')},
@@ -108,9 +116,11 @@ def test_trade_price_must_be_positive():
     with pytest.raises(ValueError, match="positive"):
         Trade(
             stock_code="005930",
+        symbol="005930",
+        market_type="stock",
             action=TradeAction.BUY,
             execution_price=Decimal('0'),  # Invalid
-            quantity=10,
+            quantity=Decimal("10"),
             execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
             band_width_at_entry=Decimal('5000'),
             bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},
@@ -128,9 +138,11 @@ def test_trade_quantity_must_be_positive():
     with pytest.raises(ValueError, match="positive"):
         Trade(
             stock_code="005930",
+        symbol="005930",
+        market_type="stock",
             action=TradeAction.BUY,
             execution_price=Decimal('60000'),
-            quantity=0,  # Invalid
+            quantity=Decimal("0"),  # Invalid
             execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
             band_width_at_entry=Decimal('5000'),
             bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},
@@ -147,9 +159,11 @@ def test_trade_to_log_dict():
 
     trade = Trade(
         stock_code="005930",
+        symbol="005930",
+        market_type="stock",
         action=TradeAction.BUY,
         execution_price=Decimal('60000'),
-        quantity=10,
+        quantity=Decimal("10"),
         execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
         band_width_at_entry=Decimal('5000'),
         bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},
@@ -179,9 +193,11 @@ def test_trade_is_immutable():
 
     trade = Trade(
         stock_code="005930",
+        symbol="005930",
+        market_type="stock",
         action=TradeAction.BUY,
         execution_price=Decimal('60000'),
-        quantity=10,
+        quantity=Decimal("10"),
         execution_timestamp=datetime(2024, 1, 15, 9, 0, 0, tzinfo=pytz.timezone('Asia/Seoul')),
         band_width_at_entry=Decimal('5000'),
         bollinger_values={'upper': Decimal('65000'), 'middle': Decimal('60000'), 'lower': Decimal('55000')},

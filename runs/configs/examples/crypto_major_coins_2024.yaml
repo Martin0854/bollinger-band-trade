@@ -1,0 +1,73 @@
+# Cryptocurrency Backtest Configuration
+# Market: Major Cryptocurrencies (BTC, ETH, BNB, SOL, ADA)
+# Period: 2024 Q1-Q3
+# Strategy: Bollinger Band Squeeze with Conservative Risk Management
+
+# Portfolio Settings
+seed_money: 50000  # Starting capital: $50,000 USDT
+
+# Market Type
+market_type: crypto
+
+# Asset Selection - Top 5 Cryptocurrencies by Market Cap
+symbols:
+  - BTCUSDT   # Bitcoin - Digital Gold
+  - ETHUSDT   # Ethereum - Smart Contract Platform
+  - BNBUSDT   # Binance Coin - Exchange Token
+  - SOLUSDT   # Solana - High Performance Blockchain
+  - ADAUSDT   # Cardano - Research-Driven Blockchain
+
+# Backtest Period - 2024 Year-to-Date
+date_range:
+  start: "2022-01-01"
+  end: "2022-12-31"
+
+# Bollinger Band Parameters
+bollinger_period: 20
+bollinger_std_dev: 2.5          # Wider bands for higher volatility
+
+# Squeeze Detection
+squeeze_threshold_percent: 30
+squeeze_lookback_days: 14       # Longer lookback for crypto
+
+# Risk Management
+stop_loss_percent: 10.0         # 10% stop-loss for high volatility
+max_position_percent: 25.0      # Max 25% per position (5 coins)
+max_positions: 5                # Allow all 5 positions
+
+# Cryptocurrency Configuration
+crypto_config:
+  trading_fee_percent: 0.1
+  min_order_value_usdt: 15.0    # Slightly higher minimum
+  quote_currency: USDT
+
+# Enhanced Strategy (Conservative Settings)
+enhanced_strategy:
+  volume_filter:
+    enabled: true
+    window_days: 20
+    multiplier: 2.0             # Very high threshold - only strong signals
+
+  rsi:
+    enabled: true
+    period: 14
+    overbought: 75              # More conservative (avoid very overbought)
+    oversold: 25                # More conservative (avoid very oversold)
+
+  macd:
+    enabled: false
+
+  atr:
+    enabled: false
+
+  confidence:
+    threshold: 60               # Higher threshold for quality
+    scoring:
+      base_score: 25
+      volume_score: 35          # Heavy weight on volume
+      rsi_score: 35             # Heavy weight on RSI
+      macd_score: 5
+
+# File Paths
+data_cache_dir: data/cache
+log_dir: data/logs

@@ -4,12 +4,17 @@ Orchestrates data loading, indicator calculation, signal generation, and trade e
 """
 
 from datetime import datetime
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from typing import Dict, List, Optional
+
+# T045: Configure Decimal precision to 28 places for high-precision calculations
+# This ensures accurate fractional crypto quantity calculations (e.g., 0.00000001 BTC)
+getcontext().prec = 28
 
 import pandas as pd
 
 from src.backtest.metrics import PerformanceReport, calculate_metrics_from_trades
+from src.data.providers.factory import DataProviderFactory
 from src.indicators.bollinger import calculate_bollinger_bands
 from src.indicators.momentum import ATRIndicator, MACDIndicator, RSIIndicator
 from src.indicators.squeeze import SqueezeEvent, detect_squeeze
@@ -140,14 +145,26 @@ class BacktestEngine:
             db_path = f"{self.config.log_dir}/backtest.db"
             initialize_database(db_path)
 
-        # Process each stock
-        for stock_code in self.config.stocks:
-            # Get OHLCV data
-            if stock_code not in self.mock_data:
-                print(f"Warning: No data for {stock_code}, skipping")
-                continue
+        # Create data provider based on market type
+        provider = DataProviderFactory.create_provider(self.config.market_type)
 
-            ohlcv = self.mock_data[stock_code]
+        # Get symbols (with backward compatibility for stocks field)
+        symbols = self.config.symbols if hasattr(self.config, 'symbols') else self.config.stocks
+
+        # Process each symbol
+        for symbol in symbols:
+            # Get OHLCV data
+            if symbol in self.mock_data:
+                # Use mock data for testing
+                ohlcv = self.mock_data[symbol]
+            else:
+                # Fetch real data using provider
+                start_date, end_date = self.config.date_range
+                ohlcv = provider.fetch_ohlcv(symbol, start_date, end_date)
+
+                if ohlcv is None:
+                    print(f"Warning: No data for {symbol}, skipping")
+                    continue
 
             # Calculate Bollinger Bands
             bands = calculate_bollinger_bands(
@@ -224,7 +241,7 @@ class BacktestEngine:
                         in_squeeze_or_consolidation = True
 
                 # Check for entry signal: price breaks above upper band after squeeze/consolidation
-                position = self.portfolio.get_position(stock_code)
+                position = self.portfolio.get_position(symbol)
                 if position is None and in_squeeze_or_consolidation:
                     # Check if price broke above upper band (bullish breakout)
                     # Also require that bandwidth is expanding (at least 10% above minimum)
@@ -251,7 +268,7 @@ class BacktestEngine:
                         # Use EnhancedSignalGenerator to filter signal (FR-002, FR-004, FR-006, FR-007, FR-009)
                         enhanced_signal = self.signal_generator.generate_enhanced_signal(
                             date=current_date,
-                            stock_code=stock_code,
+                            stock_code=symbol,
                             signal_type='BUY',
                             reason='squeeze_breakout_buy',
                             price=current_price,
@@ -271,7 +288,8 @@ class BacktestEngine:
                                 quantity = calculate_position_size(
                                     portfolio_value=self.portfolio.total_value,
                                     stock_price=current_price,
-                                    max_position_percent=Decimal(str(self.config.max_position_percent))
+                                    max_position_percent=Decimal(str(self.config.max_position_percent)),
+                                    market_type=self.config.market_type
                                 )
 
                                 if quantity > 0:
@@ -281,7 +299,7 @@ class BacktestEngine:
                                         current_atr = float(atr_values.loc[current_date])
 
                                     self._execute_buy(
-                                        stock_code=stock_code,
+                                        stock_code=symbol,
                                         price=current_price,
                                         quantity=quantity,
                                         date=current_date,
@@ -305,7 +323,7 @@ class BacktestEngine:
 
                     if stop_loss_triggered:
                         self._execute_sell(
-                            stock_code=stock_code,
+                            stock_code=symbol,
                             price=current_price,
                             date=current_date,
                             reason="stop_loss",
@@ -315,7 +333,7 @@ class BacktestEngine:
                     # Check if price crossed below middle band (profit-taking signal)
                     elif current_price < bollinger_values['middle']:
                         self._execute_sell(
-                            stock_code=stock_code,
+                            stock_code=symbol,
                             price=current_price,
                             date=current_date,
                             reason="middle_band_cross",
@@ -356,7 +374,7 @@ class BacktestEngine:
         self,
         stock_code: str,
         price: Decimal,
-        quantity: int,
+        quantity: Decimal,
         date: datetime,
         reason: str,
         bollinger_values: Dict[str, Decimal],
@@ -368,9 +386,9 @@ class BacktestEngine:
         Execute a buy trade.
 
         Args:
-            stock_code: Stock to buy
+            stock_code: Stock to buy (symbol)
             price: Execution price
-            quantity: Number of shares
+            quantity: Number of shares/units (Decimal for fractional crypto support)
             date: Execution date
             reason: Entry reason
             bollinger_values: Bollinger Band values
@@ -380,6 +398,33 @@ class BacktestEngine:
         """
         # Calculate trade cost
         cost = price * quantity
+
+        # Apply trading fees for crypto
+        fee = Decimal('0')
+        if self.config.market_type == 'crypto' and hasattr(self.config, 'crypto_config') and self.config.crypto_config:
+            fee_percent = Decimal(str(self.config.crypto_config.trading_fee_percent))
+            fee = cost * (fee_percent / Decimal('100'))
+            cost += fee
+
+        # Validate minimum order value for crypto (T030)
+        if self.config.market_type == 'crypto' and hasattr(self.config, 'crypto_config') and self.config.crypto_config:
+            from src.risk.controls import validate_minimum_order_value
+            trade_value = price * quantity  # Without fees for validation
+            
+            if not validate_minimum_order_value(
+                trade_value=trade_value,
+                min_order_value=self.config.crypto_config.min_order_value_usdt,
+                market_type=self.config.market_type,
+                quote_currency=self.config.crypto_config.quote_currency
+            ):
+                # Skip trade if below minimum order value
+                import logging
+                logging.warning(
+                    f"Trade skipped: {stock_code} order value ${float(trade_value):.2f} "
+                    f"< minimum ${self.config.crypto_config.min_order_value_usdt} "
+                    f"{self.config.crypto_config.quote_currency}"
+                )
+                return
 
         # Validate sufficient cash
         if self.portfolio.cash_balance < cost:
@@ -438,7 +483,9 @@ class BacktestEngine:
 
         # Record trade
         trade = Trade(
-            stock_code=stock_code,
+            stock_code=stock_code,  # Backward compatibility
+            symbol=stock_code,
+            market_type=self.config.market_type,
             action=TradeAction.BUY,
             execution_price=price,
             quantity=quantity,
@@ -489,7 +536,15 @@ class BacktestEngine:
 
         # Calculate proceeds and P&L
         proceeds = price * position.quantity
-        realized_pnl = (price - position.purchase_price) * position.quantity
+
+        # Apply trading fees for crypto
+        fee = Decimal('0')
+        if self.config.market_type == 'crypto' and hasattr(self.config, 'crypto_config') and self.config.crypto_config:
+            fee_percent = Decimal(str(self.config.crypto_config.trading_fee_percent))
+            fee = proceeds * (fee_percent / Decimal('100'))
+            proceeds -= fee
+
+        realized_pnl = (price - position.purchase_price) * position.quantity - fee
 
         # Update portfolio
         self.portfolio.cash_balance += proceeds
@@ -504,7 +559,9 @@ class BacktestEngine:
 
         # Record trade
         trade = Trade(
-            stock_code=stock_code,
+            stock_code=stock_code,  # Backward compatibility
+            symbol=stock_code,
+            market_type=self.config.market_type,
             action=TradeAction.SELL,
             execution_price=price,
             quantity=position.quantity,
