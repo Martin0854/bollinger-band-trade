@@ -36,6 +36,9 @@ env/
 # IDE
 .vscode/
 .idea/
+.claude
+.serena
+.specifybollinger-band-trade.iml
 *~
 
 # Environment variables
