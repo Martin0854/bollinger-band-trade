@@ -13,28 +13,28 @@ from typing import Dict, Tuple
 # 검증 기준
 PHASE_TARGETS = {
     'Phase 1 (Volume+RSI)': {
-        'config': 'config/examples/phase1_volume_rsi.yaml',
+        'config': 'runs/configs/phases/phase1_volume_rsi.yaml',
         'win_rate_min': 55.0,
         'win_rate_max': 60.0,
         'return_min': 5.0,
         'return_max': 8.0
     },
     'Phase 2 (MACD)': {
-        'config': 'config/examples/phase2_with_macd.yaml',
+        'config': 'runs/configs/phases/phase2_with_macd.yaml',
         'win_rate_min': 70.0,
         'win_rate_max': 75.0,
         'return_min': 10.0,
         'return_max': 15.0
     },
     'Phase 3 (Confidence)': {
-        'config': 'config/examples/phase3_confidence.yaml',
+        'config': 'runs/configs/phases/phase3_confidence.yaml',
         'win_rate_min': 70.0,
         'win_rate_max': 75.0,
         'return_min': 10.0,
         'return_max': 15.0
     },
     'Phase 4 (ATR)': {
-        'config': 'config/examples/phase4_test.yaml',  # 테스트용 완화 설정
+        'config': 'runs/configs/phases/phase4_dynamic_stop.yaml',
         'win_rate_min': 70.0,
         'win_rate_max': 75.0,
         'return_min': 15.0,

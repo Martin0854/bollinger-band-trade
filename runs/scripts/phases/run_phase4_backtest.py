@@ -8,7 +8,12 @@ import yfinance as yf
 from datetime import datetime
 from src.models.config import BacktestConfiguration
 from src.backtest.engine import BacktestEngine
-from scripts.analyze_trades import export_trades_to_excel, create_trade_timeline, create_trade_summary
+import sys
+import os
+# Add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+
+from runs.scripts.analysis.analyze_trades import export_trades_to_excel, create_trade_timeline, create_trade_summary
 
 def download_korean_stock_data(ticker_symbol: str, start: str, end: str) -> pd.DataFrame:
     """
@@ -53,7 +58,7 @@ def run_phase4_backtest():
 
     # 1. 설정 파일 로드
     print("\n📋 1단계: 설정 파일 로드")
-    config = BacktestConfiguration.from_yaml("config/examples/phase4_dynamic_stop.yaml")
+    config = BacktestConfiguration.from_yaml("runs/configs/phases/phase4_dynamic_stop.yaml")
 
     print(f"\n✅ 설정 로드 완료:")
     print(f"  - 초기 자본: ₩{config.seed_money:,}")
@@ -192,7 +197,7 @@ def run_phase4_backtest():
 
         # 8. Excel 저장
         print("\n💾 Excel 파일 저장 중...")
-        filename = f"phase4_backtest_result_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        filename = f"runs/results/phase4/backtest_result_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
         try:
             export_trades_to_excel(engine, filename)
             print(f"  ✅ 파일 저장 완료: {filename}")

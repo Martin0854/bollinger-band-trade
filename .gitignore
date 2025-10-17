@@ -36,8 +36,6 @@ env/
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 *~
 
 # Environment variables
@@ -50,8 +48,40 @@ data/cache/*
 !data/cache/.gitkeep
 data/logs/*.db
 data/logs/*.log
+
+# Results (백테스트 결과 파일)
+runs/results/**/*.xlsx
+runs/results/**/*.csv
+runs/results/**/*.json
 results/*.xlsx
 results/*.csv
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~.nib
+*.swp
+*.swo
+
+# Ruff cache
+.ruff_cache/
+
+# MyPy cache
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Performance profiling
+*.prof
+*.lprof
+*.pyprof
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
 
 # OS
 .DS_Store
