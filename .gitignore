@@ -38,7 +38,8 @@ env/
 .idea/
 .claude
 .serena
-.specifybollinger-band-trade.iml
+.specify
+bollinger-band-trade.iml
 *~
 
 # Environment variables
