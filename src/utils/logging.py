@@ -3,11 +3,12 @@ Structured logging utility with JSON formatter and Asia/Seoul timezone.
 Implements plan.md Principle V: Transparency & Auditability
 """
 
-import logging
 import json
+import logging
 from datetime import datetime
-import pytz
 from typing import Optional
+
+import pytz
 
 
 class JsonFormatter(logging.Formatter):
@@ -123,3 +124,184 @@ def get_logger(name: str = 'bollinger_band_trade') -> logging.Logger:
         Logger instance
     """
     return logging.getLogger(name)
+
+
+# ========================================================================
+# Structured Logging Helpers for Indicator Calculations (Phase 8 - T067)
+# ========================================================================
+
+def log_indicator_calculation(
+    logger: logging.Logger,
+    indicator_name: str,
+    stock_code: str,
+    value: float,
+    **kwargs
+) -> None:
+    """
+    Log indicator calculation with structured fields.
+
+    Args:
+        logger: Logger instance
+        indicator_name: Name of indicator (e.g., "RSI", "MACD", "ATR", "Volume")
+        stock_code: Stock code
+        value: Calculated indicator value
+        **kwargs: Additional fields (e.g., period, threshold, pass_fail)
+
+    Example:
+        >>> log_indicator_calculation(
+        >>>     logger, "RSI", "005930", 65.5,
+        >>>     period=14, overbought=70, pass=True
+        >>> )
+    """
+    extra = {
+        'indicator': indicator_name,
+        'stock_code': stock_code,
+        'value': value,
+        **kwargs
+    }
+    logger.debug(
+        f"{indicator_name} calculated: {value:.2f}",
+        extra=extra
+    )
+
+
+def log_filter_result(
+    logger: logging.Logger,
+    filter_name: str,
+    stock_code: str,
+    passed: bool,
+    reason: str = "",
+    **kwargs
+) -> None:
+    """
+    Log filter pass/fail result with structured fields.
+
+    Args:
+        logger: Logger instance
+        filter_name: Name of filter (e.g., "Volume", "RSI", "MACD")
+        stock_code: Stock code
+        passed: Whether filter passed (True/False)
+        reason: Reason for filter result (optional)
+        **kwargs: Additional fields (e.g., current_value, threshold)
+
+    Example:
+        >>> log_filter_result(
+        >>>     logger, "RSI", "005930", False,
+        >>>     reason="overbought",
+        >>>     rsi_value=75.0, threshold=70
+        >>> )
+    """
+    extra = {
+        'filter': filter_name,
+        'stock_code': stock_code,
+        'passed': passed,
+        'reason': reason,
+        **kwargs
+    }
+
+    if passed:
+        logger.debug(
+            f"{filter_name} filter passed: {reason}",
+            extra=extra
+        )
+    else:
+        logger.info(
+            f"{filter_name} filter blocked signal: {reason}",
+            extra=extra
+        )
+
+
+def log_confidence_score(
+    logger: logging.Logger,
+    stock_code: str,
+    score: int,
+    threshold: int,
+    volume_pass: bool,
+    rsi_pass: bool,
+    macd_pass: bool,
+    meets_threshold: bool
+) -> None:
+    """
+    Log confidence score calculation with all filter results.
+
+    Args:
+        logger: Logger instance
+        stock_code: Stock code
+        score: Calculated confidence score (0-100)
+        threshold: Minimum threshold for entry
+        volume_pass: Volume filter passed
+        rsi_pass: RSI filter passed
+        macd_pass: MACD filter passed
+        meets_threshold: Whether score meets threshold
+
+    Example:
+        >>> log_confidence_score(
+        >>>     logger, "005930", 75, 60,
+        >>>     volume_pass=True, rsi_pass=True, macd_pass=True,
+        >>>     meets_threshold=True
+        >>> )
+    """
+    extra = {
+        'stock_code': stock_code,
+        'confidence_score': score,
+        'threshold': threshold,
+        'volume_pass': volume_pass,
+        'rsi_pass': rsi_pass,
+        'macd_pass': macd_pass,
+        'meets_threshold': meets_threshold
+    }
+
+    if meets_threshold:
+        logger.info(
+            f"Confidence score passed: {score}/{threshold} "
+            f"(volume={volume_pass}, rsi={rsi_pass}, macd={macd_pass})",
+            extra=extra
+        )
+    else:
+        logger.info(
+            f"Confidence score failed: {score}/{threshold} "
+            f"(volume={volume_pass}, rsi={rsi_pass}, macd={macd_pass})",
+            extra=extra
+        )
+
+
+def log_atr_stop_loss(
+    logger: logging.Logger,
+    stock_code: str,
+    entry_price: float,
+    atr_value: float,
+    stop_loss_price: float,
+    multiplier: float
+) -> None:
+    """
+    Log ATR-based dynamic stop-loss calculation.
+
+    Args:
+        logger: Logger instance
+        stock_code: Stock code
+        entry_price: Position entry price
+        atr_value: Current ATR value
+        stop_loss_price: Calculated stop-loss price
+        multiplier: ATR multiplier used
+
+    Example:
+        >>> log_atr_stop_loss(
+        >>>     logger, "005930", 60000, 2000, 56000, 2.0
+        >>> )
+    """
+    stop_loss_percent = ((entry_price - stop_loss_price) / entry_price) * 100
+
+    extra = {
+        'stock_code': stock_code,
+        'entry_price': entry_price,
+        'atr_value': atr_value,
+        'atr_multiplier': multiplier,
+        'stop_loss_price': stop_loss_price,
+        'stop_loss_percent': round(stop_loss_percent, 2)
+    }
+
+    logger.info(
+        f"ATR dynamic stop-loss: {stop_loss_price:.2f} "
+        f"({stop_loss_percent:.2f}% below entry, ATR={atr_value:.2f}*{multiplier})",
+        extra=extra
+    )

@@ -338,3 +338,103 @@ def test_portfolio_position_concentration():
     # Position 2: 200K / 10M = 2%
     assert concentration["005930"] == pytest.approx(6.0, rel=1e-2)
     assert concentration["035720"] == pytest.approx(2.0, rel=1e-2)
+
+
+# ========================================================================
+# T059: RiskManager Dynamic Stop-Loss Tests (User Story 5)
+# ========================================================================
+
+def test_risk_manager_calculate_stop_loss_atr_enabled():
+    """
+    T059: Test ATR enabled → uses dynamic stop-loss.
+
+    When ATR is enabled and ATR value is provided, RiskManager
+    should calculate stop-loss based on ATR instead of fixed percentage.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.risk.controls import RiskManager
+    # from src.indicators.momentum import ATRIndicator
+
+    # # Given: RiskManager with ATR enabled
+    # atr_indicator = ATRIndicator(period=14, multiplier=2.0)
+    # risk_manager = RiskManager(
+    #     stop_loss_percent=Decimal('5.0'),
+    #     atr_indicator=atr_indicator
+    # )
+
+    # entry_price = Decimal('60000')
+    # atr_value = Decimal('1000')  # ATR = 1000
+
+    # # When: Calculate stop-loss with ATR
+    # stop_loss = risk_manager.calculate_stop_loss(
+    #     entry_price=entry_price,
+    #     fixed_percent=Decimal('5.0'),
+    #     atr_value=atr_value
+    # )
+
+    # # Then: Should use ATR calculation: 60000 - (1000 * 2.0) = 58000
+    # assert stop_loss == Decimal('58000')
+    # # NOT fixed 5%: 60000 * 0.95 = 57000
+
+
+def test_risk_manager_calculate_stop_loss_atr_disabled():
+    """
+    T059: Test ATR disabled → uses fixed percentage.
+
+    When ATR is disabled or not configured, RiskManager should
+    fall back to traditional fixed percentage stop-loss.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.risk.controls import RiskManager
+
+    # # Given: RiskManager without ATR (disabled)
+    # risk_manager = RiskManager(
+    #     stop_loss_percent=Decimal('5.0'),
+    #     atr_indicator=None  # No ATR
+    # )
+
+    # entry_price = Decimal('60000')
+
+    # # When: Calculate stop-loss without ATR
+    # stop_loss = risk_manager.calculate_stop_loss(
+    #     entry_price=entry_price,
+    #     fixed_percent=Decimal('5.0'),
+    #     atr_value=None  # No ATR value
+    # )
+
+    # # Then: Should use fixed 5%: 60000 * 0.95 = 57000
+    # assert stop_loss == Decimal('57000')
+
+
+def test_risk_manager_calculate_stop_loss_atr_none_falls_back():
+    """
+    T059: Test ATR=None → falls back to fixed percentage.
+
+    Even if ATR indicator is configured, if ATR value is None
+    (e.g., insufficient data), should fall back to fixed percentage.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.risk.controls import RiskManager
+    # from src.indicators.momentum import ATRIndicator
+
+    # # Given: RiskManager with ATR, but ATR value is None
+    # atr_indicator = ATRIndicator(period=14, multiplier=2.0)
+    # risk_manager = RiskManager(
+    #     stop_loss_percent=Decimal('5.0'),
+    #     atr_indicator=atr_indicator
+    # )
+
+    # entry_price = Decimal('60000')
+
+    # # When: Calculate stop-loss with ATR=None (insufficient data)
+    # stop_loss = risk_manager.calculate_stop_loss(
+    #     entry_price=entry_price,
+    #     fixed_percent=Decimal('5.0'),
+    #     atr_value=None  # ATR calculation failed
+    # )
+
+    # # Then: Should fall back to fixed 5%
+    # assert stop_loss == Decimal('57000')

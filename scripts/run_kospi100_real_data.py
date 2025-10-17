@@ -137,7 +137,7 @@ def main():
         return
 
     # 설정 로드
-    config_path = project_root / "config/examples/phase3_confidence.yaml"
+    config_path = project_root / "config/examples/phase4_dynamic_stop.yaml"
     print(f"📁 설정 파일 로드: {config_path}")
 
     with open(config_path, 'r') as f:

@@ -9,10 +9,11 @@ This module implements:
 - ATR (Entity 3): FR-016, FR-017 (Phase 4)
 """
 
-import pandas as pd
-import numpy as np
 import logging
-from typing import Optional
+
+import pandas as pd
+
+from src.utils.logging import log_atr_stop_loss
 
 logger = logging.getLogger(__name__)
 
@@ -341,5 +342,132 @@ class MACDIndicator:
 # Entity 3: ATR Indicator (Phase 4 - User Story 5)
 # ========================================================================
 
-# Placeholder for ATR implementation (Phase 4)
-# Will be implemented in Phase 7
+class ATRIndicator:
+    """
+    Entity 3: ATR (Average True Range) volatility indicator.
+
+    Measures market volatility using the true range of price movement.
+    Used for dynamic stop-loss calculation that adapts to market conditions.
+    - High ATR: High volatility → wider stop-loss
+    - Low ATR: Low volatility → tighter stop-loss
+
+    Implements FR-016, FR-017 from spec.md.
+
+    Attributes:
+        period (int): ATR calculation period (default: 14 days)
+        multiplier (float): Stop-loss distance multiplier (default: 2.0)
+
+    Example:
+        >>> atr = ATRIndicator(period=14, multiplier=2.0)
+        >>> atr_values = atr.calculate(high, low, close)
+        >>> stop_loss = atr.calculate_stop_loss(entry_price=60000, atr_value=atr_values.iloc[-1])
+    """
+
+    def __init__(
+        self,
+        period: int = 14,
+        multiplier: float = 2.0
+    ):
+        """
+        Initialize ATR indicator with configuration parameters.
+
+        Args:
+            period: Lookback period for ATR calculation (days)
+            multiplier: Stop-loss distance multiplier (ATR * multiplier)
+
+        Raises:
+            ValueError: If parameters are invalid
+        """
+        if period <= 0:
+            raise ValueError(f"ATR period must be positive, got: {period}")
+        if multiplier <= 0:
+            raise ValueError(f"ATR multiplier must be positive, got: {multiplier}")
+
+        self.period = period
+        self.multiplier = multiplier
+
+    def calculate(
+        self,
+        high: pd.Series,
+        low: pd.Series,
+        close: pd.Series
+    ) -> pd.Series:
+        """
+        Calculate ATR using Wilder's smoothing method (FR-016).
+
+        True Range is the maximum of:
+        1. Current High - Current Low
+        2. abs(Current High - Previous Close)
+        3. abs(Current Low - Previous Close)
+
+        ATR = EMA(True Range, period)
+
+        Args:
+            high: Time series of high prices
+            low: Time series of low prices
+            close: Time series of closing prices
+
+        Returns:
+            pandas.Series: ATR values. NaN where insufficient data.
+
+        Edge Cases:
+            - Insufficient data (< 2 days) → NaN
+            - First value always NaN (no previous close)
+        """
+        # Calculate true range components
+        # TR1: Current high - current low
+        tr1 = high - low
+
+        # TR2: abs(current high - previous close)
+        prev_close = close.shift(1)
+        tr2 = (high - prev_close).abs()
+
+        # TR3: abs(current low - previous close)
+        tr3 = (low - prev_close).abs()
+
+        # True range is the maximum of the three
+        true_range = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+        # Apply Wilder's smoothing (EMA with span=period)
+        atr = true_range.ewm(span=self.period, adjust=False).mean()
+
+        return atr
+
+    def calculate_stop_loss(
+        self,
+        entry_price: float,
+        atr_value: float,
+        stock_code: str = ""
+    ) -> float:
+        """
+        Calculate dynamic stop-loss based on ATR (FR-017).
+
+        Formula:
+            Stop Loss = Entry Price - (ATR * multiplier)
+
+        Args:
+            entry_price: Position entry price
+            atr_value: Current ATR value
+            stock_code: Stock code for logging (optional)
+
+        Returns:
+            float: Stop-loss price
+
+        Note:
+            Stop-loss can be negative if ATR is very high relative to price.
+            This indicates extremely high volatility and immediate exit should be considered.
+        """
+        stop_loss = entry_price - (atr_value * self.multiplier)
+
+        # Log ATR stop-loss calculation with structured fields (T067)
+        if stock_code:
+            log_atr_stop_loss(
+                logger,
+                stock_code,
+                entry_price,
+                atr_value,
+                stop_loss,
+                self.multiplier
+            )
+
+        return stop_loss

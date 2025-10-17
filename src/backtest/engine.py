@@ -3,21 +3,21 @@ Backtest engine core.
 Orchestrates data loading, indicator calculation, signal generation, and trade execution.
 """
 
-import pandas as pd
-from decimal import Decimal
 from datetime import datetime
+from decimal import Decimal
 from typing import Dict, List, Optional
-import pytz
 
-from src.models.portfolio import Portfolio, Position
-from src.models.trade import Trade, TradeAction, EnhancedSignal
-from src.models.config import BacktestConfiguration
-from src.indicators.bollinger import calculate_bollinger_bands
-from src.indicators.squeeze import detect_squeeze, SqueezeEvent
-from src.indicators.volume import VolumeFilter
-from src.indicators.momentum import RSIIndicator, MACDIndicator
-from src.signals.generator import EnhancedSignalGenerator
+import pandas as pd
+
 from src.backtest.metrics import PerformanceReport, calculate_metrics_from_trades
+from src.indicators.bollinger import calculate_bollinger_bands
+from src.indicators.momentum import ATRIndicator, MACDIndicator, RSIIndicator
+from src.indicators.squeeze import SqueezeEvent, detect_squeeze
+from src.indicators.volume import VolumeFilter
+from src.models.config import BacktestConfiguration
+from src.models.portfolio import Portfolio, Position
+from src.models.trade import EnhancedSignal, Trade, TradeAction
+from src.signals.generator import EnhancedSignalGenerator
 
 
 class BacktestEngine:
@@ -33,6 +33,7 @@ class BacktestEngine:
         volume_filter: Optional VolumeFilter instance (Phase 1)
         rsi_indicator: Optional RSIIndicator instance (Phase 1)
         macd_indicator: Optional MACDIndicator instance (Phase 2)
+        atr_indicator: Optional ATRIndicator instance (Phase 4)
         signal_generator: EnhancedSignalGenerator for filtering signals
     """
 
@@ -56,6 +57,7 @@ class BacktestEngine:
         self.volume_filter: Optional[VolumeFilter] = None
         self.rsi_indicator: Optional[RSIIndicator] = None
         self.macd_indicator: Optional[MACDIndicator] = None
+        self.atr_indicator: Optional[ATRIndicator] = None
 
         # Initialize filters from config
         if hasattr(config, 'enhanced_strategy') and config.enhanced_strategy is not None:
@@ -80,6 +82,13 @@ class BacktestEngine:
                     fast_period=config.enhanced_strategy.macd.fast_period,
                     slow_period=config.enhanced_strategy.macd.slow_period,
                     signal_period=config.enhanced_strategy.macd.signal_period
+                )
+
+            # Initialize ATR Indicator (User Story 5 - Phase 4)
+            if config.enhanced_strategy.atr.enabled:
+                self.atr_indicator = ATRIndicator(
+                    period=config.enhanced_strategy.atr.period,
+                    multiplier=config.enhanced_strategy.atr.multiplier
                 )
 
         # Initialize EnhancedSignalGenerator with confidence configuration (Phase 3)
@@ -162,6 +171,15 @@ class BacktestEngine:
             if self.macd_indicator is not None:
                 macd_results = self.macd_indicator.calculate(ohlcv['Close'])
 
+            # Calculate ATR (for Dynamic Stop-Loss - Phase 4)
+            atr_values = None
+            if self.atr_indicator is not None and all(col in ohlcv.columns for col in ['High', 'Low', 'Close']):
+                atr_values = self.atr_indicator.calculate(
+                    high=ohlcv['High'],
+                    low=ohlcv['Low'],
+                    close=ohlcv['Close']
+                )
+
             # Detect squeezes
             squeeze_signals = detect_squeeze(
                 band_width=bands['bandwidth'],
@@ -170,11 +188,10 @@ class BacktestEngine:
             )
 
             # Find squeeze dates
-            squeeze_dates = set(squeeze_signals[squeeze_signals == True].index)
+            squeeze_dates = set(squeeze_signals[squeeze_signals].index)
 
             # Track if we've seen a squeeze or low bandwidth period
             in_squeeze_or_consolidation = False
-            squeeze_start_date = None
 
             # Also track min bandwidth to detect consolidation even without formal squeeze signal
             min_bandwidth = None
@@ -201,12 +218,10 @@ class BacktestEngine:
                 # Consolidation = bandwidth in bottom 20% of historical range
                 if current_date in squeeze_dates and not in_squeeze_or_consolidation:
                     in_squeeze_or_consolidation = True
-                    squeeze_start_date = current_date
                 elif not in_squeeze_or_consolidation and min_bandwidth is not None:
                     # If bandwidth is near the minimum, consider it consolidation
                     if band_width <= min_bandwidth * Decimal('1.2'):
                         in_squeeze_or_consolidation = True
-                        squeeze_start_date = current_date
 
                 # Check for entry signal: price breaks above upper band after squeeze/consolidation
                 position = self.portfolio.get_position(stock_code)
@@ -260,6 +275,11 @@ class BacktestEngine:
                                 )
 
                                 if quantity > 0:
+                                    # Get ATR value for dynamic stop-loss (Phase 4)
+                                    current_atr = None
+                                    if atr_values is not None and current_date in atr_values.index:
+                                        current_atr = float(atr_values.loc[current_date])
+
                                     self._execute_buy(
                                         stock_code=stock_code,
                                         price=current_price,
@@ -268,7 +288,8 @@ class BacktestEngine:
                                         reason="squeeze_breakout_buy",
                                         bollinger_values=bollinger_values,
                                         band_width=band_width,
-                                        enhanced_signal=enhanced_signal
+                                        enhanced_signal=enhanced_signal,
+                                        atr_value=current_atr
                                     )
                                     in_squeeze_or_consolidation = False  # Reset after entry
 
@@ -304,7 +325,6 @@ class BacktestEngine:
 
         # Calculate final report
         # Get backtest start/end dates from config for accurate CAGR
-        from datetime import datetime
         backtest_start = None
         backtest_end = None
 
@@ -341,7 +361,8 @@ class BacktestEngine:
         reason: str,
         bollinger_values: Dict[str, Decimal],
         band_width: Decimal,
-        enhanced_signal: Optional['EnhancedSignal'] = None
+        enhanced_signal: Optional['EnhancedSignal'] = None,
+        atr_value: Optional[float] = None
     ) -> None:
         """
         Execute a buy trade.
@@ -355,6 +376,7 @@ class BacktestEngine:
             bollinger_values: Bollinger Band values
             band_width: Band width at execution
             enhanced_signal: Optional EnhancedSignal with filter results
+            atr_value: Optional ATR value for dynamic stop-loss (Phase 4)
         """
         # Calculate trade cost
         cost = price * quantity
@@ -363,13 +385,32 @@ class BacktestEngine:
         if self.portfolio.cash_balance < cost:
             return  # Skip trade if insufficient cash
 
+        # Calculate dynamic stop-loss if ATR available (Phase 4)
+        dynamic_stop_loss = None
+        if self.atr_indicator is not None and atr_value is not None:
+            from src.risk.controls import calculate_dynamic_stop_loss
+            dynamic_stop_loss = calculate_dynamic_stop_loss(
+                entry_price=price,
+                atr_value=atr_value,
+                atr_multiplier=self.atr_indicator.multiplier,
+                fixed_stop_loss_percent=Decimal(str(self.config.stop_loss_percent))
+            )
+            # Log dynamic stop-loss calculation
+            import logging
+            logging.info(
+                f"Dynamic stop-loss for {stock_code}: entry={price}, "
+                f"ATR={atr_value:.2f}, stop={dynamic_stop_loss}"
+            )
+
         # Create position
         position = Position(
             stock_code=stock_code,
             quantity=quantity,
             purchase_price=price,
             purchase_date=date,
-            entry_reason=reason
+            entry_reason=reason,
+            dynamic_stop_loss=dynamic_stop_loss,
+            atr_value=atr_value
         )
 
         # Update portfolio
@@ -381,12 +422,19 @@ class BacktestEngine:
         volume_pass = None
         rsi_pass = None
         macd_pass = None
-        
+
         if enhanced_signal is not None:
             confidence_score = enhanced_signal.confidence_score
             volume_pass = enhanced_signal.volume_pass
             rsi_pass = enhanced_signal.rsi_pass
             macd_pass = enhanced_signal.macd_pass
+
+        # Determine stop-loss type for logging (Phase 4)
+        stop_loss_type = None
+        if dynamic_stop_loss is not None:
+            stop_loss_type = "ATR_DYNAMIC"
+        else:
+            stop_loss_type = "FIXED"
 
         # Record trade
         trade = Trade(
@@ -405,7 +453,11 @@ class BacktestEngine:
             confidence_score=confidence_score,
             volume_pass=volume_pass,
             rsi_pass=rsi_pass,
-            macd_pass=macd_pass
+            macd_pass=macd_pass,
+            # Phase 4: ATR dynamic stop-loss fields
+            atr_value=atr_value,
+            dynamic_stop_loss=dynamic_stop_loss,
+            stop_loss_type=stop_loss_type
         )
 
         self.trades.append(trade)
@@ -443,6 +495,13 @@ class BacktestEngine:
         self.portfolio.cash_balance += proceeds
         self.portfolio.remove_position(stock_code)
 
+        # Determine stop-loss type for logging (Phase 4)
+        stop_loss_type = None
+        if position.dynamic_stop_loss is not None:
+            stop_loss_type = "ATR_DYNAMIC"
+        else:
+            stop_loss_type = "FIXED"
+
         # Record trade
         trade = Trade(
             stock_code=stock_code,
@@ -456,7 +515,11 @@ class BacktestEngine:
             portfolio_value_after=self.portfolio.total_value,
             cash_after=self.portfolio.cash_balance,
             exit_reason=reason,
-            realized_pnl=realized_pnl
+            realized_pnl=realized_pnl,
+            # Phase 4: ATR dynamic stop-loss fields
+            atr_value=position.atr_value,
+            dynamic_stop_loss=position.dynamic_stop_loss,
+            stop_loss_type=stop_loss_type
         )
 
         self.trades.append(trade)

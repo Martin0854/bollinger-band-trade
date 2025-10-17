@@ -3,9 +3,8 @@ Bollinger Band indicator calculation (data-model.md Entity 5).
 Implements SMA-based bands with squeeze detection integration.
 """
 
+
 import pandas as pd
-from decimal import Decimal
-from typing import Optional
 
 
 def calculate_bollinger_bands(

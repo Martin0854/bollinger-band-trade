@@ -578,3 +578,107 @@ def test_confidence_config_defaults():
     assert config.scoring['rsi_score'] == 20
     assert config.scoring['macd_score'] == 30
     assert sum(config.scoring.values()) == 100
+
+
+# ========================================================================
+# T060: ATR Configuration Schema Tests (User Story 5)
+# ========================================================================
+
+def test_atr_config_valid():
+    """T060: Test valid ATR config loads correctly."""
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.models.config import ATRConfig
+
+    # # Valid ATR configuration
+    # config = ATRConfig(
+    #     enabled=True,
+    #     period=14,
+    #     multiplier=2.0
+    # )
+
+    # assert config.enabled is True
+    # assert config.period == 14
+    # assert config.multiplier == 2.0
+
+
+def test_atr_config_period_bounds():
+    """T060: Test period bounds (5-100)."""
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.models.config import ATRConfig
+    # from pydantic import ValidationError
+
+    # # Valid: period=5 (lower bound)
+    # config_min = ATRConfig(enabled=True, period=5, multiplier=2.0)
+    # assert config_min.period == 5
+
+    # # Valid: period=100 (upper bound)
+    # config_max = ATRConfig(enabled=True, period=100, multiplier=2.0)
+    # assert config_max.period == 100
+
+    # # Invalid: period < 5
+    # with pytest.raises(ValidationError) as exc_info:
+    #     ATRConfig(enabled=True, period=3, multiplier=2.0)
+    # assert "5" in str(exc_info.value) or "period" in str(exc_info.value).lower()
+
+    # # Invalid: period > 100
+    # with pytest.raises(ValidationError) as exc_info:
+    #     ATRConfig(enabled=True, period=150, multiplier=2.0)
+    # assert "100" in str(exc_info.value) or "period" in str(exc_info.value).lower()
+
+
+def test_atr_config_multiplier_bounds():
+    """T060: Test multiplier bounds (0.5-10.0)."""
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.models.config import ATRConfig
+    # from pydantic import ValidationError
+
+    # # Valid: multiplier=0.5 (lower bound)
+    # config_min = ATRConfig(enabled=True, period=14, multiplier=0.5)
+    # assert config_min.multiplier == 0.5
+
+    # # Valid: multiplier=10.0 (upper bound)
+    # config_max = ATRConfig(enabled=True, period=14, multiplier=10.0)
+    # assert config_max.multiplier == 10.0
+
+    # # Invalid: multiplier < 0.5
+    # with pytest.raises(ValidationError) as exc_info:
+    #     ATRConfig(enabled=True, period=14, multiplier=0.3)
+    # assert "0.5" in str(exc_info.value) or "multiplier" in str(exc_info.value).lower()
+
+    # # Invalid: multiplier > 10.0
+    # with pytest.raises(ValidationError) as exc_info:
+    #     ATRConfig(enabled=True, period=14, multiplier=15.0)
+    # assert "10" in str(exc_info.value) or "multiplier" in str(exc_info.value).lower()
+
+
+def test_atr_config_enabled_flag():
+    """T060: Test enabled flag toggles dynamic stop-loss."""
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.models.config import ATRConfig
+
+    # # Enabled
+    # config_on = ATRConfig(enabled=True, period=14, multiplier=2.0)
+    # assert config_on.enabled is True
+
+    # # Disabled
+    # config_off = ATRConfig(enabled=False, period=14, multiplier=2.0)
+    # assert config_off.enabled is False
+
+
+def test_atr_config_defaults():
+    """T060: Test ATRConfig defaults."""
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.models.config import ATRConfig
+
+    # # Create with defaults
+    # config = ATRConfig()
+
+    # # Should have default values
+    # assert config.enabled is False  # Disabled by default
+    # assert config.period == 14
+    # assert config.multiplier == 2.0

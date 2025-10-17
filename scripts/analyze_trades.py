@@ -245,7 +245,11 @@ def export_trades_to_excel(engine, filename="거래내역.xlsx"):
             '신뢰도점수': trade.confidence_score if trade.confidence_score is not None else '',
             '거래량통과': 'O' if trade.volume_pass else ('X' if trade.volume_pass is not None else ''),
             'RSI통과': 'O' if trade.rsi_pass else ('X' if trade.rsi_pass is not None else ''),
-            'MACD통과': 'O' if trade.macd_pass else ('X' if trade.macd_pass is not None else '')
+            'MACD통과': 'O' if trade.macd_pass else ('X' if trade.macd_pass is not None else ''),
+            # Phase 4: ATR dynamic stop-loss fields (T066)
+            'ATR값': round(trade.atr_value, 2) if trade.atr_value is not None else '',
+            '동적손절가': int(trade.dynamic_stop_loss) if trade.dynamic_stop_loss is not None else '',
+            '손절유형': trade.stop_loss_type if trade.stop_loss_type is not None else ''
         })
 
     df = pd.DataFrame(trades_data)

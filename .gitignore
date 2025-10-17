@@ -40,6 +40,11 @@ env/
 *.swo
 *~
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Project specific
 data/cache/*
 !data/cache/.gitkeep

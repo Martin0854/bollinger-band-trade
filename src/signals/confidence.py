@@ -9,8 +9,8 @@ User Story 4: 다단계 신호 신뢰도 평가 시스템
 - Enable trade-off between frequency and quality
 """
 
-from typing import Dict
 import logging
+from typing import Dict
 
 logger = logging.getLogger(__name__)
 

@@ -4,12 +4,12 @@ Immutable audit record of executed trades with complete context.
 Enhanced with auxiliary indicator data for Phase 1-4 features.
 """
 
-from dataclasses import dataclass
-from decimal import Decimal
-from datetime import datetime
-from typing import Dict, Optional
-from enum import Enum
 import uuid
+from dataclasses import dataclass
+from datetime import datetime
+from decimal import Decimal
+from enum import Enum
+from typing import Dict, Optional
 
 
 class TradeAction(Enum):
@@ -44,6 +44,9 @@ class Trade:
         volume_pass: Optional volume filter pass/fail (Phase 3)
         rsi_pass: Optional RSI filter pass/fail (Phase 3)
         macd_pass: Optional MACD filter pass/fail (Phase 3)
+        atr_value: Optional ATR value at trade time (Phase 4)
+        dynamic_stop_loss: Optional ATR-based stop-loss price (Phase 4)
+        stop_loss_type: Optional stop-loss type - "FIXED" or "ATR_DYNAMIC" (Phase 4)
     """
     stock_code: str
     action: TradeAction
@@ -64,6 +67,10 @@ class Trade:
     volume_pass: Optional[bool] = None
     rsi_pass: Optional[bool] = None
     macd_pass: Optional[bool] = None
+    # Phase 4: ATR dynamic stop-loss fields (optional for backward compatibility)
+    atr_value: Optional[float] = None
+    dynamic_stop_loss: Optional[Decimal] = None
+    stop_loss_type: Optional[str] = None
 
     def __post_init__(self):
         """
@@ -132,7 +139,11 @@ class Trade:
             'confidence_score': self.confidence_score,
             'volume_pass': self.volume_pass,
             'rsi_pass': self.rsi_pass,
-            'macd_pass': self.macd_pass
+            'macd_pass': self.macd_pass,
+            # Phase 4: ATR dynamic stop-loss fields
+            'atr_value': self.atr_value,
+            'dynamic_stop_loss': float(self.dynamic_stop_loss) if self.dynamic_stop_loss is not None else None,
+            'stop_loss_type': self.stop_loss_type
         }
 
 

@@ -3,9 +3,9 @@ Risk management controls.
 Implements position sizing, stop-loss checking, and portfolio constraints.
 """
 
-from decimal import Decimal
-from typing import List
 from dataclasses import dataclass
+from decimal import Decimal
+from typing import List, Optional
 
 
 @dataclass
@@ -186,3 +186,79 @@ def calculate_portfolio_concentration(
             concentration[position.stock_code] = 0.0
 
     return concentration
+
+
+def calculate_dynamic_stop_loss(
+    entry_price: Decimal,
+    atr_value: Optional[float],
+    atr_multiplier: float = 2.0,
+    fixed_stop_loss_percent: Decimal = Decimal('5')
+) -> Decimal:
+    """
+    Calculate stop-loss price using ATR-based dynamic method or fixed percentage.
+
+    ATR-based stop-loss adapts to market volatility:
+    - High volatility stocks get wider stops (fewer false stops)
+    - Low volatility stocks get tighter stops (better protection)
+
+    Args:
+        entry_price: Position entry price
+        atr_value: Average True Range value (None if unavailable)
+        atr_multiplier: Multiplier for ATR (default 2.0)
+        fixed_stop_loss_percent: Fallback fixed percentage (default 5%)
+
+    Returns:
+        Stop-loss price (Decimal)
+
+    Examples:
+        >>> # High volatility: ATR = 2000, entry = 75000
+        >>> calculate_dynamic_stop_loss(Decimal('75000'), 2000.0, 2.0)
+        Decimal('71000')  # 75000 - (2000 * 2) = wider stop
+
+        >>> # Low volatility: ATR = 500, entry = 75000
+        >>> calculate_dynamic_stop_loss(Decimal('75000'), 500.0, 2.0)
+        Decimal('74000')  # 75000 - (500 * 2) = tighter stop
+
+        >>> # No ATR data: fallback to fixed 5%
+        >>> calculate_dynamic_stop_loss(Decimal('75000'), None, 2.0)
+        Decimal('71250')  # 75000 * 0.95
+    """
+    # Use ATR-based dynamic stop if available
+    if atr_value is not None and atr_value > 0:
+        atr_distance = Decimal(str(atr_value)) * Decimal(str(atr_multiplier))
+        stop_price = entry_price - atr_distance
+
+        # Ensure stop price is positive
+        if stop_price <= 0:
+            stop_price = entry_price * (Decimal('1') - fixed_stop_loss_percent / Decimal('100'))
+
+        return stop_price
+
+    # Fallback to fixed percentage stop-loss
+    return entry_price * (Decimal('1') - fixed_stop_loss_percent / Decimal('100'))
+
+
+def check_dynamic_stop_loss(
+    entry_price: Decimal,
+    current_price: Decimal,
+    stop_loss_price: Decimal
+) -> bool:
+    """
+    Check if position has hit dynamic stop-loss price.
+
+    Args:
+        entry_price: Original entry price
+        current_price: Current market price
+        stop_loss_price: Predetermined stop-loss price
+
+    Returns:
+        True if stop-loss triggered, False otherwise
+
+    Examples:
+        >>> check_dynamic_stop_loss(Decimal('75000'), Decimal('70000'), Decimal('71000'))
+        True  # Current price below stop
+
+        >>> check_dynamic_stop_loss(Decimal('75000'), Decimal('72000'), Decimal('71000'))
+        False  # Current price above stop
+    """
+    return current_price <= stop_loss_price

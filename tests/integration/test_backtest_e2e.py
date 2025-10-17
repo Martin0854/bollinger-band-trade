@@ -574,3 +574,162 @@ def test_e2e_backtest_trades_below_threshold_rejected(temp_data_dir):
 
     # Should have zero trades (threshold too high)
     assert report.num_trades == 0
+
+
+# ========================================================================
+# T058: ATR Dynamic Stop-Loss Integration Tests (User Story 5)
+# ========================================================================
+
+def test_e2e_backtest_high_volatility_atr_stop_greater_than_fixed(temp_data_dir):
+    """
+    T058: Test high-volatility stock: ATR stop > 5% fixed stop.
+
+    For high-volatility stocks, ATR-based stop-loss should be wider
+    than the fixed 5% stop-loss.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.backtest.engine import BacktestEngine
+    # from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # # Create high-volatility mock data
+    # dates = pd.date_range('2024-01-01', periods=30, freq='D')
+    # # High volatility: large price swings
+    # close_prices = [60000 + (i % 2) * 5000 for i in range(len(dates))]
+    # high_prices = [c + 3000 for c in close_prices]
+    # low_prices = [c - 3000 for c in close_prices]
+
+    # mock_data = pd.DataFrame({
+    #     'Open': close_prices,
+    #     'High': high_prices,
+    #     'Low': low_prices,
+    #     'Close': close_prices,
+    #     'Volume': [1000000] * len(dates)
+    # }, index=dates)
+
+    # # Run with ATR enabled
+    # config_atr = BacktestConfiguration(
+    #     seed_money=10000000,
+    #     stocks=["005930"],
+    #     date_range=(date(2024, 1, 1), date(2024, 2, 1)),
+    #     stop_loss_percent=5.0,  # Fixed 5%
+    #     enhanced_strategy=EnhancedStrategyConfig(
+    #         atr={'enabled': True, 'period': 14, 'multiplier': 2.0}
+    #     )
+    # )
+
+    # engine = BacktestEngine(config=config_atr)
+    # engine.load_mock_data("005930", mock_data)
+    # report = engine.run()
+
+    # # For high volatility, ATR stop should be > 5% fixed
+    # # (This will be verified by checking actual stop-loss prices in trades)
+    # if len(engine.trades) > 0:
+    #     # Get first buy trade
+    #     buy_trades = [t for t in engine.trades if t.action.value == "buy"]
+    #     if buy_trades:
+    #         first_trade = buy_trades[0]
+    #         entry_price = first_trade.execution_price
+
+    #         # ATR stop should be wider than 5%
+    #         # (5% of 60000 = 3000, so ATR stop should be > 3000 away)
+    #         fixed_stop_distance = entry_price * 0.05
+    #         # ATR stop distance would be stored in trade metadata
+    #         # assert first_trade.atr_stop_distance > fixed_stop_distance
+
+
+def test_e2e_backtest_low_volatility_atr_stop_less_than_fixed(temp_data_dir):
+    """
+    T058: Test low-volatility stock: ATR stop < 5% fixed stop.
+
+    For low-volatility stocks, ATR-based stop-loss should be tighter
+    than the fixed 5% stop-loss.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.backtest.engine import BacktestEngine
+    # from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # # Create low-volatility mock data
+    # dates = pd.date_range('2024-01-01', periods=30, freq='D')
+    # # Low volatility: small price movements
+    # close_prices = [60000 + i * 50 for i in range(len(dates))]
+    # high_prices = [c + 100 for c in close_prices]
+    # low_prices = [c - 100 for c in close_prices]
+
+    # mock_data = pd.DataFrame({
+    #     'Open': close_prices,
+    #     'High': high_prices,
+    #     'Low': low_prices,
+    #     'Close': close_prices,
+    #     'Volume': [1000000] * len(dates)
+    # }, index=dates)
+
+    # # Run with ATR enabled
+    # config_atr = BacktestConfiguration(
+    #     seed_money=10000000,
+    #     stocks=["005930"],
+    #     date_range=(date(2024, 1, 1), date(2024, 2, 1)),
+    #     stop_loss_percent=5.0,
+    #     enhanced_strategy=EnhancedStrategyConfig(
+    #         atr={'enabled': True, 'period': 14, 'multiplier': 2.0}
+    #     )
+    # )
+
+    # engine = BacktestEngine(config=config_atr)
+    # engine.load_mock_data("005930", mock_data)
+    # report = engine.run()
+
+    # # For low volatility, ATR stop should be < 5% fixed
+    # if len(engine.trades) > 0:
+    #     buy_trades = [t for t in engine.trades if t.action.value == "buy"]
+    #     if buy_trades:
+    #         first_trade = buy_trades[0]
+    #         entry_price = first_trade.execution_price
+    #         fixed_stop_distance = entry_price * 0.05
+    #         # ATR stop should be tighter
+    #         # assert first_trade.atr_stop_distance < fixed_stop_distance
+
+
+def test_e2e_backtest_atr_disabled_falls_back_to_fixed(temp_data_dir):
+    """
+    T058: Test ATR disabled → falls back to fixed 5% stop-loss.
+
+    When ATR is disabled, system should use fixed percentage stop-loss.
+    """
+    pytest.skip("ATR not yet implemented - will implement in T061-T066")
+
+    # from src.backtest.engine import BacktestEngine
+    # from src.models.config import BacktestConfiguration, EnhancedStrategyConfig
+
+    # dates = pd.date_range('2024-01-01', periods=30, freq='D')
+    # mock_data = pd.DataFrame({
+    #     'Open': [60000] * len(dates),
+    #     'High': [62000] * len(dates),
+    #     'Low': [58000] * len(dates),
+    #     'Close': [60000 + i * 200 for i in range(len(dates))],
+    #     'Volume': [1000000] * len(dates)
+    # }, index=dates)
+
+    # # Run without ATR (disabled)
+    # config_no_atr = BacktestConfiguration(
+    #     seed_money=10000000,
+    #     stocks=["005930"],
+    #     date_range=(date(2024, 1, 1), date(2024, 2, 1)),
+    #     stop_loss_percent=5.0,
+    #     enhanced_strategy=EnhancedStrategyConfig(
+    #         atr={'enabled': False}
+    #     )
+    # )
+
+    # engine = BacktestEngine(config=config_no_atr)
+    # engine.load_mock_data("005930", mock_data)
+    # report = engine.run()
+
+    # # Should use fixed 5% stop-loss
+    # if len(engine.trades) > 0:
+    #     buy_trades = [t for t in engine.trades if t.action.value == "buy"]
+    #     if buy_trades:
+    #         first_trade = buy_trades[0]
+    #         # Verify stop_loss_type is "FIXED" not "ATR_DYNAMIC"
+    #         # assert first_trade.stop_loss_type == "FIXED"

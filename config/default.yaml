@@ -36,3 +36,70 @@ initial_positions: {}
 #   "005930":
 #     quantity: 10
 #     purchase_price: 60000
+
+# ========================================================================
+# Enhanced Strategy Configuration (Optional - Phase 1-4 Features)
+# ========================================================================
+#
+# IMPORTANT: This section is OPTIONAL for backward compatibility.
+# If not specified, the system uses traditional Bollinger Band strategy only.
+#
+# To enable enhanced features, uncomment and configure below:
+#
+# enhanced_strategy:
+#   # Volume Filter (Phase 1 - User Story 1)
+#   # Filters signals based on volume spike detection
+#   volume_filter:
+#     enabled: false            # Set to true to enable
+#     window_days: 20           # 20-day rolling average
+#     multiplier: 1.5           # Require 1.5x average volume
+#
+#   # RSI Filter (Phase 1 - User Story 2)
+#   # Avoids overbought/oversold entry points
+#   rsi:
+#     enabled: false            # Set to true to enable
+#     period: 14                # Standard 14-day RSI
+#     overbought: 70            # Avoid entry when RSI >= 70
+#     oversold: 30              # Oversold threshold
+#
+#   # MACD Filter (Phase 2 - User Story 3)
+#   # Confirms trend direction before entry
+#   macd:
+#     enabled: false            # Set to true to enable
+#     fast_period: 12           # Standard fast EMA
+#     slow_period: 26           # Standard slow EMA
+#     signal_period: 9          # Signal line EMA
+#
+#   # ATR Dynamic Stop-Loss (Phase 4 - User Story 5)
+#   # Adapts stop-loss to market volatility
+#   atr:
+#     enabled: false            # Set to true to enable
+#     period: 14                # 14-day ATR calculation
+#     multiplier: 2.0           # Stop distance = ATR * 2.0
+#
+#   # Confidence Scoring (Phase 3 - User Story 4)
+#   # Multi-indicator signal quality assessment
+#   confidence:
+#     threshold: 60             # Minimum score to enter (0-100)
+#     scoring:
+#       base_score: 25          # Bollinger breakout base
+#       volume_score: 25        # Volume filter pass
+#       rsi_score: 20           # RSI filter pass
+#       macd_score: 30          # MACD filter pass
+#
+# ========================================================================
+# Quick Start Examples (Uncomment one to try)
+# ========================================================================
+#
+# Example 1: Phase 1 MVP (Volume + RSI)
+# Copy config/examples/phase1_volume_rsi.yaml
+#
+# Example 2: Phase 2 (Volume + RSI + MACD)
+# Copy config/examples/phase2_with_macd.yaml
+#
+# Example 3: Phase 3 (All filters + Confidence)
+# Copy config/examples/phase3_confidence.yaml
+#
+# Example 4: Phase 4 Full Strategy (All + ATR)
+# Copy config/examples/phase4_dynamic_stop.yaml
+#

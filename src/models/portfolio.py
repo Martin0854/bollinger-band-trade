@@ -4,10 +4,9 @@ Implements portfolio management with positions, cash tracking, and equity curve.
 """
 
 from dataclasses import dataclass, field
-from decimal import Decimal
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional
-import re
+from decimal import Decimal
+from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -22,6 +21,7 @@ class Position:
         purchase_date: Date when position was opened
         entry_reason: Reason for entering position (e.g., "squeeze_expansion_buy")
         current_price: Current market price (updated during backtest)
+        dynamic_stop_loss: Optional ATR-based stop-loss price (Phase 4)
 
     Computed Properties:
         cost_basis: Total cost = quantity * purchase_price
@@ -35,6 +35,8 @@ class Position:
     purchase_date: datetime
     entry_reason: str
     current_price: Decimal = field(default=None)
+    dynamic_stop_loss: Optional[Decimal] = field(default=None)
+    atr_value: Optional[float] = field(default=None)
 
     def __post_init__(self):
         """Validate position fields."""
@@ -86,12 +88,20 @@ class Position:
         """
         Check if position should be closed due to stop-loss.
 
+        Prioritizes dynamic stop-loss if set, otherwise uses fixed percentage.
+
         Args:
             stop_loss_percent: Stop-loss threshold (e.g., 5 for 5%)
 
         Returns:
-            True if current loss >= stop_loss_percent
+            True if current loss >= stop_loss_percent or price <= dynamic_stop_loss
         """
+        # Check dynamic stop-loss first (Phase 4: ATR-based)
+        if self.dynamic_stop_loss is not None:
+            if self.current_price <= self.dynamic_stop_loss:
+                return True
+
+        # Fallback to fixed percentage stop-loss
         loss_pct = abs(self.unrealized_pnl_pct)
 
         # If losing money and loss >= threshold

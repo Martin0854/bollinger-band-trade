@@ -3,14 +3,14 @@ Squeeze detection for Bollinger Bands (data-model.md Entity 6).
 Detects volatility contractions and direction bias.
 """
 
-import pandas as pd
-import numpy as np
-from decimal import Decimal
-from datetime import datetime
-from typing import Optional
-from dataclasses import dataclass
-from enum import Enum
 import uuid
+from dataclasses import dataclass
+from datetime import datetime
+from decimal import Decimal
+from enum import Enum
+from typing import Optional
+
+import pandas as pd
 
 
 class DirectionBias(str, Enum):

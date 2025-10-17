@@ -4,10 +4,9 @@ Command-line interface for the Bollinger Band backtester.
 
 import argparse
 import sys
-from pathlib import Path
 
-from src.models.config import BacktestConfiguration
 from src.backtest.engine import BacktestEngine
+from src.models.config import BacktestConfiguration
 from src.utils.logging import setup_logging
 
 
@@ -65,7 +64,7 @@ def run_backtest(args):
         print(f"Loading configuration from: {args.config}")
         config = BacktestConfiguration.from_yaml(args.config)
 
-        print(f"Configuration loaded:")
+        print("Configuration loaded:")
         print(f"  - Seed money: {config.seed_money:,} KRW")
         print(f"  - Stocks: {', '.join(config.stocks)}")
         print(f"  - Date range: {config.date_range[0]} to {config.date_range[1]}")
@@ -95,7 +94,7 @@ def run_backtest(args):
 
         print("\n✓ Backtest completed successfully")
 
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         print(f"Error: Configuration file not found: {args.config}")
         sys.exit(1)
 

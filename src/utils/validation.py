@@ -3,7 +3,6 @@ Defensive validation utilities per plan.md Principle VII.
 Fail-fast validation with structured error messages.
 """
 
-from typing import List, Tuple
 import pandas as pd
 
 

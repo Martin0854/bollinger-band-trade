@@ -4,11 +4,13 @@ Wraps pandas DataFrame with validation and indicator storage.
 """
 
 from dataclasses import dataclass, field
-from decimal import Decimal
 from datetime import date
+from decimal import Decimal
 from typing import Optional
+
 import pandas as pd
-from src.utils.validation import validate_stock_code, validate_ohlcv_dataframe
+
+from src.utils.validation import validate_ohlcv_dataframe, validate_stock_code
 
 
 @dataclass

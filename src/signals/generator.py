@@ -4,14 +4,15 @@ Implements squeeze-based entry logic and band-touch exit logic.
 Enhanced with auxiliary indicator filters (Phase 1-4).
 """
 
-import pandas as pd
-from decimal import Decimal
-from datetime import datetime
-from typing import Optional, Dict
-from dataclasses import dataclass
-import pytz
-import uuid
 import logging
+from dataclasses import dataclass
+from datetime import datetime
+from decimal import Decimal
+from typing import Dict, Optional
+
+import pandas as pd
+
+from src.utils.logging import log_confidence_score, log_filter_result
 
 logger = logging.getLogger(__name__)
 
@@ -222,7 +223,8 @@ class EnhancedSignalGenerator:
     def check_volume_condition(
         self,
         current_volume: float,
-        avg_volume: float
+        avg_volume: float,
+        stock_code: str = ""
     ) -> bool:
         """
         Check if volume condition is met (FR-002, FR-006).
@@ -240,12 +242,22 @@ class EnhancedSignalGenerator:
         # Check volume spike
         passes = self.volume_filter.check_volume_spike(current_volume, avg_volume)
 
-        if not passes:
-            logger.debug("Signal filtered by volume condition")
+        # Log filter result with structured logging (T067)
+        multiplier = self.volume_filter.multiplier if self.volume_filter else 1.5
+        log_filter_result(
+            logger,
+            "Volume",
+            stock_code,
+            passes,
+            reason=f"volume {'≥' if passes else '<'} {multiplier}x average",
+            current_volume=current_volume,
+            avg_volume=avg_volume,
+            multiplier=multiplier
+        )
 
         return passes
 
-    def check_rsi_condition(self, rsi_value: Optional[float]) -> bool:
+    def check_rsi_condition(self, rsi_value: Optional[float], stock_code: str = "") -> bool:
         """
         Check if RSI condition is met (FR-004, FR-007).
 
@@ -261,18 +273,38 @@ class EnhancedSignalGenerator:
 
         if rsi_value is None or pd.isna(rsi_value):
             # Insufficient data (FR-007) - skip filter
-            logger.warning("RSI filter skipped: insufficient data (FR-007)")
+            logger.warning(
+                "RSI filter skipped: insufficient data (FR-007)",
+                extra={'stock_code': stock_code, 'filter': 'RSI'}
+            )
             return False
 
         # Check if RSI is neutral (not overbought/oversold)
         is_neutral = self.rsi_indicator.is_neutral(rsi_value)
 
-        if not is_neutral:
-            logger.debug(f"Signal filtered by RSI condition (RSI={rsi_value:.1f})")
+        # Determine reason for pass/fail
+        if rsi_value >= self.rsi_indicator.overbought:
+            reason = "overbought"
+        elif rsi_value <= self.rsi_indicator.oversold:
+            reason = "oversold"
+        else:
+            reason = "neutral zone"
+
+        # Log filter result with structured logging (T067)
+        log_filter_result(
+            logger,
+            "RSI",
+            stock_code,
+            is_neutral,
+            reason=reason,
+            rsi_value=rsi_value,
+            overbought=self.rsi_indicator.overbought,
+            oversold=self.rsi_indicator.oversold
+        )
 
         return is_neutral
 
-    def check_macd_condition(self, macd_histogram: Optional[float]) -> bool:
+    def check_macd_condition(self, macd_histogram: Optional[float], stock_code: str = "") -> bool:
         """
         Check if MACD condition is met (FR-009, FR-011).
 
@@ -294,14 +326,24 @@ class EnhancedSignalGenerator:
 
         if macd_histogram is None or pd.isna(macd_histogram):
             # Insufficient data (FR-011) - skip filter
-            logger.warning("MACD filter skipped: insufficient data (FR-011)")
+            logger.warning(
+                "MACD filter skipped: insufficient data (FR-011)",
+                extra={'stock_code': stock_code, 'filter': 'MACD'}
+            )
             return False
 
         # Check if MACD is bullish (histogram > 0)
         is_bullish = macd_histogram > 0
 
-        if not is_bullish:
-            logger.debug(f"Signal filtered by MACD condition (histogram={macd_histogram:.2f})")
+        # Log filter result with structured logging (T067)
+        log_filter_result(
+            logger,
+            "MACD",
+            stock_code,
+            is_bullish,
+            reason="bullish" if is_bullish else "bearish",
+            macd_histogram=macd_histogram
+        )
 
         return is_bullish
 
@@ -367,7 +409,7 @@ class EnhancedSignalGenerator:
         if self.volume_filter is None:
             volume_pass = True
         elif current_volume is not None and avg_volume is not None:
-            volume_pass = self.check_volume_condition(current_volume, avg_volume)
+            volume_pass = self.check_volume_condition(current_volume, avg_volume, stock_code)
             if not volume_pass:
                 # Volume filter enabled and failed
                 return None
@@ -380,7 +422,7 @@ class EnhancedSignalGenerator:
         if self.rsi_indicator is None:
             rsi_pass = True
         elif rsi_value is not None:
-            rsi_pass = self.check_rsi_condition(rsi_value)
+            rsi_pass = self.check_rsi_condition(rsi_value, stock_code)
             if not rsi_pass:
                 # RSI filter enabled and failed
                 return None
@@ -393,7 +435,7 @@ class EnhancedSignalGenerator:
         if self.macd_indicator is None:
             macd_pass = True
         elif macd_value is not None:
-            macd_pass = self.check_macd_condition(macd_value)
+            macd_pass = self.check_macd_condition(macd_value, stock_code)
             if not macd_pass:
                 # MACD filter enabled and failed
                 return None
@@ -406,12 +448,20 @@ class EnhancedSignalGenerator:
             volume_pass, rsi_pass, macd_pass
         )
 
-        # Check confidence threshold using SignalConfidence class
-        if not self.confidence.meets_threshold(confidence_score):
-            logger.info(
-                f"Signal filtered by confidence: score={confidence_score}, "
-                f"threshold={self.confidence.threshold}"
-            )
+        # Check confidence threshold using SignalConfidence class (with structured logging - T067)
+        meets_threshold = self.confidence.meets_threshold(confidence_score)
+        log_confidence_score(
+            logger,
+            stock_code,
+            confidence_score,
+            self.confidence.threshold,
+            volume_pass,
+            rsi_pass,
+            macd_pass,
+            meets_threshold
+        )
+
+        if not meets_threshold:
             return None
 
         # Create enhanced signal
@@ -432,9 +482,21 @@ class EnhancedSignalGenerator:
             dynamic_stop_loss=None  # Phase 4
         )
 
+        # Log signal generation with structured fields (T067)
         logger.info(
-            f"Enhanced signal generated: {signal_type} {stock_code} @ {price} "
-            f"(confidence={confidence_score}, volume={volume_pass}, rsi={rsi_pass}, macd={macd_pass})"
+            f"Enhanced signal generated: {signal_type} {stock_code} @ {price}",
+            extra={
+                'stock_code': stock_code,
+                'signal_type': signal_type,
+                'price': float(price),
+                'confidence_score': confidence_score,
+                'volume_pass': volume_pass,
+                'rsi_pass': rsi_pass,
+                'macd_pass': macd_pass,
+                'rsi_value': rsi_value,
+                'macd_value': macd_value,
+                'reason': reason
+            }
         )
 
         return enhanced_signal

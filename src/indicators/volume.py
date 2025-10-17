@@ -9,8 +9,9 @@ This module implements FR-001, FR-002, FR-006 from spec.md:
 - FR-006: Skip filter gracefully when volume data missing
 """
 
-import pandas as pd
 import logging
+
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 

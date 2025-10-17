@@ -3,12 +3,13 @@ Performance metrics calculation.
 Implements return, win rate, drawdown, and Sharpe ratio calculations.
 """
 
-import pandas as pd
-from decimal import Decimal
-from typing import List, Optional
 from dataclasses import dataclass
 from datetime import datetime
+from decimal import Decimal
+from typing import List, Optional
+
 import numpy as np
+import pandas as pd
 
 
 @dataclass
@@ -266,3 +267,274 @@ def calculate_metrics_from_trades(
         win_loss_ratio=calculate_avg_win_loss_ratio(realized_pnls),
         profit_factor=calculate_profit_factor(realized_pnls)
     )
+
+
+def analyze_filter_performance(trades: List) -> dict:
+    """
+    Analyze performance by filter pass/fail status (T072).
+
+    Compares trades that passed different filter combinations.
+
+    Args:
+        trades: List of Trade objects with filter data
+
+    Returns:
+        Dictionary with filter performance analysis
+    """
+    from collections import defaultdict
+
+    # Group buy trades by filter combinations
+    filter_combinations = defaultdict(list)
+
+    for trade in trades:
+        if trade.action.value == "buy":
+            # Create filter combo key
+            filters = []
+            if hasattr(trade, 'volume_pass') and trade.volume_pass:
+                filters.append('volume')
+            if hasattr(trade, 'rsi_pass') and trade.rsi_pass:
+                filters.append('rsi')
+            if hasattr(trade, 'macd_pass') and trade.macd_pass:
+                filters.append('macd')
+
+            combo = '+'.join(filters) if filters else 'baseline'
+            filter_combinations[combo].append(trade)
+
+    # Analyze each combination
+    results = {}
+    for combo, combo_trades in filter_combinations.items():
+        # Find corresponding sell trades
+        sell_trades = []
+        for buy_trade in combo_trades:
+            for trade in trades:
+                if (trade.action.value == "sell" and
+                    trade.stock_code == buy_trade.stock_code and
+                    trade.execution_timestamp > buy_trade.execution_timestamp):
+                    sell_trades.append(trade)
+                    break
+
+        # Calculate metrics for this combination
+        pnls = [t.realized_pnl for t in sell_trades if t.realized_pnl is not None]
+        if pnls:
+            win_count = sum(1 for pnl in pnls if pnl > 0)
+            results[combo] = {
+                'count': len(combo_trades),
+                'win_rate': (win_count / len(pnls)) * 100 if pnls else 0,
+                'avg_pnl': float(sum(pnls) / len(pnls))
+            }
+
+    return results
+
+
+def calculate_confidence_correlation(trades: List) -> Optional[float]:
+    """
+    Calculate correlation between confidence score and profit (T072: FR-014, SC-006).
+
+    Args:
+        trades: List of Trade objects with confidence_score and realized_pnl
+
+    Returns:
+        Pearson correlation coefficient, or None if insufficient data
+    """
+    # Extract buy-sell pairs with confidence scores
+    buy_trades = {}
+    for trade in trades:
+        if trade.action.value == "buy" and hasattr(trade, 'confidence_score'):
+            if trade.confidence_score is not None:
+                buy_trades[trade.stock_code] = trade
+
+    # Match with sell trades
+    pairs = []
+    for trade in trades:
+        if trade.action.value == "sell" and trade.stock_code in buy_trades:
+            buy = buy_trades[trade.stock_code]
+            if trade.realized_pnl is not None:
+                pairs.append({
+                    'confidence': buy.confidence_score,
+                    'pnl_pct': float(trade.realized_pnl / (buy.execution_price * buy.quantity) * 100)
+                })
+            # Remove to handle multiple round trips
+            del buy_trades[trade.stock_code]
+
+    if len(pairs) < 2:
+        return None
+
+    # Calculate Pearson correlation
+    confidences = [p['confidence'] for p in pairs]
+    pnl_pcts = [p['pnl_pct'] for p in pairs]
+
+    correlation = np.corrcoef(confidences, pnl_pcts)[0, 1]
+
+    return float(correlation) if not np.isnan(correlation) else None
+
+
+def generate_filter_comparison_report(trades: List, initial_capital: Decimal) -> str:
+    """
+    Generate filter comparison report (T072).
+
+    Args:
+        trades: List of Trade objects
+        initial_capital: Initial capital
+
+    Returns:
+        Formatted report string
+    """
+    lines = []
+    lines.append("=" * 80)
+    lines.append("📊 Filter Comparison Report")
+    lines.append("=" * 80)
+
+    # Filter performance analysis
+    filter_perf = analyze_filter_performance(trades)
+
+    if filter_perf:
+        lines.append("\n필터 조합별 성능:")
+        lines.append("-" * 80)
+        for combo, metrics in sorted(filter_perf.items(), key=lambda x: x[1]['win_rate'], reverse=True):
+            lines.append(f"\n{combo}:")
+            lines.append(f"  거래 수:     {metrics['count']}")
+            lines.append(f"  승률:       {metrics['win_rate']:.1f}%")
+            lines.append(f"  평균 손익:   ₩{metrics['avg_pnl']:+,.0f}")
+
+    # Confidence correlation
+    correlation = calculate_confidence_correlation(trades)
+    if correlation is not None:
+        lines.append("\n" + "=" * 80)
+        lines.append("📈 신뢰도 점수 vs 수익률 상관관계:")
+        lines.append(f"  Pearson 상관계수: {correlation:+.3f}")
+
+        if correlation > 0.3:
+            lines.append("  ✅ 강한 양의 상관관계 - 신뢰도가 높을수록 수익 증가")
+        elif correlation > 0:
+            lines.append("  ✓ 약한 양의 상관관계 - 신뢰도와 수익이 약간 연관")
+        elif correlation > -0.3:
+            lines.append("  ⚠️  약한 음의 상관관계 - 거의 무관")
+        else:
+            lines.append("  ❌ 강한 음의 상관관계 - 신뢰도 시스템 재검토 필요")
+
+    lines.append("\n" + "=" * 80)
+
+    return "\n".join(lines)
+
+
+def validate_backtest_results(
+    trades: List,
+    backtest_days: int,
+    enabled_filters: dict,
+    confidence_threshold: int,
+    initial_capital: Decimal
+) -> dict:
+    """
+    Validate backtest results and provide suggestions (T070, T071).
+    
+    Args:
+        trades: List of Trade objects
+        backtest_days: Number of days in backtest period
+        enabled_filters: Dict with 'volume', 'rsi', 'macd' boolean flags
+        confidence_threshold: Current confidence threshold
+        initial_capital: Starting capital
+        
+    Returns:
+        Dictionary with validation results and suggestions
+    """
+    validation = {
+        'warnings': [],
+        'suggestions': [],
+        'max_achievable_score': 100,
+        'current_threshold': confidence_threshold
+    }
+    
+    # T070: Check for long periods without signals (30+ days with no trades)
+    if len(trades) == 0:
+        validation['warnings'].append(
+            f"No trades generated during {backtest_days}-day backtest period"
+        )
+        
+        # Calculate max achievable score with current enabled filters
+        # Base score always included: 25
+        max_score = 25
+        filter_scores = {
+            'volume': 25,
+            'rsi': 20,
+            'macd': 30
+        }
+        
+        for filter_name, enabled in enabled_filters.items():
+            if enabled and filter_name in filter_scores:
+                max_score += filter_scores[filter_name]
+        
+        validation['max_achievable_score'] = max_score
+        
+        if confidence_threshold > max_score:
+            validation['suggestions'].append(
+                f"Confidence threshold ({confidence_threshold}) exceeds max achievable score ({max_score}). "
+                f"Lower threshold to {max_score} or less."
+            )
+        elif max_score < 100:
+            # Not all filters enabled
+            disabled_filters = [name for name, enabled in enabled_filters.items() if not enabled]
+            if disabled_filters:
+                validation['suggestions'].append(
+                    f"Consider enabling additional filters to increase max score: {', '.join(disabled_filters)}"
+                )
+        
+        # Always suggest lowering threshold if too high
+        if confidence_threshold >= 60:
+            validation['suggestions'].append(
+                f"Try lowering confidence threshold from {confidence_threshold} to 50 for more signals"
+            )
+    
+    elif backtest_days >= 30:
+        # Check for long gaps between trades
+        trade_dates = [t.execution_timestamp for t in trades]
+        trade_dates.sort()
+        
+        max_gap_days = 0
+        for i in range(1, len(trade_dates)):
+            gap = (trade_dates[i] - trade_dates[i-1]).days
+            if gap > max_gap_days:
+                max_gap_days = gap
+        
+        if max_gap_days >= 30:
+            validation['warnings'].append(
+                f"Maximum gap between trades: {max_gap_days} days (30+ days without signals)"
+            )
+            validation['suggestions'].append(
+                "Consider lowering confidence threshold or adjusting filter parameters for more frequent signals"
+            )
+    
+    # T071: Check for insufficient funds warnings (would require tracking rejected signals)
+    # This would be better implemented in the backtest engine itself
+    # For now, we can check if we have very few trades despite many signals
+    # (This requires the engine to track rejected signals, which we'll add separately)
+    
+    return validation
+
+
+def print_validation_report(validation: dict) -> None:
+    """Print validation report with warnings and suggestions (T070)."""
+    if not validation['warnings'] and not validation['suggestions']:
+        return
+    
+    lines = []
+    lines.append("\n" + "=" * 80)
+    lines.append("⚠️  Backtest Validation Report")
+    lines.append("=" * 80)
+    
+    if validation['warnings']:
+        lines.append("\n경고:")
+        for warning in validation['warnings']:
+            lines.append(f"  ⚠️  {warning}")
+    
+    if validation['suggestions']:
+        lines.append("\n권장사항:")
+        for suggestion in validation['suggestions']:
+            lines.append(f"  💡 {suggestion}")
+    
+    lines.append("\n설정 정보:")
+    lines.append(f"  현재 임계값: {validation['current_threshold']}/100")
+    lines.append(f"  최대 달성 가능 점수: {validation['max_achievable_score']}/100")
+    
+    lines.append("\n" + "=" * 80)
+    
+    print("\n".join(lines))

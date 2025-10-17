@@ -13,8 +13,8 @@ stocks:
 
 # Backtest Period
 date_range:
-  start: "2025-01-01"
-  end: "2025-09-30"
+  start: "2023-01-01"
+  end: "2023-12-31"
 
 # Bollinger Band Parameters (baseline strategy)
 bollinger_period: 20
@@ -69,10 +69,10 @@ enhanced_strategy:
     threshold: 60              # Minimum confidence to enter (0-100)
                                 # Try 50 for more trades, 70 for fewer but higher quality
     scoring:
-      base_score: 25           # Bollinger breakout base (always counted)
+      base_score: 30           # Bollinger breakout base (always counted)
       volume_score: 25         # Volume filter pass adds 25
       rsi_score: 20            # RSI filter pass adds 20
-      macd_score: 30           # MACD filter pass adds 30
+      macd_score: 25           # MACD filter pass adds 30
                                 # Total: 100 points max
 
 # ========================================================================

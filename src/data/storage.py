@@ -7,10 +7,11 @@ Implements:
 """
 
 import sqlite3
+from datetime import date
 from pathlib import Path
 from typing import Optional
+
 import pandas as pd
-from datetime import date
 
 
 def initialize_database(db_path: str = "data/logs/backtest.db") -> None:

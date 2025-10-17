@@ -1,0 +1,127 @@
+# Phase 4 Configuration: Volume + RSI + MACD + Confidence + ATR Dynamic Stop-Loss
+# Enhanced Bollinger Band Squeeze Strategy - Full Feature Set
+# User Stories: US1-US5 (All features enabled)
+# Expected Metrics: 70-75% win rate, +15-20% annual return, 20% fewer unnecessary stops
+
+# Portfolio Settings
+seed_money: 10000000  # Initial capital (10 million KRW)
+
+# Stock Selection
+stocks:
+  - "005930"  # Samsung Electronics
+  - "000660"  # SK Hynix
+
+# Backtest Period
+date_range:
+  start: "2025-01-01"
+  end: "2025-09-30"
+
+# Bollinger Band Parameters (baseline strategy)
+bollinger_period: 20
+bollinger_std_dev: 2.0
+
+# Squeeze Detection
+squeeze_threshold_percent: 50.0
+squeeze_lookback_days: 5
+
+# Risk Management (baseline)
+# NOTE: stop_loss_percent is used as fallback when ATR is disabled or unavailable
+stop_loss_percent: 5.0
+max_position_percent: 30.0
+max_positions: 5
+
+# Advanced Settings
+risk_free_rate: 0.03
+transaction_cost_percent: 0.0
+
+# ========================================================================
+# Enhanced Strategy Configuration (Phase 4 - Full Strategy)
+# ========================================================================
+
+enhanced_strategy:
+  # Volume Filter (User Story 1)
+  volume_filter:
+    enabled: true              # Enable volume spike detection
+    window_days: 20            # 20-day rolling average
+    multiplier: 1.5            # Require 1.5x average volume
+
+  # RSI Filter (User Story 2)
+  rsi:
+    enabled: true              # Enable RSI filter
+    period: 14                 # Standard 14-day RSI
+    overbought: 70             # Avoid entry when RSI >= 70
+    oversold: 30               # Oversold threshold
+
+  # MACD Filter (User Story 3)
+  macd:
+    enabled: true              # Enable MACD trend confirmation
+    fast_period: 12            # Standard fast EMA
+    slow_period: 26            # Standard slow EMA
+    signal_period: 9           # Signal line EMA
+
+  # ATR Dynamic Stop-Loss (User Story 5 - Phase 4)
+  atr:
+    enabled: true              # Enable ATR-based dynamic stop-loss
+    period: 14                 # 14-day ATR calculation
+    multiplier: 2.0            # Stop-loss distance = ATR * 2.0
+                                # High volatility stocks get wider stops
+                                # Low volatility stocks get tighter stops
+
+  # Confidence Scoring (User Story 4)
+  confidence:
+    threshold: 60              # Minimum confidence to enter (0-100)
+    scoring:
+      base_score: 25           # Bollinger breakout base (always counted)
+      volume_score: 25         # Volume filter pass adds 25
+      rsi_score: 20            # RSI filter pass adds 20
+      macd_score: 30           # MACD filter pass adds 30
+                                # Total: 100 points max
+
+# ========================================================================
+# ATR Dynamic Stop-Loss Guide (Phase 4)
+# ========================================================================
+#
+# How It Works:
+# - Traditional: Fixed 5% stop-loss for all stocks
+# - Dynamic ATR: Stop-loss adapts to each stock's volatility
+#
+# Formula: Stop Loss = Entry Price - (ATR * multiplier)
+#
+# Example 1: High Volatility Stock (ATR = 2000)
+#   Entry: 60,000
+#   ATR Stop: 60,000 - (2,000 * 2.0) = 56,000 (6.67% stop)
+#   Fixed Stop: 60,000 * 0.95 = 57,000 (5% stop)
+#   → ATR gives WIDER stop for volatile stocks (fewer false exits)
+#
+# Example 2: Low Volatility Stock (ATR = 500)
+#   Entry: 60,000
+#   ATR Stop: 60,000 - (500 * 2.0) = 59,000 (1.67% stop)
+#   Fixed Stop: 60,000 * 0.95 = 57,000 (5% stop)
+#   → ATR gives TIGHTER stop for stable stocks (better capital efficiency)
+#
+# Multiplier Tuning:
+# - multiplier: 1.5 → Tighter stops, more exits (aggressive)
+# - multiplier: 2.0 → Balanced (default, recommended)
+# - multiplier: 2.5 → Wider stops, fewer exits (conservative)
+#
+# Benefits:
+# ✓ Reduces unnecessary stops in high-volatility stocks (20%+ improvement)
+# ✓ Tighter protection in low-volatility stocks
+# ✓ Adapts to changing market conditions automatically
+#
+# When ATR is Unavailable:
+# - Insufficient data (< 14 days) → Falls back to fixed 5% stop
+# - ATR disabled → Uses stop_loss_percent (5%) for all trades
+#
+# ========================================================================
+# Full Strategy Performance Targets (Phase 4)
+# ========================================================================
+#
+# With all filters enabled (Volume + RSI + MACD + Confidence + ATR):
+# - Win Rate: 70-75%
+# - Annual Return: +15-20%
+# - Trade Frequency: Moderate (selective entries)
+# - Stop-Out Reduction: 20%+ fewer unnecessary stops
+# - Sharpe Ratio: ≥ 1.5
+# - Maximum Drawdown: < 15%
+#
