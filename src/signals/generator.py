@@ -40,8 +40,8 @@ class Signal:
     def __post_init__(self):
         """Validate signal fields."""
         # Validate stock_code
-        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
-            raise ValueError(f"Invalid stock_code: {self.stock_code}")
+        from src.utils.validation import validate_stock_code
+        validate_stock_code(self.stock_code)
 
         # Validate price
         if self.price <= 0:

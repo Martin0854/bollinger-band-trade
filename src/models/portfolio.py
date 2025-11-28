@@ -40,11 +40,9 @@ class Position:
 
     def __post_init__(self):
         """Validate position fields."""
-        # Validate stock_code: exactly 6 digits
-        if not (self.stock_code.isdigit() and len(self.stock_code) == 6):
-            raise ValueError(
-                f"stock_code must be exactly 6 digits, got: '{self.stock_code}'"
-            )
+        # Validate stock_code
+        from src.utils.validation import validate_stock_code
+        validate_stock_code(self.stock_code)
 
         # Validate quantity > 0
         if self.quantity <= 0:

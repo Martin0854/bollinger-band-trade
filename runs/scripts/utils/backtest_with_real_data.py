@@ -11,25 +11,36 @@ from src.backtest.engine import BacktestEngine
 
 
 def fetch_stock_data(stock_code, start_date, end_date):
-    """Yahoo Finance에서 한국 주식 데이터 가져오기"""
-    # .KS = KOSPI, .KQ = KOSDAQ
-    ticker = f"{stock_code}.KS"
-
-    print(f"📥 {stock_code} 데이터 다운로드 중...", end=" ")
-
+    """Yahoo Finance에서 주식 데이터 가져오기 (한국/미국 지원)"""
+    
     try:
-        df = yf.download(ticker, start=start_date, end=end_date, progress=False)
-
-        if df.empty:
-            # KOSPI에 없으면 KOSDAQ 시도
-            ticker = f"{stock_code}.KQ"
+        df = pd.DataFrame()
+        
+        # 한국 주식 (6자리 숫자)
+        if stock_code.isdigit() and len(stock_code) == 6:
+            # .KS = KOSPI
+            ticker = f"{stock_code}.KS"
+            print(f"📥 {stock_code} (KOSPI) 데이터 다운로드 중...", end=" ")
+            df = yf.download(ticker, start=start_date, end=end_date, progress=False)
+            
+            if df.empty:
+                # KOSDAQ 시도
+                ticker = f"{stock_code}.KQ"
+                print(f"\n   ↪ KOSDAQ({ticker}) 재시도...", end=" ")
+                df = yf.download(ticker, start=start_date, end=end_date, progress=False)
+                
+        # 미국 주식 (알파벳 티커)
+        else:
+            ticker = stock_code.upper()
+            print(f"📥 {ticker} (US) 데이터 다운로드 중...", end=" ")
             df = yf.download(ticker, start=start_date, end=end_date, progress=False)
 
         if df.empty:
             raise ValueError(f"데이터를 찾을 수 없습니다.")
 
         # 컬럼 정리
-        df.columns = df.columns.get_level_values(0)
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
 
         result = pd.DataFrame({
             'Open': df['Open'],

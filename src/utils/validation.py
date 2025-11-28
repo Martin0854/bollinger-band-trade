@@ -13,7 +13,9 @@ class ValidationError(Exception):
 
 def validate_stock_code(code: str) -> str:
     """
-    Validate Korean stock code format (6 digits).
+    Validate stock code format.
+    - Korean: 6 digits
+    - US: 1-5 uppercase letters
 
     Args:
         code: Stock code to validate
@@ -27,13 +29,19 @@ def validate_stock_code(code: str) -> str:
     if not isinstance(code, str):
         raise ValidationError(f"Stock code must be string, got {type(code).__name__}")
 
-    if not (code.isdigit() and len(code) == 6):
-        raise ValidationError(
-            f"Invalid stock code: '{code}'. "
-            f"Korean stock codes must be exactly 6 digits (e.g., '005930')"
-        )
+    # Check for Korean stock code (6 digits)
+    if code.isdigit() and len(code) == 6:
+        return code
 
-    return code
+    # Check for US stock ticker (1-5 uppercase letters)
+    # Allowing some flexibility for tickers like BRK.B
+    if code.replace('.', '').isalpha() and 1 <= len(code) <= 10:
+        return code.upper()
+
+    raise ValidationError(
+        f"Invalid stock code: '{code}'. "
+        f"Must be 6 digits (Korea) or alphabetic ticker (US)"
+    )
 
 
 def validate_ohlcv_dataframe(df: pd.DataFrame, stock_code: str) -> None:

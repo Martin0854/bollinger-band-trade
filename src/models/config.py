@@ -213,13 +213,10 @@ class BacktestConfiguration(BaseModel):
     @field_validator('stocks')
     @classmethod
     def validate_stock_codes(cls, v: List[str]) -> List[str]:
-        """Validate that all stock codes are exactly 6 digits (Korean market format)."""
+        """Validate stock codes (Korean or US)."""
+        from src.utils.validation import validate_stock_code
         for code in v:
-            if not (code.isdigit() and len(code) == 6):
-                raise ValueError(
-                    f"Invalid stock code: '{code}'. "
-                    f"Korean stock codes must be exactly 6 digits (e.g., '005930')"
-                )
+            validate_stock_code(code)
         return v
 
     @field_validator('date_range')
