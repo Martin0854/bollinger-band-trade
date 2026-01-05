@@ -207,7 +207,11 @@ class SignalScanner:
         if not self._cache and self.use_cache:
             try:
                 from src.wizard.data_cache import load_cache, is_cache_valid
-                if is_cache_valid(max_age_hours=24):
+                # Use cache if valid within 7 days (avoid yfinance rate limits)
+                if is_cache_valid(max_age_hours=168):
+                    self._cache = load_cache()
+                else:
+                    # Try loading anyway - stale data is better than no data
                     self._cache = load_cache()
             except Exception:
                 pass
