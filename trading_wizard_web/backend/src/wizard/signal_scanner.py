@@ -74,10 +74,15 @@ def get_stock_name(stock_code: str) -> str:
 
 def load_kospi_top100(filepath: str = "kospi_top100.txt") -> List[str]:
     """Load KOSPI Top 100 stock codes from file."""
+    # In Docker container: /app/src/wizard/signal_scanner.py -> /app/data/
+    # Parent chain: wizard -> src -> app (3 levels up)
+    app_root = Path(__file__).parent.parent.parent  # /app in container
+
     possible_paths = [
-        Path(filepath),
-        Path("data") / filepath,
-        Path(__file__).parent.parent.parent.parent.parent / filepath,
+        app_root / "data" / filepath,  # /app/data/kospi_top100.txt (Docker)
+        Path("data") / filepath,  # Relative to cwd
+        Path(filepath),  # Current directory
+        Path(__file__).parent.parent.parent.parent.parent / filepath,  # Legacy
         Path(__file__).parent.parent.parent.parent.parent / "data" / filepath,
     ]
 
@@ -91,7 +96,7 @@ def load_kospi_top100(filepath: str = "kospi_top100.txt") -> List[str]:
                 ]
             return [s for s in stocks if s][:100]
 
-    raise FileNotFoundError(f"Could not find {filepath} in any expected location")
+    raise FileNotFoundError(f"Could not find {filepath} in any expected location. Tried: {[str(p) for p in possible_paths]}")
 
 
 def fetch_stock_data(stock_code: str, days: int = 60) -> Optional[pd.DataFrame]:
