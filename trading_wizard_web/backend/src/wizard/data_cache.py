@@ -18,10 +18,10 @@ import yfinance as yf
 from src.wizard.signal_scanner import load_kospi_top100, calculate_indicators
 
 # Cache directory
-# In Docker: /app/src/wizard/data_cache.py -> /app/data/cache
+# In Docker: /app/cache (separate from /app/data for PVC isolation)
 # Parent chain: wizard -> src -> app (3 levels up)
 APP_ROOT = Path(__file__).parent.parent.parent  # /app in container
-CACHE_DIR = APP_ROOT / "data" / "cache"
+CACHE_DIR = APP_ROOT / "cache"
 CACHE_FILE = CACHE_DIR / "stock_data_cache.pkl"
 CACHE_META_FILE = CACHE_DIR / "cache_meta.json"
 

@@ -20,6 +20,9 @@ COPY alembic.ini .
 # Copy data files (kospi_top100.txt, stock_names_kr.json)
 COPY data/ ./data/
 
+# Copy cache files to separate directory (pre-built stock data cache)
+COPY data/cache/ ./cache/
+
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
