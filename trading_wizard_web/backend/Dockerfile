@@ -17,8 +17,8 @@ COPY src/ ./src/
 COPY alembic/ ./alembic/
 COPY alembic.ini .
 
-# Create data directory
-RUN mkdir -p /app/data
+# Copy data files (kospi_top100.txt, stock_names_kr.json)
+COPY data/ ./data/
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1
