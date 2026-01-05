@@ -1,0 +1,7 @@
+# Trading Wizard Web - Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: trading-wizard
+  labels:
+    app: trading-wizard
