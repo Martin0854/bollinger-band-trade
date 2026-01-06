@@ -92,6 +92,36 @@ class ApiClient {
   async delete<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, { method: 'DELETE' });
   }
+
+  async upload<T>(endpoint: string, formData: FormData): Promise<T> {
+    const headers: Record<string, string> = {};
+
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error: ApiError = {
+        detail: 'An error occurred',
+        status: response.status,
+      };
+      try {
+        const errorData = await response.json();
+        error.detail = errorData.detail || error.detail;
+      } catch {
+        // Ignore JSON parse errors
+      }
+      throw error;
+    }
+
+    return response.json();
+  }
 }
 
 // Singleton instance

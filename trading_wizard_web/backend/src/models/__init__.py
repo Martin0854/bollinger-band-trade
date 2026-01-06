@@ -6,6 +6,7 @@ from src.models.portfolio import Portfolio
 from src.models.position import Position
 from src.models.trade import Trade, TradeAction
 from src.models.backtest import BacktestResult
+from src.models.stock_list import StockList
 
 __all__ = [
     "BaseModel",
@@ -16,4 +17,5 @@ __all__ = [
     "Trade",
     "TradeAction",
     "BacktestResult",
+    "StockList",
 ]

@@ -119,7 +119,7 @@ class BacktestService:
         logger.info(f"Starting backtest: {start_date} to {end_date}")
 
         # Load stock list
-        stock_codes = self._load_stock_list(stock_list_name)
+        stock_codes = self._load_stock_list(stock_list_name, user_id)
         stock_names = stock_service.get_all_stock_names()
 
         # Fetch data
@@ -179,9 +179,24 @@ class BacktestService:
         logger.info(f"Backtest completed: {metrics['total_return_pct']:.2f}% return")
         return result
 
-    def _load_stock_list(self, stock_list_name: str) -> list[str]:
-        """Load stock list from file."""
-        # Try multiple paths
+    def _load_stock_list(self, stock_list_name: str, user_id: str) -> list[str]:
+        """Load stock list from database or file.
+
+        First checks if stock_list_name is a custom list ID or name,
+        then falls back to file-based lists.
+        """
+        from src.models.stock_list import StockList
+
+        # Try to load from database first (by ID or name)
+        stock_list = self.db.query(StockList).filter(
+            StockList.user_id == user_id,
+            (StockList.id == stock_list_name) | (StockList.name == stock_list_name)
+        ).first()
+
+        if stock_list:
+            return stock_list.get_stock_codes_list()[:100]
+
+        # Fall back to file-based stock lists
         filename = f"{stock_list_name}.txt"
         possible_paths = [
             Path(f"data/{filename}"),

@@ -29,8 +29,7 @@ class BacktestRunRequest(BaseModel):
     end_date: date = Field(..., description="Backtest end date (YYYY-MM-DD)")
     stock_list: str = Field(
         ...,
-        description="Stock list name (e.g., kospi_top100_2025jan)",
-        pattern=r"^kospi_top100_\d{4}jan$",
+        description="Stock list name (e.g., kospi_top100_2025jan) or custom list ID/name",
     )
     initial_capital: float = Field(1_000_000, gt=0, description="Initial capital (KRW)")
     name: Optional[str] = Field(None, max_length=100, description="Backtest name")
