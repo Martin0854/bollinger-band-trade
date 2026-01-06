@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { Button, Card } from '../components/common';
 import {
   PortfolioSummaryCard,
@@ -38,14 +37,16 @@ interface PortfolioSummary {
   total_unrealized_pnl?: number;
 }
 
+const REFRESH_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+
 export default function DashboardPage() {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const [summary, setSummary] = useState<PortfolioSummary | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [includePrices, setIncludePrices] = useState(false);
+  const [includePrices, setIncludePrices] = useState(true); // Default to true for current prices
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const fetchPortfolio = useCallback(async () => {
     setIsLoading(true);
@@ -56,6 +57,7 @@ export default function DashboardPage() {
         `/portfolio?include_prices=${includePrices}`
       );
       setSummary(data);
+      setLastUpdated(new Date());
     } catch (err) {
       console.error('Failed to fetch portfolio:', err);
       setError('포트폴리오를 불러오는데 실패했습니다');
@@ -64,9 +66,19 @@ export default function DashboardPage() {
     }
   }, [includePrices]);
 
+  // Initial fetch and auto-refresh every 30 minutes
   useEffect(() => {
     fetchPortfolio();
-  }, [fetchPortfolio]);
+
+    // Auto-refresh every 30 minutes when includePrices is enabled
+    if (includePrices) {
+      const intervalId = setInterval(() => {
+        fetchPortfolio();
+      }, REFRESH_INTERVAL_MS);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [fetchPortfolio, includePrices]);
 
   const handleRefresh = () => {
     fetchPortfolio();
@@ -76,25 +88,18 @@ export default function DashboardPage() {
     setIncludePrices((prev) => !prev);
   };
 
+  const formatLastUpdated = () => {
+    if (!lastUpdated) return '';
+    return lastUpdated.toLocaleTimeString('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-800">Trading Wizard</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
-              {user?.fingerprint ? `${user.fingerprint.slice(0, 8)}...` : ''}
-            </span>
-            <Button variant="secondary" size="sm" onClick={logout}>
-              로그아웃
-            </Button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Controls */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
@@ -113,9 +118,15 @@ export default function DashboardPage() {
               className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800"
               disabled={isLoading}
             >
-              ↻ 새로고침
+              {isLoading ? '⟳' : '↻'} 새로고침
             </button>
           </div>
+          {lastUpdated && (
+            <div className="text-sm text-gray-500">
+              마지막 갱신: {formatLastUpdated()}
+              {includePrices && <span className="ml-2 text-xs">(30분마다 자동 갱신)</span>}
+            </div>
+          )}
         </div>
 
         {error && (
@@ -146,21 +157,21 @@ export default function DashboardPage() {
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => alert('Coming soon')}
+                onClick={() => navigate('/history')}
               >
                 거래 이력
               </Button>
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => alert('Coming soon')}
+                onClick={() => navigate('/backtest')}
               >
                 백테스트
               </Button>
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => alert('Coming soon')}
+                onClick={() => navigate('/settings')}
               >
                 설정
               </Button>

@@ -175,16 +175,37 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def calculate_confidence_score(
-    volume_pass: bool, rsi_pass: bool, macd_pass: bool
-) -> int:
-    """Calculate signal confidence score (0-100 points)."""
-    score = 25  # Base score for Bollinger breakout
-    if volume_pass:
-        score += 25
-    if rsi_pass:
-        score += 20
-    if macd_pass:
-        score += 30
+    volume_ratio: float, rsi: float, macd_histogram: float, macd_signal: float
+) -> float:
+    """
+    Calculate signal confidence score (0-100 points) with continuous scoring.
+
+    Scoring:
+        - Base (Bollinger breakout): 25 points
+        - Volume (0-25): Linear scale from 1.0x to 2.0x
+        - RSI (0-20): Peak at 50, decreases toward 30/70
+        - MACD (0-30): Based on histogram strength relative to signal
+    """
+    score = 25.0  # Base score for Bollinger breakout
+
+    # Volume Score (0-25점)
+    if volume_ratio > 1.0:
+        vol_score = min(25.0, (volume_ratio - 1.0) * 25.0)
+        score += vol_score
+
+    # RSI Score (0-20점)
+    if 30 <= rsi <= 70:
+        distance = abs(rsi - 50)
+        rsi_score = 20.0 * (1 - distance / 20.0)
+        score += rsi_score
+
+    # MACD Score (0-30점)
+    if macd_histogram > 0:
+        macd_signal_abs = abs(macd_signal) if macd_signal != 0 else 0.001
+        macd_ratio = min(macd_histogram / macd_signal_abs, 1.0)
+        macd_score = 30.0 * macd_ratio
+        score += macd_score
+
     return score
 
 
@@ -255,12 +276,14 @@ class SignalScanner:
             price_breakout = latest["Close"] > latest["BB_Upper"]
             was_in_squeeze = df["In_Squeeze"].iloc[-5:-1].any()
             bandwidth_expanding = latest["BB_Width"] > df["BB_Width"].iloc[-2]
-            volume_pass = latest["Volume_Ratio"] >= 1.5
-            rsi_pass = 30 <= latest["RSI"] <= 70
-            macd_pass = latest["MACD_Histogram"] > 0
 
             if price_breakout and (was_in_squeeze or bandwidth_expanding):
-                confidence = calculate_confidence_score(volume_pass, rsi_pass, macd_pass)
+                confidence = calculate_confidence_score(
+                    volume_ratio=float(latest["Volume_Ratio"]),
+                    rsi=float(latest["RSI"]),
+                    macd_histogram=float(latest["MACD_Histogram"]),
+                    macd_signal=float(latest["MACD_Signal"]),
+                )
 
                 if confidence >= self.confidence_threshold:
                     stock_name = get_stock_name(stock_code)
@@ -302,9 +325,6 @@ class SignalScanner:
         price_breakout = latest["Close"] > latest["BB_Upper"]
         was_in_squeeze = df["In_Squeeze"].iloc[-5:-1].any()
         bandwidth_expanding = latest["BB_Width"] > df["BB_Width"].iloc[-2]
-        volume_pass = latest["Volume_Ratio"] >= 1.5
-        rsi_pass = 30 <= latest["RSI"] <= 70
-        macd_pass = latest["MACD_Histogram"] > 0
 
         signal_type = "HOLD"
         reason = "no_signal"
@@ -313,7 +333,12 @@ class SignalScanner:
         if price_breakout and (was_in_squeeze or bandwidth_expanding):
             signal_type = "BUY"
             reason = "squeeze_breakout_buy"
-            confidence = calculate_confidence_score(volume_pass, rsi_pass, macd_pass)
+            confidence = calculate_confidence_score(
+                volume_ratio=float(latest["Volume_Ratio"]),
+                rsi=float(latest["RSI"]),
+                macd_histogram=float(latest["MACD_Histogram"]),
+                macd_signal=float(latest["MACD_Signal"]),
+            )
         elif latest["Close"] < latest["BB_Lower"]:
             signal_type = "SELL"
             reason = "lower_band_touch"

@@ -1,14 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { Navigation } from './components/common/Navigation';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import TradePage from './pages/TradePage';
+import { HistoryPage } from './pages/HistoryPage';
+import { BacktestPage } from './pages/BacktestPage';
+import { SettingsPage } from './pages/SettingsPage';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Navigation />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
@@ -24,6 +29,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <TradePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <HistoryPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/backtest"
+            element={
+              <ProtectedRoute>
+                <BacktestPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
               </ProtectedRoute>
             }
           />

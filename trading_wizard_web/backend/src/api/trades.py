@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import csv
+import io
 from datetime import date
 from decimal import Decimal
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -202,5 +205,92 @@ async def delete_trade(
 
     except ValidationError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e.message))
+    except NotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e.message))
+
+
+@router.get("/export", response_class=StreamingResponse)
+async def export_trades_csv(
+    stock_code: Optional[str] = Query(None, description="Filter by stock code"),
+    action: Optional[str] = Query(None, pattern=r"^(BUY|SELL)$", description="Filter by action"),
+    start_date: Optional[date] = Query(None, description="Filter from date"),
+    end_date: Optional[date] = Query(None, description="Filter to date"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Export trades to CSV file.
+
+    Returns a CSV file containing all trades matching the filter criteria.
+    """
+    try:
+        portfolio_service = PortfolioService(db)
+        portfolio = portfolio_service.get_portfolio(current_user.id)
+
+        # Build query
+        query = db.query(Trade).filter(Trade.portfolio_id == portfolio.id)
+
+        if stock_code:
+            query = query.filter(Trade.stock_code == stock_code)
+        if action:
+            query = query.filter(Trade.action == TradeAction(action))
+        if start_date:
+            query = query.filter(Trade.trade_date >= start_date)
+        if end_date:
+            query = query.filter(Trade.trade_date <= end_date)
+
+        trades = query.order_by(Trade.trade_date.desc(), Trade.created_at.desc()).all()
+
+        # Create CSV
+        output = io.StringIO()
+        writer = csv.writer(output)
+
+        # Header row
+        writer.writerow([
+            "거래일",
+            "종목코드",
+            "종목명",
+            "거래유형",
+            "수량",
+            "단가",
+            "거래금액",
+            "실현손익",
+            "거래사유",
+            "입력일시",
+        ])
+
+        # Data rows
+        for trade in trades:
+            writer.writerow([
+                trade.trade_date.isoformat(),
+                trade.stock_code,
+                trade.stock_name,
+                trade.action.value,
+                trade.quantity,
+                float(trade.price),
+                float(trade.total_amount),
+                float(trade.realized_pnl) if trade.realized_pnl else "",
+                trade.reason or "",
+                trade.created_at.isoformat(),
+            ])
+
+        output.seek(0)
+
+        # Generate filename with date range
+        filename_parts = ["trades"]
+        if start_date:
+            filename_parts.append(f"from_{start_date.isoformat()}")
+        if end_date:
+            filename_parts.append(f"to_{end_date.isoformat()}")
+        filename = "_".join(filename_parts) + ".csv"
+
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="text/csv",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}",
+                "Content-Type": "text/csv; charset=utf-8",
+            },
+        )
+
     except NotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e.message))

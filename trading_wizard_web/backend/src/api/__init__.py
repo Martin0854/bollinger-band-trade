@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from src.api import health, auth, trades, stocks, portfolio, positions, recommendations
+from src.api import health, auth, trades, stocks, portfolio, positions, recommendations, backtest, settings
 
 # Main API router
 api_router = APIRouter(prefix="/api")
@@ -15,3 +15,5 @@ api_router.include_router(stocks.router)
 api_router.include_router(portfolio.router)
 api_router.include_router(positions.router)
 api_router.include_router(recommendations.router)
+api_router.include_router(backtest.router)
+api_router.include_router(settings.router)

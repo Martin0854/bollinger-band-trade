@@ -5,3 +5,4 @@ metadata:
   name: trading-wizard
   labels:
     app: trading-wizard
+    istio-injection: enabled

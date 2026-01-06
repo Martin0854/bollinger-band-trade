@@ -10,7 +10,7 @@ interface Column<T> {
 interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
-  keyExtractor: (item: T) => string;
+  keyExtractor: (item: T, index: number) => string;
   emptyMessage?: string;
   isLoading?: boolean;
 }
@@ -52,8 +52,8 @@ export function Table<T>({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((item) => (
-            <tr key={keyExtractor(item)} className="hover:bg-gray-50">
+          {data.map((item, index) => (
+            <tr key={keyExtractor(item, index)} className="hover:bg-gray-50">
               {columns.map((column) => (
                 <td
                   key={String(column.key)}
