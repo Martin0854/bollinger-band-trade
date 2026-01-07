@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   confidence_threshold: 50,
   take_profit_enabled: true,
   take_profit_pct: 9,
-  take_profit_ratio: 0.5,
+  take_profit_ratio: 1.0,
   bollinger_period: 12,
   bollinger_std_dev: 1.3,
   squeeze_threshold_pct: 55,
@@ -263,7 +263,7 @@ export function SettingsForm({
                 onChange={(e) => handleChange('bollinger_period', Number(e.target.value))}
                 min={5}
                 max={200}
-                helperText="이동평균 계산 기간 (기본: 20일)"
+                helperText="이동평균 계산 기간 (기본: 12일)"
               />
             </div>
 
@@ -276,7 +276,7 @@ export function SettingsForm({
                 min={0.5}
                 max={5}
                 step={0.1}
-                helperText="밴드 폭 결정 배수 (기본: 2.0)"
+                helperText="밴드 폭 결정 배수 (기본: 1.3)"
               />
             </div>
 
@@ -290,7 +290,7 @@ export function SettingsForm({
                 onChange={(e) => handleChange('squeeze_threshold_pct', Number(e.target.value))}
                 min={5}
                 max={100}
-                helperText="밴드폭 감소율 기준 (기본: 30%)"
+                helperText="밴드폭 감소율 기준 (기본: 55%)"
               />
             </div>
 

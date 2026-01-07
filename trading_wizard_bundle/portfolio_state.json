@@ -1,31 +1,29 @@
 {
   "initial_capital": 1000000,
-  "cash_balance": 1000000,
-  "start_date": "2026-01-05",
-  "last_updated": "2026-01-04T22:51:48.733067",
-  "positions": [],
-  "trade_history": [],
-  "pending_orders": [
+  "cash_balance": 900000,
+  "start_date": "2026-01-06",
+  "last_updated": "2026-01-05T23:14:50.655827",
+  "positions": [
     {
-      "recommendation_date": "2026-01-04",
       "stock_code": "006800",
-      "stock_name": "미래에셋증권",
-      "action": "BUY",
-      "recommended_price": 24650.0,
       "quantity": 4,
-      "reason_detail": "[매수 추천] 006800 (미래에셋증권)\n\n1. 볼린저 밴드 상단 돌파 (Squeeze Breakout)\n   - 현재가 24,650원이 상단밴드 24,436원을 돌파\n   - 밴드폭: 18.57% (변동성 확대 중)\n\n2. 보조지표 분석\n   - RSI(67.2): 중립구간 ✓\n   - MACD(305.18): 상승추세 ✓\n   - 거래량(1.0x): 평균 수준\n\n3. 신뢰도 점수: 75/100\n   - 기본(25) + Volume(0) + RSI(20) + MACD(30)\n\n4. 포지션 사이징\n   - 추천 수량: 4주\n   - 투자금액: 98,600원 (포트폴리오의 9.9%)",
-      "indicators": {
-        "rsi": 67.19576719576719,
-        "macd_histogram": 305.1763382753562,
-        "volume_ratio": 0.9773903542737291,
-        "bb_width": 18.567314588618178,
-        "bb_upper": 24435.825771007512,
-        "bb_middle": 22360.0,
-        "bb_lower": 20284.174228992488
-      },
-      "actual_price": null,
-      "executed": false
+      "entry_price": 25000,
+      "entry_date": "2026-01-05",
+      "entry_reason": "squeeze_breakout_buy",
+      "confidence_score": null
     }
   ],
-  "last_run_output": "======================================================================\nDaily Trading Wizard - Recommendations\nGenerated: 2026-01-04 22:51:48\n======================================================================\n\n[PORTFOLIO SUMMARY]\n  Initial Capital:       1,000,000 KRW\n  Cash Balance:          1,000,000 KRW\n  Positions Value:               0 KRW\n  Total Value:           1,000,000 KRW\n  Total Return:       +       0.00%\n  Open Positions:                0 / 15\n  Unrealized PnL:     +          0 KRW\n  Realized PnL:       +          0 KRW\n\n----------------------------------------------------------------------\n[SELL RECOMMENDATIONS]\n  No SELL signals.\n\n----------------------------------------------------------------------\n[BUY RECOMMENDATIONS]\n----------------------------------------------------------------------\n  1. 006800 (미래에셋증권)\n     Confidence: 75/100\n     Price: 24,650 KRW\n     Quantity: 4, Total: 98,600 KRW\n     RSI: 67.2, MACD: 305.18, Vol: 1.0x\n\n======================================================================\nTo execute orders:\n1. Place orders tomorrow morning (market open)\n2. Edit portfolio_state.json with actual executed prices:\n   - Set \"actual_price\" to the executed price\n   - Set \"executed\" to true\n3. Run wizard again tomorrow after 3:30 PM\n======================================================================"
+  "trade_history": [
+    {
+      "date": "2026-01-05",
+      "stock_code": "006800",
+      "action": "BUY",
+      "price": 25000,
+      "quantity": 4,
+      "reason": "squeeze_breakout_buy",
+      "realized_pnl": null
+    }
+  ],
+  "pending_orders": [],
+  "last_run_output": "======================================================================\nDaily Trading Wizard - Recommendations\nGenerated: 2026-01-05 23:14:50\n======================================================================\n\n[PORTFOLIO SUMMARY]\n  Initial Capital:       1,000,000 KRW\n  Cash Balance:            900,000 KRW\n  Positions Value:         100,000 KRW\n  Total Value:           1,000,000 KRW\n  Total Return:       +       0.00%\n  Open Positions:                1 / 15\n  Unrealized PnL:     +          0 KRW\n  Realized PnL:       +          0 KRW\n\n----------------------------------------------------------------------\n[SELL RECOMMENDATIONS]\n  No SELL signals.\n\n----------------------------------------------------------------------\n[BUY RECOMMENDATIONS]\n  No BUY signals meeting criteria.\n======================================================================\nTo execute orders:\n1. Place orders tomorrow morning (market open)\n2. Edit portfolio_state.json with actual executed prices:\n   - Set \"actual_price\" to the executed price\n   - Set \"executed\" to true\n3. Run wizard again tomorrow after 3:30 PM\n======================================================================"
 }

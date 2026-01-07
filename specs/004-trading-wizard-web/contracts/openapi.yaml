@@ -1,0 +1,853 @@
+openapi: 3.1.0
+info:
+  title: Trading Wizard Web API
+  version: 1.0.0
+  description: |
+    볼린저 밴드 스퀴즈 전략 기반 한국 주식 매매 시스템 API.
+    PEM 키 기반 인증 (ECDSA P-256)으로 개인정보 미수집.
+
+servers:
+  - url: http://localhost:8000/api
+    description: Development server
+
+tags:
+  - name: auth
+    description: PEM 키 기반 인증
+  - name: portfolio
+    description: 포트폴리오 관리
+  - name: positions
+    description: 보유종목 조회
+  - name: trades
+    description: 거래 입력 및 이력
+  - name: backtest
+    description: 백테스트 실행 및 결과
+  - name: settings
+    description: 사용자 설정
+  - name: stocks
+    description: 종목 정보
+
+paths:
+  # ============================================================
+  # Authentication
+  # ============================================================
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: 신규 사용자 등록
+      description: ECDSA P-256 공개키를 등록하고 사용자 계정 생성
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [public_key]
+              properties:
+                public_key:
+                  type: string
+                  description: ECDSA P-256 공개키 (PEM 형식)
+                  example: |
+                    -----BEGIN PUBLIC KEY-----
+                    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE...
+                    -----END PUBLIC KEY-----
+                nickname:
+                  type: string
+                  maxLength: 50
+                  description: 표시용 닉네임 (선택)
+      responses:
+        '201':
+          description: 등록 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: 이미 등록된 공개키
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/challenge:
+    post:
+      tags: [auth]
+      summary: 로그인 challenge 요청
+      description: 서명할 nonce를 요청
+      operationId: requestChallenge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fingerprint]
+              properties:
+                fingerprint:
+                  type: string
+                  pattern: ^[a-f0-9]{64}$
+                  description: 공개키 SHA-256 핑거프린트
+      responses:
+        '200':
+          description: Challenge 발급
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  challenge:
+                    type: string
+                    description: 서명할 nonce (base64)
+                  expires_at:
+                    type: string
+                    format: date-time
+        '404':
+          description: 등록되지 않은 사용자
+
+  /auth/verify:
+    post:
+      tags: [auth]
+      summary: 서명 검증 및 토큰 발급
+      description: Challenge 서명을 검증하고 JWT 토큰 발급
+      operationId: verifySignature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fingerprint, challenge, signature]
+              properties:
+                fingerprint:
+                  type: string
+                challenge:
+                  type: string
+                  description: challenge (base64)
+                signature:
+                  type: string
+                  description: 서명 (base64)
+      responses:
+        '200':
+          description: 인증 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    enum: [bearer]
+                  expires_in:
+                    type: integer
+                    description: 만료시간 (초)
+        '401':
+          description: 서명 검증 실패
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: 로그아웃
+      operationId: logout
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: 로그아웃 성공
+
+  # ============================================================
+  # Portfolio
+  # ============================================================
+  /portfolio:
+    get:
+      tags: [portfolio]
+      summary: 포트폴리오 조회
+      description: 현재 포트폴리오 요약 정보 (보유종목 가치 포함)
+      operationId: getPortfolio
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 포트폴리오 정보
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSummary'
+
+    put:
+      tags: [portfolio]
+      summary: 초기자본 설정
+      operationId: updatePortfolio
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                initial_capital:
+                  type: number
+                  minimum: 0
+                  description: 초기자본 (KRW)
+      responses:
+        '200':
+          description: 업데이트 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+
+  # ============================================================
+  # Positions
+  # ============================================================
+  /positions:
+    get:
+      tags: [positions]
+      summary: 보유종목 조회
+      description: 현재 보유 중인 모든 종목 (현재가 포함)
+      operationId: getPositions
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 보유종목 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PositionWithPrice'
+
+  # ============================================================
+  # Trades
+  # ============================================================
+  /trades:
+    get:
+      tags: [trades]
+      summary: 거래이력 조회
+      operationId: getTrades
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: stock_code
+          in: query
+          schema:
+            type: string
+          description: 종목코드 필터
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum: [BUY, SELL]
+          description: 거래유형 필터
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 시작일
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 종료일
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 500
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: 거래이력
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trade'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+
+    post:
+      tags: [trades]
+      summary: 거래 입력
+      operationId: createTrade
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeInput'
+      responses:
+        '201':
+          description: 거래 입력 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          description: 비즈니스 규칙 위반 (잔고 부족, 보유수량 초과 등)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /trades/{trade_id}:
+    delete:
+      tags: [trades]
+      summary: 거래 삭제
+      description: 잘못 입력한 거래 삭제 (포트폴리오 자동 롤백)
+      operationId: deleteTrade
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: trade_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: 삭제 성공
+        '404':
+          description: 거래 없음
+
+  /trades/export:
+    get:
+      tags: [trades]
+      summary: CSV 내보내기
+      operationId: exportTrades
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: CSV 파일
+          content:
+            text/csv:
+              schema:
+                type: string
+
+  # ============================================================
+  # Backtest
+  # ============================================================
+  /backtest/run:
+    post:
+      tags: [backtest]
+      summary: 백테스트 실행
+      operationId: runBacktest
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_date, end_date, stock_list]
+              properties:
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                stock_list:
+                  type: string
+                  description: 종목리스트 이름 (예: kospi_top100_2025jan)
+                initial_capital:
+                  type: number
+                  default: 1000000
+                name:
+                  type: string
+                  description: 결과 이름 (선택)
+      responses:
+        '202':
+          description: 백테스트 시작됨
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [pending, running]
+
+  /backtest/results:
+    get:
+      tags: [backtest]
+      summary: 백테스트 결과 목록
+      operationId: getBacktestResults
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: 결과 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BacktestResultSummary'
+                  total:
+                    type: integer
+
+  /backtest/{result_id}:
+    get:
+      tags: [backtest]
+      summary: 백테스트 결과 상세
+      operationId: getBacktestResult
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: result_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 결과 상세
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BacktestResultDetail'
+        '404':
+          description: 결과 없음
+
+  # ============================================================
+  # Settings
+  # ============================================================
+  /settings:
+    get:
+      tags: [settings]
+      summary: 설정 조회
+      operationId: getSettings
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 사용자 설정
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+
+    put:
+      tags: [settings]
+      summary: 설정 저장
+      operationId: updateSettings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettingsInput'
+      responses:
+        '200':
+          description: 저장 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+
+  # ============================================================
+  # Stocks
+  # ============================================================
+  /stocks/search:
+    get:
+      tags: [stocks]
+      summary: 종목 검색
+      description: 종목코드 또는 종목명으로 검색
+      operationId: searchStocks
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 2
+          description: 검색어 (종목코드 또는 종목명)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+            maximum: 50
+      responses:
+        '200':
+          description: 검색 결과
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StockInfo'
+
+  /stocks/{stock_code}:
+    get:
+      tags: [stocks]
+      summary: 종목 상세 정보
+      description: 종목 정보 및 현재가 (15분 지연)
+      operationId: getStock
+      parameters:
+        - name: stock_code
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: ^[0-9]{6}$
+      responses:
+        '200':
+          description: 종목 정보
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockDetail'
+        '404':
+          description: 종목 없음
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: 잘못된 요청
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fingerprint:
+          type: string
+        nickname:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Portfolio:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        initial_capital:
+          type: number
+        cash_balance:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+
+    PortfolioSummary:
+      type: object
+      properties:
+        initial_capital:
+          type: number
+        cash_balance:
+          type: number
+        positions_value:
+          type: number
+        total_value:
+          type: number
+        unrealized_pnl:
+          type: number
+        realized_pnl:
+          type: number
+        total_return_pct:
+          type: number
+        position_count:
+          type: integer
+        max_positions:
+          type: integer
+
+    Position:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        stock_code:
+          type: string
+        stock_name:
+          type: string
+        quantity:
+          type: integer
+        avg_entry_price:
+          type: number
+        first_entry_date:
+          type: string
+          format: date
+
+    PositionWithPrice:
+      allOf:
+        - $ref: '#/components/schemas/Position'
+        - type: object
+          properties:
+            current_price:
+              type: number
+            market_value:
+              type: number
+            unrealized_pnl:
+              type: number
+            unrealized_pnl_pct:
+              type: number
+
+    TradeInput:
+      type: object
+      required: [trade_date, stock_code, action, quantity, price]
+      properties:
+        trade_date:
+          type: string
+          format: date
+        stock_code:
+          type: string
+          pattern: ^[0-9]{6}$
+        action:
+          type: string
+          enum: [BUY, SELL]
+        quantity:
+          type: integer
+          minimum: 1
+        price:
+          type: number
+          minimum: 0
+        reason:
+          type: string
+
+    Trade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        trade_date:
+          type: string
+          format: date
+        stock_code:
+          type: string
+        stock_name:
+          type: string
+        action:
+          type: string
+          enum: [BUY, SELL]
+        quantity:
+          type: integer
+        price:
+          type: number
+        total_amount:
+          type: number
+        realized_pnl:
+          type: number
+          nullable: true
+        reason:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+
+    BacktestResultSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        total_return_pct:
+          type: number
+        max_drawdown_pct:
+          type: number
+        win_rate_pct:
+          type: number
+        executed_at:
+          type: string
+          format: date-time
+
+    BacktestResultDetail:
+      allOf:
+        - $ref: '#/components/schemas/BacktestResultSummary'
+        - type: object
+          properties:
+            stock_list_name:
+              type: string
+            initial_capital:
+              type: number
+            final_value:
+              type: number
+            total_trades:
+              type: integer
+            winning_trades:
+              type: integer
+            monthly_returns:
+              type: array
+              items:
+                type: object
+                properties:
+                  month:
+                    type: string
+                  return_pct:
+                    type: number
+            daily_values:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  value:
+                    type: number
+            trades:
+              type: array
+              items:
+                $ref: '#/components/schemas/Trade'
+
+    UserSettings:
+      type: object
+      properties:
+        max_positions:
+          type: integer
+        max_position_pct:
+          type: number
+        stop_loss_pct:
+          type: number
+        confidence_threshold:
+          type: integer
+        nickname:
+          type: string
+
+    UserSettingsInput:
+      type: object
+      properties:
+        max_positions:
+          type: integer
+          minimum: 1
+          maximum: 50
+        max_position_pct:
+          type: number
+          minimum: 1
+          maximum: 100
+        stop_loss_pct:
+          type: number
+          minimum: 1
+          maximum: 50
+        confidence_threshold:
+          type: integer
+          minimum: 0
+          maximum: 100
+        nickname:
+          type: string
+          maxLength: 50
+
+    StockInfo:
+      type: object
+      properties:
+        stock_code:
+          type: string
+        stock_name:
+          type: string
+        market:
+          type: string
+          enum: [KOSPI, KOSDAQ]
+
+    StockDetail:
+      allOf:
+        - $ref: '#/components/schemas/StockInfo'
+        - type: object
+          properties:
+            current_price:
+              type: number
+            change:
+              type: number
+            change_pct:
+              type: number
+            volume:
+              type: integer
+            updated_at:
+              type: string
+              format: date-time
+              description: 시세 업데이트 시각 (15분 지연)

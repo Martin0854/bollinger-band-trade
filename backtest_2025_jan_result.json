@@ -1,0 +1,2460 @@
+{
+  "initial_capital": 1000000,
+  "cash_balance": 348315.0,
+  "start_date": "2025-01-02",
+  "end_date": "2025-12-31",
+  "last_updated": "2026-01-04T23:31:49.224173",
+  "positions": [
+    {
+      "stock_code": "047810",
+      "stock_name": "한국항공우주",
+      "quantity": 1,
+      "entry_price": 67700.0,
+      "entry_date": "2025-03-04",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 114400.0
+    },
+    {
+      "stock_code": "015760",
+      "stock_name": "한국전력",
+      "quantity": 4,
+      "entry_price": 23150.0,
+      "entry_date": "2025-04-11",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 47200.0
+    },
+    {
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "quantity": 5,
+      "entry_price": 19850.0,
+      "entry_date": "2025-08-22",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 24100.0
+    },
+    {
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "quantity": 1,
+      "entry_price": 87100.0,
+      "entry_date": "2025-09-10",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 94100.0
+    },
+    {
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "quantity": 1,
+      "entry_price": 65900.0,
+      "entry_date": "2025-09-24",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 75300.0
+    },
+    {
+      "stock_code": "010950",
+      "stock_name": "S-Oil",
+      "quantity": 1,
+      "entry_price": 64800.0,
+      "entry_date": "2025-09-29",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 83000.0
+    },
+    {
+      "stock_code": "241560",
+      "stock_name": "두산밥캣",
+      "quantity": 1,
+      "entry_price": 57100.0,
+      "entry_date": "2025-10-10",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 57700.0
+    },
+    {
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "quantity": 1,
+      "entry_price": 94400.0,
+      "entry_date": "2025-10-10",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 119900.0
+    },
+    {
+      "stock_code": "011170",
+      "stock_name": "011170",
+      "quantity": 1,
+      "entry_price": 72000.0,
+      "entry_date": "2025-10-16",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 70300.0
+    },
+    {
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "quantity": 2,
+      "entry_price": 41450.0,
+      "entry_date": "2025-10-16",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 58300.0
+    },
+    {
+      "stock_code": "035250",
+      "stock_name": "035250",
+      "quantity": 5,
+      "entry_price": 17920.0,
+      "entry_date": "2025-11-24",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 18950.0
+    },
+    {
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "quantity": 3,
+      "entry_price": 27450.0,
+      "entry_date": "2025-12-01",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 28000.0
+    },
+    {
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "quantity": 4,
+      "entry_price": 23900.0,
+      "entry_date": "2025-12-23",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 23350.0
+    }
+  ],
+  "trade_history": [
+    {
+      "date": "2025-01-02",
+      "stock_code": "267250",
+      "stock_name": "HD현대",
+      "action": "BUY",
+      "price": 85600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-03",
+      "stock_code": "009830",
+      "stock_name": "한화솔루션",
+      "action": "BUY",
+      "price": 17880.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-03",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "BUY",
+      "price": 59400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-03",
+      "stock_code": "047050",
+      "stock_name": "포스코인터내셔널",
+      "action": "BUY",
+      "price": 41900.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-06",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "BUY",
+      "price": 93100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-06",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "BUY",
+      "price": 99500.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-07",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "BUY",
+      "price": 4415.0,
+      "quantity": 22,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-07",
+      "stock_code": "042660",
+      "stock_name": "한화오션",
+      "action": "BUY",
+      "price": 42900.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-07",
+      "stock_code": "064350",
+      "stock_name": "현대로템",
+      "action": "BUY",
+      "price": 55700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-07",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 18980.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-08",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "BUY",
+      "price": 57300.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-09",
+      "stock_code": "010950",
+      "stock_name": "S-Oil",
+      "action": "BUY",
+      "price": 63000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-10",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "BUY",
+      "price": 26650.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-13",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "SELL",
+      "price": 54100.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.6%)",
+      "realized_pnl": -3200.0
+    },
+    {
+      "date": "2025-01-15",
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "action": "BUY",
+      "price": 19800.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-20",
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "action": "SELL",
+      "price": 18000.0,
+      "quantity": 3,
+      "reason": "stop_loss (-9.1%)",
+      "realized_pnl": -5400.0
+    },
+    {
+      "date": "2025-01-21",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "BUY",
+      "price": 18810.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-23",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "SELL",
+      "price": 17440.0,
+      "quantity": 3,
+      "reason": "stop_loss (-7.3%)",
+      "realized_pnl": -4110.0
+    },
+    {
+      "date": "2025-01-24",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "SELL",
+      "price": 4140.0,
+      "quantity": 22,
+      "reason": "stop_loss (-6.2%)",
+      "realized_pnl": -6050.0
+    },
+    {
+      "date": "2025-01-24",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "BUY",
+      "price": 47000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-01-24",
+      "stock_code": "003490",
+      "stock_name": "대한항공",
+      "action": "BUY",
+      "price": 24600.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "SELL",
+      "price": 87600.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.9%)",
+      "realized_pnl": -5500.0
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "BUY",
+      "price": 41800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-04",
+      "stock_code": "047050",
+      "stock_name": "포스코인터내셔널",
+      "action": "SELL",
+      "price": 40050.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-4.4%)",
+      "realized_pnl": -3700.0
+    },
+    {
+      "date": "2025-02-04",
+      "stock_code": "010950",
+      "stock_name": "S-Oil",
+      "action": "SELL",
+      "price": 59300.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.9%)",
+      "realized_pnl": -3700.0
+    },
+    {
+      "date": "2025-02-04",
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "action": "BUY",
+      "price": 61500.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-04",
+      "stock_code": "377300",
+      "stock_name": "카카오페이",
+      "action": "BUY",
+      "price": 29250.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-05",
+      "stock_code": "323410",
+      "stock_name": "카카오뱅크",
+      "action": "BUY",
+      "price": 22850.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-07",
+      "stock_code": "267250",
+      "stock_name": "HD현대",
+      "action": "SELL",
+      "price": 78600.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.2%)",
+      "realized_pnl": -7000.0
+    },
+    {
+      "date": "2025-02-10",
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "action": "BUY",
+      "price": 16310.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-14",
+      "stock_code": "003490",
+      "stock_name": "대한항공",
+      "action": "SELL",
+      "price": 23250.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.5%)",
+      "realized_pnl": -2700.0
+    },
+    {
+      "date": "2025-02-14",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "SELL",
+      "price": 38750.0,
+      "quantity": 2,
+      "reason": "stop_loss (-7.3%)",
+      "realized_pnl": -6100.0
+    },
+    {
+      "date": "2025-02-14",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "BUY",
+      "price": 24200.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-17",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 8620.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-24",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "BUY",
+      "price": 4650.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-02-28",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "SELL",
+      "price": 93500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.0%)",
+      "realized_pnl": -6000.0
+    },
+    {
+      "date": "2025-03-04",
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "action": "SELL",
+      "price": 59400.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.4%)",
+      "realized_pnl": -2100.0
+    },
+    {
+      "date": "2025-03-04",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "SELL",
+      "price": 4275.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.1%)",
+      "realized_pnl": -375.0
+    },
+    {
+      "date": "2025-03-04",
+      "stock_code": "047810",
+      "stock_name": "한국항공우주",
+      "action": "BUY",
+      "price": 67700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-03-05",
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "action": "BUY",
+      "price": 21500.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-03-13",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "SELL",
+      "price": 68300.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+15.0%)",
+      "realized_pnl": 8900.0
+    },
+    {
+      "date": "2025-03-13",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "SELL",
+      "price": 32300.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+21.2%)",
+      "realized_pnl": 5650.0
+    },
+    {
+      "date": "2025-03-13",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "BUY",
+      "price": 40700.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-03-13",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "BUY",
+      "price": 15780.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:70)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-03-19",
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "action": "SELL",
+      "price": 20000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-7.0%)",
+      "realized_pnl": -6000.0
+    },
+    {
+      "date": "2025-03-20",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "BUY",
+      "price": 60200.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-03-28",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "SELL",
+      "price": 24350.0,
+      "quantity": 5,
+      "reason": "lower_band_touch (+28.3%)",
+      "realized_pnl": 26850.0
+    },
+    {
+      "date": "2025-03-28",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "SELL",
+      "price": 14540.0,
+      "quantity": 1,
+      "reason": "stop_loss (-7.9%)",
+      "realized_pnl": -1240.0
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "009830",
+      "stock_name": "한화솔루션",
+      "action": "SELL",
+      "price": 18410.0,
+      "quantity": 5,
+      "reason": "lower_band_touch (+3.0%)",
+      "realized_pnl": 2650.0
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "377300",
+      "stock_name": "카카오페이",
+      "action": "SELL",
+      "price": 28600.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-2.2%)",
+      "realized_pnl": -1300.0
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "323410",
+      "stock_name": "카카오뱅크",
+      "action": "SELL",
+      "price": 22050.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.5%)",
+      "realized_pnl": -800.0
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "SELL",
+      "price": 25000.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (+3.3%)",
+      "realized_pnl": 3200.0
+    },
+    {
+      "date": "2025-04-04",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "SELL",
+      "price": 56100.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.8%)",
+      "realized_pnl": -4100.0
+    },
+    {
+      "date": "2025-04-07",
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "action": "SELL",
+      "price": 15660.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (-4.0%)",
+      "realized_pnl": -2600.0
+    },
+    {
+      "date": "2025-04-07",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "SELL",
+      "price": 8770.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (+1.7%)",
+      "realized_pnl": 600.0
+    },
+    {
+      "date": "2025-04-07",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "SELL",
+      "price": 37000.0,
+      "quantity": 2,
+      "reason": "stop_loss (-9.1%)",
+      "realized_pnl": -7400.0
+    },
+    {
+      "date": "2025-04-08",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "SELL",
+      "price": 47450.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+1.0%)",
+      "realized_pnl": 900.0
+    },
+    {
+      "date": "2025-04-10",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "BUY",
+      "price": 37800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-11",
+      "stock_code": "015760",
+      "stock_name": "한국전력",
+      "action": "BUY",
+      "price": 23150.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-14",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "BUY",
+      "price": 11130.0,
+      "quantity": 8,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-16",
+      "stock_code": "017670",
+      "stock_name": "SK텔레콤",
+      "action": "BUY",
+      "price": 57800.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-16",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "BUY",
+      "price": 11200.0,
+      "quantity": 8,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-17",
+      "stock_code": "009830",
+      "stock_name": "한화솔루션",
+      "action": "BUY",
+      "price": 22100.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-21",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "BUY",
+      "price": 68900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-23",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 10290.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-23",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "BUY",
+      "price": 85600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-28",
+      "stock_code": "017670",
+      "stock_name": "SK텔레콤",
+      "action": "SELL",
+      "price": 53900.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.7%)",
+      "realized_pnl": -3900.0
+    },
+    {
+      "date": "2025-04-28",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "SELL",
+      "price": 75900.0,
+      "quantity": 1,
+      "reason": "stop_loss (-11.3%)",
+      "realized_pnl": -9700.0
+    },
+    {
+      "date": "2025-04-28",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "BUY",
+      "price": 51100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-29",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "BUY",
+      "price": 49900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-04-30",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "BUY",
+      "price": 15350.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-06-02",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "SELL",
+      "price": 49400.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.3%)",
+      "realized_pnl": -1700.0
+    },
+    {
+      "date": "2025-06-04",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "BUY",
+      "price": 15800.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-06-24",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "BUY",
+      "price": 3660.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-06-27",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "SELL",
+      "price": 11520.0,
+      "quantity": 8,
+      "reason": "lower_band_touch (+3.5%)",
+      "realized_pnl": 3120.0
+    },
+    {
+      "date": "2025-06-27",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "BUY",
+      "price": 54400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-07-02",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "BUY",
+      "price": 3270.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-07-24",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "SELL",
+      "price": 75900.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+10.2%)",
+      "realized_pnl": 7000.0
+    },
+    {
+      "date": "2025-07-25",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "BUY",
+      "price": 10050.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-07-29",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "SELL",
+      "price": 54600.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+0.4%)",
+      "realized_pnl": 200.0
+    },
+    {
+      "date": "2025-07-30",
+      "stock_code": "009830",
+      "stock_name": "한화솔루션",
+      "action": "SELL",
+      "price": 32350.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (+46.4%)",
+      "realized_pnl": 41000.0
+    },
+    {
+      "date": "2025-07-30",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "BUY",
+      "price": 72600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-07-31",
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "action": "BUY",
+      "price": 59400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-08-01",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "SELL",
+      "price": 17920.0,
+      "quantity": 9,
+      "reason": "lower_band_touch (+74.1%)",
+      "realized_pnl": 68670.0
+    },
+    {
+      "date": "2025-08-01",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "SELL",
+      "price": 18660.0,
+      "quantity": 3,
+      "reason": "lower_band_touch (+21.6%)",
+      "realized_pnl": 9930.0
+    },
+    {
+      "date": "2025-08-01",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "SELL",
+      "price": 3365.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.1%)",
+      "realized_pnl": -295.0
+    },
+    {
+      "date": "2025-08-01",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "SELL",
+      "price": 68900.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.1%)",
+      "realized_pnl": -3700.0
+    },
+    {
+      "date": "2025-08-07",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "BUY",
+      "price": 63600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-08-08",
+      "stock_code": "064350",
+      "stock_name": "현대로템",
+      "action": "SELL",
+      "price": 183500.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+229.4%)",
+      "realized_pnl": 127800.0
+    },
+    {
+      "date": "2025-08-08",
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "action": "SELL",
+      "price": 52800.0,
+      "quantity": 1,
+      "reason": "stop_loss (-11.1%)",
+      "realized_pnl": -6600.0
+    },
+    {
+      "date": "2025-08-11",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 69400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:70)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-08-12",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "SELL",
+      "price": 65500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.6%)",
+      "realized_pnl": -3900.0
+    },
+    {
+      "date": "2025-08-14",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "BUY",
+      "price": 93000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-08-19",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "SELL",
+      "price": 61500.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+62.7%)",
+      "realized_pnl": 47400.0
+    },
+    {
+      "date": "2025-08-20",
+      "stock_code": "042700",
+      "stock_name": "한미반도체",
+      "action": "SELL",
+      "price": 87100.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.3%)",
+      "realized_pnl": -5900.0
+    },
+    {
+      "date": "2025-08-22",
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "action": "BUY",
+      "price": 19850.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:70)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-01",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "SELL",
+      "price": 18920.0,
+      "quantity": 3,
+      "reason": "lower_band_touch (+19.7%)",
+      "realized_pnl": 9360.0
+    },
+    {
+      "date": "2025-09-02",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "SELL",
+      "price": 13900.0,
+      "quantity": 8,
+      "reason": "lower_band_touch (+24.1%)",
+      "realized_pnl": 21600.0
+    },
+    {
+      "date": "2025-09-02",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "SELL",
+      "price": 59300.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.8%)",
+      "realized_pnl": -4300.0
+    },
+    {
+      "date": "2025-09-02",
+      "stock_code": "029780",
+      "stock_name": "삼성카드",
+      "action": "BUY",
+      "price": 51300.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-05",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "BUY",
+      "price": 34800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-08",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 19700.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-09",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "BUY",
+      "price": 20200.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-09",
+      "stock_code": "003550",
+      "stock_name": "LG",
+      "action": "BUY",
+      "price": 77200.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-09",
+      "stock_code": "138930",
+      "stock_name": "BNK금융지주",
+      "action": "BUY",
+      "price": 15000.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-10",
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "action": "BUY",
+      "price": 87100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-10",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "BUY",
+      "price": 19890.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-23",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "SELL",
+      "price": 3175.0,
+      "quantity": 11,
+      "reason": "lower_band_touch (-2.9%)",
+      "realized_pnl": -1045.0
+    },
+    {
+      "date": "2025-09-24",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 65900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-09-26",
+      "stock_code": "003550",
+      "stock_name": "LG",
+      "action": "SELL",
+      "price": 72700.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.8%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2025-09-29",
+      "stock_code": "010950",
+      "stock_name": "S-Oil",
+      "action": "BUY",
+      "price": 64800.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-10",
+      "stock_code": "029780",
+      "stock_name": "삼성카드",
+      "action": "SELL",
+      "price": 49550.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.4%)",
+      "realized_pnl": -1750.0
+    },
+    {
+      "date": "2025-10-10",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "SELL",
+      "price": 32550.0,
+      "quantity": 2,
+      "reason": "stop_loss (-6.5%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2025-10-10",
+      "stock_code": "138930",
+      "stock_name": "BNK금융지주",
+      "action": "SELL",
+      "price": 14090.0,
+      "quantity": 6,
+      "reason": "stop_loss (-6.1%)",
+      "realized_pnl": -5460.0
+    },
+    {
+      "date": "2025-10-10",
+      "stock_code": "241560",
+      "stock_name": "두산밥캣",
+      "action": "BUY",
+      "price": 57100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-10",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "BUY",
+      "price": 94400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-13",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "SELL",
+      "price": 18890.0,
+      "quantity": 5,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -5000.0
+    },
+    {
+      "date": "2025-10-14",
+      "stock_code": "042660",
+      "stock_name": "한화오션",
+      "action": "SELL",
+      "price": 103100.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+140.3%)",
+      "realized_pnl": 120400.0
+    },
+    {
+      "date": "2025-10-14",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "SELL",
+      "price": 19090.0,
+      "quantity": 4,
+      "reason": "stop_loss (-5.5%)",
+      "realized_pnl": -4440.0
+    },
+    {
+      "date": "2025-10-14",
+      "stock_code": "066570",
+      "stock_name": "LG전자",
+      "action": "BUY",
+      "price": 83000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-16",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "BUY",
+      "price": 3455.0,
+      "quantity": 28,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-16",
+      "stock_code": "011170",
+      "stock_name": "011170",
+      "action": "BUY",
+      "price": 72000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-10-16",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "BUY",
+      "price": 41450.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-11-07",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "SELL",
+      "price": 13410.0,
+      "quantity": 7,
+      "reason": "lower_band_touch (+33.4%)",
+      "realized_pnl": 23520.0
+    },
+    {
+      "date": "2025-11-07",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "BUY",
+      "price": 15710.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-11-18",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "SELL",
+      "price": 3285.0,
+      "quantity": 28,
+      "reason": "lower_band_touch (-4.9%)",
+      "realized_pnl": -4760.0
+    },
+    {
+      "date": "2025-11-24",
+      "stock_code": "066570",
+      "stock_name": "LG전자",
+      "action": "SELL",
+      "price": 84000.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+1.2%)",
+      "realized_pnl": 1000.0
+    },
+    {
+      "date": "2025-11-24",
+      "stock_code": "035250",
+      "stock_name": "035250",
+      "action": "BUY",
+      "price": 17920.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-12-01",
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "action": "BUY",
+      "price": 27450.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-12-17",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "SELL",
+      "price": 20450.0,
+      "quantity": 5,
+      "reason": "lower_band_touch (+3.8%)",
+      "realized_pnl": 3750.0
+    },
+    {
+      "date": "2025-12-17",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "BUY",
+      "price": 79700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-12-23",
+      "stock_code": "383220",
+      "stock_name": "383220",
+      "action": "SELL",
+      "price": 75500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.3%)",
+      "realized_pnl": -4200.0
+    },
+    {
+      "date": "2025-12-23",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 23900.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2025-12-29",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "SELL",
+      "price": 76200.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+52.7%)",
+      "realized_pnl": 26300.0
+    },
+    {
+      "date": "2025-12-29",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "SELL",
+      "price": 14850.0,
+      "quantity": 6,
+      "reason": "stop_loss (-5.5%)",
+      "realized_pnl": -5160.0
+    }
+  ],
+  "pending_orders": [],
+  "last_run_output": "",
+  "backtest_metrics": {
+    "final_value": 1661065.0,
+    "total_return_pct": 66.1065,
+    "total_trades": 135,
+    "buy_trades": 74,
+    "sell_trades": 61,
+    "winning_trades": 22,
+    "losing_trades": 39,
+    "win_rate": 36.0655737704918,
+    "total_pnl": 399615.0,
+    "avg_win": 25445.454545454544,
+    "avg_loss": -4107.307692307692,
+    "max_drawdown": 12.654425012587017
+  },
+  "daily_values": [
+    {
+      "date": "2025-01-02",
+      "value": 1000000.0
+    },
+    {
+      "date": "2025-01-03",
+      "value": 998600.0
+    },
+    {
+      "date": "2025-01-06",
+      "value": 998400.0
+    },
+    {
+      "date": "2025-01-07",
+      "value": 1001050.0
+    },
+    {
+      "date": "2025-01-08",
+      "value": 1022220.0
+    },
+    {
+      "date": "2025-01-09",
+      "value": 1009810.0
+    },
+    {
+      "date": "2025-01-10",
+      "value": 1022060.0
+    },
+    {
+      "date": "2025-01-13",
+      "value": 1014430.0
+    },
+    {
+      "date": "2025-01-14",
+      "value": 1018710.0
+    },
+    {
+      "date": "2025-01-15",
+      "value": 1024440.0
+    },
+    {
+      "date": "2025-01-16",
+      "value": 1049560.0
+    },
+    {
+      "date": "2025-01-17",
+      "value": 1066140.0
+    },
+    {
+      "date": "2025-01-20",
+      "value": 1050810.0
+    },
+    {
+      "date": "2025-01-21",
+      "value": 1055210.0
+    },
+    {
+      "date": "2025-01-22",
+      "value": 1082230.0
+    },
+    {
+      "date": "2025-01-23",
+      "value": 1061430.0
+    },
+    {
+      "date": "2025-01-24",
+      "value": 1086790.0
+    },
+    {
+      "date": "2025-01-31",
+      "value": 1069590.0
+    },
+    {
+      "date": "2025-02-03",
+      "value": 1040690.0
+    },
+    {
+      "date": "2025-02-04",
+      "value": 1051790.0
+    },
+    {
+      "date": "2025-02-05",
+      "value": 1064640.0
+    },
+    {
+      "date": "2025-02-06",
+      "value": 1097690.0
+    },
+    {
+      "date": "2025-02-07",
+      "value": 1081240.0
+    },
+    {
+      "date": "2025-02-10",
+      "value": 1061940.0
+    },
+    {
+      "date": "2025-02-11",
+      "value": 1079900.0
+    },
+    {
+      "date": "2025-02-12",
+      "value": 1104600.0
+    },
+    {
+      "date": "2025-02-13",
+      "value": 1118110.0
+    },
+    {
+      "date": "2025-02-14",
+      "value": 1139050.0
+    },
+    {
+      "date": "2025-02-17",
+      "value": 1148820.0
+    },
+    {
+      "date": "2025-02-18",
+      "value": 1166970.0
+    },
+    {
+      "date": "2025-02-19",
+      "value": 1169300.0
+    },
+    {
+      "date": "2025-02-20",
+      "value": 1158830.0
+    },
+    {
+      "date": "2025-02-21",
+      "value": 1163290.0
+    },
+    {
+      "date": "2025-02-24",
+      "value": 1144150.0
+    },
+    {
+      "date": "2025-02-25",
+      "value": 1146050.0
+    },
+    {
+      "date": "2025-02-26",
+      "value": 1151130.0
+    },
+    {
+      "date": "2025-02-27",
+      "value": 1156200.0
+    },
+    {
+      "date": "2025-02-28",
+      "value": 1121330.0
+    },
+    {
+      "date": "2025-03-04",
+      "value": 1133735.0
+    },
+    {
+      "date": "2025-03-05",
+      "value": 1141315.0
+    },
+    {
+      "date": "2025-03-06",
+      "value": 1164805.0
+    },
+    {
+      "date": "2025-03-07",
+      "value": 1180595.0
+    },
+    {
+      "date": "2025-03-10",
+      "value": 1176895.0
+    },
+    {
+      "date": "2025-03-11",
+      "value": 1151835.0
+    },
+    {
+      "date": "2025-03-12",
+      "value": 1147565.0
+    },
+    {
+      "date": "2025-03-13",
+      "value": 1159535.0
+    },
+    {
+      "date": "2025-03-14",
+      "value": 1159465.0
+    },
+    {
+      "date": "2025-03-17",
+      "value": 1184525.0
+    },
+    {
+      "date": "2025-03-18",
+      "value": 1191305.0
+    },
+    {
+      "date": "2025-03-19",
+      "value": 1201635.0
+    },
+    {
+      "date": "2025-03-20",
+      "value": 1177175.0
+    },
+    {
+      "date": "2025-03-21",
+      "value": 1175545.0
+    },
+    {
+      "date": "2025-03-24",
+      "value": 1176765.0
+    },
+    {
+      "date": "2025-03-25",
+      "value": 1146655.0
+    },
+    {
+      "date": "2025-03-26",
+      "value": 1146465.0
+    },
+    {
+      "date": "2025-03-27",
+      "value": 1124385.0
+    },
+    {
+      "date": "2025-03-28",
+      "value": 1103465.0
+    },
+    {
+      "date": "2025-03-31",
+      "value": 1090235.0
+    },
+    {
+      "date": "2025-04-01",
+      "value": 1101155.0
+    },
+    {
+      "date": "2025-04-02",
+      "value": 1091415.0
+    },
+    {
+      "date": "2025-04-03",
+      "value": 1096535.0
+    },
+    {
+      "date": "2025-04-04",
+      "value": 1087715.0
+    },
+    {
+      "date": "2025-04-07",
+      "value": 1049575.0
+    },
+    {
+      "date": "2025-04-08",
+      "value": 1060475.0
+    },
+    {
+      "date": "2025-04-09",
+      "value": 1060775.0
+    },
+    {
+      "date": "2025-04-10",
+      "value": 1080975.0
+    },
+    {
+      "date": "2025-04-11",
+      "value": 1094675.0
+    },
+    {
+      "date": "2025-04-14",
+      "value": 1105175.0
+    },
+    {
+      "date": "2025-04-15",
+      "value": 1110015.0
+    },
+    {
+      "date": "2025-04-16",
+      "value": 1106415.0
+    },
+    {
+      "date": "2025-04-17",
+      "value": 1119035.0
+    },
+    {
+      "date": "2025-04-18",
+      "value": 1121715.0
+    },
+    {
+      "date": "2025-04-21",
+      "value": 1129715.0
+    },
+    {
+      "date": "2025-04-22",
+      "value": 1137355.0
+    },
+    {
+      "date": "2025-04-23",
+      "value": 1134655.0
+    },
+    {
+      "date": "2025-04-24",
+      "value": 1148865.0
+    },
+    {
+      "date": "2025-04-25",
+      "value": 1180865.0
+    },
+    {
+      "date": "2025-04-28",
+      "value": 1176245.0
+    },
+    {
+      "date": "2025-04-29",
+      "value": 1163315.0
+    },
+    {
+      "date": "2025-04-30",
+      "value": 1175315.0
+    },
+    {
+      "date": "2025-05-02",
+      "value": 1183245.0
+    },
+    {
+      "date": "2025-05-07",
+      "value": 1203525.0
+    },
+    {
+      "date": "2025-05-08",
+      "value": 1207335.0
+    },
+    {
+      "date": "2025-05-09",
+      "value": 1222655.0
+    },
+    {
+      "date": "2025-05-12",
+      "value": 1209615.0
+    },
+    {
+      "date": "2025-05-13",
+      "value": 1210455.0
+    },
+    {
+      "date": "2025-05-14",
+      "value": 1239715.0
+    },
+    {
+      "date": "2025-05-15",
+      "value": 1238015.0
+    },
+    {
+      "date": "2025-05-16",
+      "value": 1260265.0
+    },
+    {
+      "date": "2025-05-19",
+      "value": 1250215.0
+    },
+    {
+      "date": "2025-05-20",
+      "value": 1246745.0
+    },
+    {
+      "date": "2025-05-21",
+      "value": 1278515.0
+    },
+    {
+      "date": "2025-05-22",
+      "value": 1259385.0
+    },
+    {
+      "date": "2025-05-23",
+      "value": 1263255.0
+    },
+    {
+      "date": "2025-05-26",
+      "value": 1297395.0
+    },
+    {
+      "date": "2025-05-27",
+      "value": 1300365.0
+    },
+    {
+      "date": "2025-05-28",
+      "value": 1284025.0
+    },
+    {
+      "date": "2025-05-29",
+      "value": 1341605.0
+    },
+    {
+      "date": "2025-05-30",
+      "value": 1331685.0
+    },
+    {
+      "date": "2025-06-02",
+      "value": 1337645.0
+    },
+    {
+      "date": "2025-06-04",
+      "value": 1380465.0
+    },
+    {
+      "date": "2025-06-05",
+      "value": 1379545.0
+    },
+    {
+      "date": "2025-06-09",
+      "value": 1381585.0
+    },
+    {
+      "date": "2025-06-10",
+      "value": 1407445.0
+    },
+    {
+      "date": "2025-06-11",
+      "value": 1453825.0
+    },
+    {
+      "date": "2025-06-12",
+      "value": 1473425.0
+    },
+    {
+      "date": "2025-06-13",
+      "value": 1472215.0
+    },
+    {
+      "date": "2025-06-16",
+      "value": 1515945.0
+    },
+    {
+      "date": "2025-06-17",
+      "value": 1513795.0
+    },
+    {
+      "date": "2025-06-18",
+      "value": 1516595.0
+    },
+    {
+      "date": "2025-06-19",
+      "value": 1529255.0
+    },
+    {
+      "date": "2025-06-20",
+      "value": 1518225.0
+    },
+    {
+      "date": "2025-06-23",
+      "value": 1534305.0
+    },
+    {
+      "date": "2025-06-24",
+      "value": 1566785.0
+    },
+    {
+      "date": "2025-06-25",
+      "value": 1585310.0
+    },
+    {
+      "date": "2025-06-26",
+      "value": 1584600.0
+    },
+    {
+      "date": "2025-06-27",
+      "value": 1569525.0
+    },
+    {
+      "date": "2025-06-30",
+      "value": 1558600.0
+    },
+    {
+      "date": "2025-07-01",
+      "value": 1567345.0
+    },
+    {
+      "date": "2025-07-02",
+      "value": 1556970.0
+    },
+    {
+      "date": "2025-07-03",
+      "value": 1558920.0
+    },
+    {
+      "date": "2025-07-04",
+      "value": 1506985.0
+    },
+    {
+      "date": "2025-07-07",
+      "value": 1512500.0
+    },
+    {
+      "date": "2025-07-08",
+      "value": 1545430.0
+    },
+    {
+      "date": "2025-07-09",
+      "value": 1568005.0
+    },
+    {
+      "date": "2025-07-10",
+      "value": 1572880.0
+    },
+    {
+      "date": "2025-07-11",
+      "value": 1565210.0
+    },
+    {
+      "date": "2025-07-14",
+      "value": 1575725.0
+    },
+    {
+      "date": "2025-07-15",
+      "value": 1594790.0
+    },
+    {
+      "date": "2025-07-16",
+      "value": 1555640.0
+    },
+    {
+      "date": "2025-07-17",
+      "value": 1570190.0
+    },
+    {
+      "date": "2025-07-18",
+      "value": 1559260.0
+    },
+    {
+      "date": "2025-07-21",
+      "value": 1581385.0
+    },
+    {
+      "date": "2025-07-22",
+      "value": 1566080.0
+    },
+    {
+      "date": "2025-07-23",
+      "value": 1559755.0
+    },
+    {
+      "date": "2025-07-24",
+      "value": 1557910.0
+    },
+    {
+      "date": "2025-07-25",
+      "value": 1579835.0
+    },
+    {
+      "date": "2025-07-28",
+      "value": 1582710.0
+    },
+    {
+      "date": "2025-07-29",
+      "value": 1595225.0
+    },
+    {
+      "date": "2025-07-30",
+      "value": 1562415.0
+    },
+    {
+      "date": "2025-07-31",
+      "value": 1595555.0
+    },
+    {
+      "date": "2025-08-01",
+      "value": 1552670.0
+    },
+    {
+      "date": "2025-08-04",
+      "value": 1562100.0
+    },
+    {
+      "date": "2025-08-05",
+      "value": 1581695.0
+    },
+    {
+      "date": "2025-08-06",
+      "value": 1594550.0
+    },
+    {
+      "date": "2025-08-07",
+      "value": 1594145.0
+    },
+    {
+      "date": "2025-08-08",
+      "value": 1567585.0
+    },
+    {
+      "date": "2025-08-11",
+      "value": 1539575.0
+    },
+    {
+      "date": "2025-08-12",
+      "value": 1526290.0
+    },
+    {
+      "date": "2025-08-13",
+      "value": 1550260.0
+    },
+    {
+      "date": "2025-08-14",
+      "value": 1534660.0
+    },
+    {
+      "date": "2025-08-18",
+      "value": 1541945.0
+    },
+    {
+      "date": "2025-08-19",
+      "value": 1519480.0
+    },
+    {
+      "date": "2025-08-20",
+      "value": 1514360.0
+    },
+    {
+      "date": "2025-08-21",
+      "value": 1531505.0
+    },
+    {
+      "date": "2025-08-22",
+      "value": 1539365.0
+    },
+    {
+      "date": "2025-08-25",
+      "value": 1547920.0
+    },
+    {
+      "date": "2025-08-26",
+      "value": 1531790.0
+    },
+    {
+      "date": "2025-08-27",
+      "value": 1542425.0
+    },
+    {
+      "date": "2025-08-28",
+      "value": 1540440.0
+    },
+    {
+      "date": "2025-08-29",
+      "value": 1538215.0
+    },
+    {
+      "date": "2025-09-01",
+      "value": 1535155.0
+    },
+    {
+      "date": "2025-09-02",
+      "value": 1549180.0
+    },
+    {
+      "date": "2025-09-03",
+      "value": 1538420.0
+    },
+    {
+      "date": "2025-09-04",
+      "value": 1542805.0
+    },
+    {
+      "date": "2025-09-05",
+      "value": 1525700.0
+    },
+    {
+      "date": "2025-09-08",
+      "value": 1531060.0
+    },
+    {
+      "date": "2025-09-09",
+      "value": 1544530.0
+    },
+    {
+      "date": "2025-09-10",
+      "value": 1565105.0
+    },
+    {
+      "date": "2025-09-11",
+      "value": 1568945.0
+    },
+    {
+      "date": "2025-09-12",
+      "value": 1564635.0
+    },
+    {
+      "date": "2025-09-15",
+      "value": 1568870.0
+    },
+    {
+      "date": "2025-09-16",
+      "value": 1573885.0
+    },
+    {
+      "date": "2025-09-17",
+      "value": 1581355.0
+    },
+    {
+      "date": "2025-09-18",
+      "value": 1572015.0
+    },
+    {
+      "date": "2025-09-22",
+      "value": 1564340.0
+    },
+    {
+      "date": "2025-09-23",
+      "value": 1556335.0
+    },
+    {
+      "date": "2025-09-24",
+      "value": 1555585.0
+    },
+    {
+      "date": "2025-09-25",
+      "value": 1550365.0
+    },
+    {
+      "date": "2025-09-26",
+      "value": 1527045.0
+    },
+    {
+      "date": "2025-09-29",
+      "value": 1550005.0
+    },
+    {
+      "date": "2025-09-30",
+      "value": 1543505.0
+    },
+    {
+      "date": "2025-10-01",
+      "value": 1533635.0
+    },
+    {
+      "date": "2025-10-02",
+      "value": 1548725.0
+    },
+    {
+      "date": "2025-10-10",
+      "value": 1558635.0
+    },
+    {
+      "date": "2025-10-13",
+      "value": 1543905.0
+    },
+    {
+      "date": "2025-10-14",
+      "value": 1514425.0
+    },
+    {
+      "date": "2025-10-15",
+      "value": 1549395.0
+    },
+    {
+      "date": "2025-10-16",
+      "value": 1566825.0
+    },
+    {
+      "date": "2025-10-17",
+      "value": 1565375.0
+    },
+    {
+      "date": "2025-10-20",
+      "value": 1603325.0
+    },
+    {
+      "date": "2025-10-21",
+      "value": 1608555.0
+    },
+    {
+      "date": "2025-10-22",
+      "value": 1626165.0
+    },
+    {
+      "date": "2025-10-23",
+      "value": 1605365.0
+    },
+    {
+      "date": "2025-10-24",
+      "value": 1630455.0
+    },
+    {
+      "date": "2025-10-27",
+      "value": 1669025.0
+    },
+    {
+      "date": "2025-10-28",
+      "value": 1676095.0
+    },
+    {
+      "date": "2025-10-29",
+      "value": 1699455.0
+    },
+    {
+      "date": "2025-10-30",
+      "value": 1679275.0
+    },
+    {
+      "date": "2025-10-31",
+      "value": 1681595.0
+    },
+    {
+      "date": "2025-11-03",
+      "value": 1706315.0
+    },
+    {
+      "date": "2025-11-04",
+      "value": 1689445.0
+    },
+    {
+      "date": "2025-11-05",
+      "value": 1637315.0
+    },
+    {
+      "date": "2025-11-06",
+      "value": 1647985.0
+    },
+    {
+      "date": "2025-11-07",
+      "value": 1617915.0
+    },
+    {
+      "date": "2025-11-10",
+      "value": 1685825.0
+    },
+    {
+      "date": "2025-11-11",
+      "value": 1689505.0
+    },
+    {
+      "date": "2025-11-12",
+      "value": 1718215.0
+    },
+    {
+      "date": "2025-11-13",
+      "value": 1731485.0
+    },
+    {
+      "date": "2025-11-14",
+      "value": 1693995.0
+    },
+    {
+      "date": "2025-11-17",
+      "value": 1710645.0
+    },
+    {
+      "date": "2025-11-18",
+      "value": 1671435.0
+    },
+    {
+      "date": "2025-11-19",
+      "value": 1664555.0
+    },
+    {
+      "date": "2025-11-20",
+      "value": 1688895.0
+    },
+    {
+      "date": "2025-11-21",
+      "value": 1654015.0
+    },
+    {
+      "date": "2025-11-24",
+      "value": 1642945.0
+    },
+    {
+      "date": "2025-11-25",
+      "value": 1653265.0
+    },
+    {
+      "date": "2025-11-26",
+      "value": 1691055.0
+    },
+    {
+      "date": "2025-11-27",
+      "value": 1680195.0
+    },
+    {
+      "date": "2025-11-28",
+      "value": 1670475.0
+    },
+    {
+      "date": "2025-12-01",
+      "value": 1659455.0
+    },
+    {
+      "date": "2025-12-02",
+      "value": 1680225.0
+    },
+    {
+      "date": "2025-12-03",
+      "value": 1695855.0
+    },
+    {
+      "date": "2025-12-04",
+      "value": 1684765.0
+    },
+    {
+      "date": "2025-12-05",
+      "value": 1703565.0
+    },
+    {
+      "date": "2025-12-08",
+      "value": 1695905.0
+    },
+    {
+      "date": "2025-12-09",
+      "value": 1694035.0
+    },
+    {
+      "date": "2025-12-10",
+      "value": 1679475.0
+    },
+    {
+      "date": "2025-12-11",
+      "value": 1667655.0
+    },
+    {
+      "date": "2025-12-12",
+      "value": 1703255.0
+    },
+    {
+      "date": "2025-12-15",
+      "value": 1685085.0
+    },
+    {
+      "date": "2025-12-16",
+      "value": 1677745.0
+    },
+    {
+      "date": "2025-12-17",
+      "value": 1685135.0
+    },
+    {
+      "date": "2025-12-18",
+      "value": 1651425.0
+    },
+    {
+      "date": "2025-12-19",
+      "value": 1671695.0
+    },
+    {
+      "date": "2025-12-22",
+      "value": 1685755.0
+    },
+    {
+      "date": "2025-12-23",
+      "value": 1679235.0
+    },
+    {
+      "date": "2025-12-24",
+      "value": 1672355.0
+    },
+    {
+      "date": "2025-12-26",
+      "value": 1657925.0
+    },
+    {
+      "date": "2025-12-29",
+      "value": 1668215.0
+    },
+    {
+      "date": "2025-12-30",
+      "value": 1661065.0
+    }
+  ]
+}

@@ -1,0 +1,2895 @@
+{
+  "initial_capital": 1000000,
+  "cash_balance": 1661.5732421875,
+  "start_date": "2023-01-02",
+  "end_date": "2023-12-31",
+  "last_updated": "2026-01-04T23:31:48.186653",
+  "positions": [
+    {
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "quantity": 9,
+      "entry_price": 10650.0,
+      "entry_date": "2023-08-25",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 11860.0
+    },
+    {
+      "stock_code": "079550",
+      "stock_name": "LIG넥스원",
+      "quantity": 1,
+      "entry_price": 83200.0,
+      "entry_date": "2023-08-29",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 130500.0
+    },
+    {
+      "stock_code": "021240",
+      "stock_name": "코웨이",
+      "quantity": 2,
+      "entry_price": 43850.0,
+      "entry_date": "2023-10-17",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 57200.0
+    },
+    {
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "quantity": 2,
+      "entry_price": 38900.0,
+      "entry_date": "2023-11-01",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 45400.0
+    },
+    {
+      "stock_code": "001040",
+      "stock_name": "CJ",
+      "quantity": 1,
+      "entry_price": 85600.0,
+      "entry_date": "2023-11-02",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 94400.0
+    },
+    {
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "quantity": 7,
+      "entry_price": 13640.0,
+      "entry_date": "2023-11-03",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 17360.0
+    },
+    {
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "quantity": 5,
+      "entry_price": 15800.0,
+      "entry_date": "2023-11-30",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 15900.0
+    },
+    {
+      "stock_code": "000100",
+      "stock_name": "유한양행",
+      "quantity": 1,
+      "entry_price": 62380.953125,
+      "entry_date": "2023-12-07",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 68800.0
+    },
+    {
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "quantity": 1,
+      "entry_price": 54300.0,
+      "entry_date": "2023-12-14",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 54300.0
+    },
+    {
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "quantity": 1,
+      "entry_price": 37900.0,
+      "entry_date": "2023-12-14",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 40150.0
+    },
+    {
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "quantity": 4,
+      "entry_price": 17540.0,
+      "entry_date": "2023-12-18",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 19580.0
+    },
+    {
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "quantity": 3,
+      "entry_price": 27200.0,
+      "entry_date": "2023-12-19",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 29000.0
+    },
+    {
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "quantity": 1,
+      "entry_price": 7640.0,
+      "entry_date": "2023-12-20",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 7630.0
+    },
+    {
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "quantity": 9,
+      "entry_price": 2830.0,
+      "entry_date": "2023-12-28",
+      "entry_reason": "squeeze_breakout_buy",
+      "current_price": 2830.0
+    }
+  ],
+  "trade_history": [
+    {
+      "date": "2023-01-05",
+      "stock_code": "008770",
+      "stock_name": "008770",
+      "action": "BUY",
+      "price": 85000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "BUY",
+      "price": 2890.0,
+      "quantity": 34,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-06",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "BUY",
+      "price": 56700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-06",
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "action": "BUY",
+      "price": 40600.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-06",
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "action": "BUY",
+      "price": 48800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-06",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "BUY",
+      "price": 23600.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "000660",
+      "stock_name": "SK하이닉스",
+      "action": "BUY",
+      "price": 86000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "BUY",
+      "price": 61100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "066570",
+      "stock_name": "LG전자",
+      "action": "BUY",
+      "price": 95100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "023530",
+      "stock_name": "023530",
+      "action": "BUY",
+      "price": 97700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "009540",
+      "stock_name": "HD한국조선해양",
+      "action": "BUY",
+      "price": 76000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-09",
+      "stock_code": "002790",
+      "stock_name": "002790",
+      "action": "BUY",
+      "price": 37850.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-10",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "SELL",
+      "price": 2745.0,
+      "quantity": 34,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -4930.0
+    },
+    {
+      "date": "2023-01-10",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "BUY",
+      "price": 38350.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-12",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 16900.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-13",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "BUY",
+      "price": 9000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-18",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "SELL",
+      "price": 36350.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.2%)",
+      "realized_pnl": -4000.0
+    },
+    {
+      "date": "2023-01-18",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "SELL",
+      "price": 16000.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.3%)",
+      "realized_pnl": -1800.0
+    },
+    {
+      "date": "2023-01-18",
+      "stock_code": "138040",
+      "stock_name": "메리츠금융지주",
+      "action": "BUY",
+      "price": 47100.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-01-27",
+      "stock_code": "138040",
+      "stock_name": "메리츠금융지주",
+      "action": "SELL",
+      "price": 43550.0,
+      "quantity": 2,
+      "reason": "stop_loss (-7.5%)",
+      "realized_pnl": -7100.0
+    },
+    {
+      "date": "2023-01-30",
+      "stock_code": "008770",
+      "stock_name": "008770",
+      "action": "SELL",
+      "price": 80500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.3%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2023-01-30",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "BUY",
+      "price": 13266.3974609375,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-07",
+      "stock_code": "023530",
+      "stock_name": "023530",
+      "action": "SELL",
+      "price": 92100.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.7%)",
+      "realized_pnl": -5600.0
+    },
+    {
+      "date": "2023-02-08",
+      "stock_code": "021240",
+      "stock_name": "코웨이",
+      "action": "BUY",
+      "price": 57600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-08",
+      "stock_code": "241560",
+      "stock_name": "두산밥캣",
+      "action": "BUY",
+      "price": 36750.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-08",
+      "stock_code": "007070",
+      "stock_name": "GS리테일",
+      "action": "BUY",
+      "price": 38325.5859375,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-09",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "SELL",
+      "price": 54200.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-4.4%)",
+      "realized_pnl": -2500.0
+    },
+    {
+      "date": "2023-02-14",
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "action": "SELL",
+      "price": 39450.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-2.8%)",
+      "realized_pnl": -2300.0
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "086790",
+      "stock_name": "하나금융지주",
+      "action": "SELL",
+      "price": 44300.0,
+      "quantity": 2,
+      "reason": "stop_loss (-9.2%)",
+      "realized_pnl": -9000.0
+    },
+    {
+      "date": "2023-02-16",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 7380.0,
+      "quantity": 13,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-20",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "BUY",
+      "price": 38450.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-21",
+      "stock_code": "021240",
+      "stock_name": "코웨이",
+      "action": "SELL",
+      "price": 54600.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.2%)",
+      "realized_pnl": -3000.0
+    },
+    {
+      "date": "2023-02-21",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "BUY",
+      "price": 38300.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-27",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "SELL",
+      "price": 6950.0,
+      "quantity": 13,
+      "reason": "stop_loss (-5.8%)",
+      "realized_pnl": -5590.0
+    },
+    {
+      "date": "2023-02-27",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "SELL",
+      "price": 36050.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.9%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2023-02-27",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "BUY",
+      "price": 45500.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-27",
+      "stock_code": "005830",
+      "stock_name": "DB손해보험",
+      "action": "BUY",
+      "price": 76300.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-27",
+      "stock_code": "001450",
+      "stock_name": "현대해상",
+      "action": "BUY",
+      "price": 35500.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "007070",
+      "stock_name": "GS리테일",
+      "action": "SELL",
+      "price": 36133.76171875,
+      "quantity": 1,
+      "reason": "stop_loss (-5.7%)",
+      "realized_pnl": -2191.82421875
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "BUY",
+      "price": 2975.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-03",
+      "stock_code": "001450",
+      "stock_name": "현대해상",
+      "action": "SELL",
+      "price": 33650.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.2%)",
+      "realized_pnl": -1850.0
+    },
+    {
+      "date": "2023-03-03",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "SELL",
+      "price": 2695.0,
+      "quantity": 12,
+      "reason": "stop_loss (-9.4%)",
+      "realized_pnl": -3360.0
+    },
+    {
+      "date": "2023-03-06",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 16890.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-08",
+      "stock_code": "009540",
+      "stock_name": "HD한국조선해양",
+      "action": "SELL",
+      "price": 77900.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+2.5%)",
+      "realized_pnl": 1900.0
+    },
+    {
+      "date": "2023-03-09",
+      "stock_code": "000660",
+      "stock_name": "SK하이닉스",
+      "action": "SELL",
+      "price": 85600.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-0.5%)",
+      "realized_pnl": -400.0
+    },
+    {
+      "date": "2023-03-09",
+      "stock_code": "001040",
+      "stock_name": "CJ",
+      "action": "BUY",
+      "price": 94200.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-10",
+      "stock_code": "002790",
+      "stock_name": "002790",
+      "action": "SELL",
+      "price": 37600.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-0.7%)",
+      "realized_pnl": -250.0
+    },
+    {
+      "date": "2023-03-10",
+      "stock_code": "003550",
+      "stock_name": "LG",
+      "action": "BUY",
+      "price": 85900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-14",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "SELL",
+      "price": 8440.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.2%)",
+      "realized_pnl": -560.0
+    },
+    {
+      "date": "2023-03-14",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "SELL",
+      "price": 13303.8203125,
+      "quantity": 7,
+      "reason": "lower_band_touch (+0.3%)",
+      "realized_pnl": 261.9599609375
+    },
+    {
+      "date": "2023-03-14",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "SELL",
+      "price": 35900.0,
+      "quantity": 2,
+      "reason": "stop_loss (-6.6%)",
+      "realized_pnl": -5100.0
+    },
+    {
+      "date": "2023-03-17",
+      "stock_code": "033780",
+      "stock_name": "KT&G",
+      "action": "BUY",
+      "price": 91800.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-20",
+      "stock_code": "005830",
+      "stock_name": "DB손해보험",
+      "action": "SELL",
+      "price": 70700.0,
+      "quantity": 1,
+      "reason": "stop_loss (-7.3%)",
+      "realized_pnl": -5600.0
+    },
+    {
+      "date": "2023-03-21",
+      "stock_code": "017670",
+      "stock_name": "SK텔레콤",
+      "action": "BUY",
+      "price": 48800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-23",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "BUY",
+      "price": 62300.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-24",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "SELL",
+      "price": 42750.0,
+      "quantity": 2,
+      "reason": "stop_loss (-6.0%)",
+      "realized_pnl": -5500.0
+    },
+    {
+      "date": "2023-03-27",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "SELL",
+      "price": 15950.0,
+      "quantity": 4,
+      "reason": "stop_loss (-5.6%)",
+      "realized_pnl": -3760.0
+    },
+    {
+      "date": "2023-03-28",
+      "stock_code": "033780",
+      "stock_name": "KT&G",
+      "action": "SELL",
+      "price": 85400.0,
+      "quantity": 1,
+      "reason": "stop_loss (-7.0%)",
+      "realized_pnl": -6400.0
+    },
+    {
+      "date": "2023-03-28",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "BUY",
+      "price": 15221.7412109375,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-29",
+      "stock_code": "015760",
+      "stock_name": "한국전력",
+      "action": "BUY",
+      "price": 18670.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-30",
+      "stock_code": "003550",
+      "stock_name": "LG",
+      "action": "SELL",
+      "price": 81600.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -4300.0
+    },
+    {
+      "date": "2023-03-30",
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "action": "BUY",
+      "price": 13230.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-03-31",
+      "stock_code": "047810",
+      "stock_name": "한국항공우주",
+      "action": "BUY",
+      "price": 47400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-20",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "SELL",
+      "price": 57900.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.2%)",
+      "realized_pnl": -3200.0
+    },
+    {
+      "date": "2023-04-20",
+      "stock_code": "064350",
+      "stock_name": "현대로템",
+      "action": "BUY",
+      "price": 31700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-21",
+      "stock_code": "066570",
+      "stock_name": "LG전자",
+      "action": "SELL",
+      "price": 107800.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+13.4%)",
+      "realized_pnl": 12700.0
+    },
+    {
+      "date": "2023-04-21",
+      "stock_code": "079550",
+      "stock_name": "LIG넥스원",
+      "action": "BUY",
+      "price": 80500.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-21",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "BUY",
+      "price": 50100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-24",
+      "stock_code": "001040",
+      "stock_name": "CJ",
+      "action": "SELL",
+      "price": 94900.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+0.7%)",
+      "realized_pnl": 700.0
+    },
+    {
+      "date": "2023-04-24",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "BUY",
+      "price": 46200.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-26",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "SELL",
+      "price": 43650.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.5%)",
+      "realized_pnl": -5100.0
+    },
+    {
+      "date": "2023-04-27",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "SELL",
+      "price": 14220.6796875,
+      "quantity": 6,
+      "reason": "stop_loss (-6.6%)",
+      "realized_pnl": -6006.369140625
+    },
+    {
+      "date": "2023-04-28",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "BUY",
+      "price": 42450.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-04-28",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "BUY",
+      "price": 69100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-03",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "SELL",
+      "price": 63350.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.3%)",
+      "realized_pnl": -5750.0
+    },
+    {
+      "date": "2023-05-04",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "SELL",
+      "price": 28500.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (+20.8%)",
+      "realized_pnl": 19600.0
+    },
+    {
+      "date": "2023-05-04",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "BUY",
+      "price": 12560.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-09",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "BUY",
+      "price": 31250.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-10",
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "action": "SELL",
+      "price": 13810.0,
+      "quantity": 7,
+      "reason": "lower_band_touch (+4.4%)",
+      "realized_pnl": 4060.0
+    },
+    {
+      "date": "2023-05-10",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "BUY",
+      "price": 2590.0,
+      "quantity": 38,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-15",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "SELL",
+      "price": 2445.0,
+      "quantity": 38,
+      "reason": "stop_loss (-5.6%)",
+      "realized_pnl": -5510.0
+    },
+    {
+      "date": "2023-05-15",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "BUY",
+      "price": 37000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-15",
+      "stock_code": "004990",
+      "stock_name": "004990",
+      "action": "BUY",
+      "price": 30250.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-19",
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "action": "BUY",
+      "price": 12040.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-25",
+      "stock_code": "004990",
+      "stock_name": "004990",
+      "action": "SELL",
+      "price": 28600.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.5%)",
+      "realized_pnl": -1650.0
+    },
+    {
+      "date": "2023-05-26",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "SELL",
+      "price": 47950.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-4.3%)",
+      "realized_pnl": -2150.0
+    },
+    {
+      "date": "2023-05-30",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "SELL",
+      "price": 35050.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.3%)",
+      "realized_pnl": -3900.0
+    },
+    {
+      "date": "2023-05-30",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "BUY",
+      "price": 46800.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-05-31",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "BUY",
+      "price": 9990.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "017670",
+      "stock_name": "SK텔레콤",
+      "action": "SELL",
+      "price": 48500.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-0.6%)",
+      "realized_pnl": -600.0
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "003490",
+      "stock_name": "대한항공",
+      "action": "BUY",
+      "price": 23350.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-06-23",
+      "stock_code": "005940",
+      "stock_name": "NH투자증권",
+      "action": "SELL",
+      "price": 9490.0,
+      "quantity": 5,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -2500.0
+    },
+    {
+      "date": "2023-06-26",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "BUY",
+      "price": 40800.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-06-28",
+      "stock_code": "000720",
+      "stock_name": "현대건설",
+      "action": "SELL",
+      "price": 38500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.6%)",
+      "realized_pnl": -2300.0
+    },
+    {
+      "date": "2023-06-29",
+      "stock_code": "030200",
+      "stock_name": "KT",
+      "action": "SELL",
+      "price": 29800.0,
+      "quantity": 3,
+      "reason": "lower_band_touch (-4.6%)",
+      "realized_pnl": -4350.0
+    },
+    {
+      "date": "2023-06-29",
+      "stock_code": "316140",
+      "stock_name": "우리금융지주",
+      "action": "SELL",
+      "price": 11610.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.6%)",
+      "realized_pnl": -430.0
+    },
+    {
+      "date": "2023-06-29",
+      "stock_code": "180640",
+      "stock_name": "한진칼",
+      "action": "SELL",
+      "price": 46100.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-1.5%)",
+      "realized_pnl": -1400.0
+    },
+    {
+      "date": "2023-07-03",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "SELL",
+      "price": 12520.0,
+      "quantity": 7,
+      "reason": "lower_band_touch (-0.3%)",
+      "realized_pnl": -280.0
+    },
+    {
+      "date": "2023-07-03",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "BUY",
+      "price": 29500.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-04",
+      "stock_code": "047050",
+      "stock_name": "포스코인터내셔널",
+      "action": "BUY",
+      "price": 43100.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-04",
+      "stock_code": "010620",
+      "stock_name": "HD현대미포",
+      "action": "BUY",
+      "price": 87400.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:70)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-06",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "BUY",
+      "price": 36750.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-07",
+      "stock_code": "005930",
+      "stock_name": "삼성전자",
+      "action": "SELL",
+      "price": 69900.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+12.2%)",
+      "realized_pnl": 7600.0
+    },
+    {
+      "date": "2023-07-10",
+      "stock_code": "032830",
+      "stock_name": "삼성생명",
+      "action": "BUY",
+      "price": 70500.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-10",
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "action": "BUY",
+      "price": 7200.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-14",
+      "stock_code": "064350",
+      "stock_name": "현대로템",
+      "action": "SELL",
+      "price": 34750.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+9.6%)",
+      "realized_pnl": 3050.0
+    },
+    {
+      "date": "2023-07-14",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "BUY",
+      "price": 36900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-26",
+      "stock_code": "047810",
+      "stock_name": "한국항공우주",
+      "action": "SELL",
+      "price": 49150.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+3.7%)",
+      "realized_pnl": 1750.0
+    },
+    {
+      "date": "2023-07-26",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "SELL",
+      "price": 42800.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+0.8%)",
+      "realized_pnl": 700.0
+    },
+    {
+      "date": "2023-07-26",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "SELL",
+      "price": 34700.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.0%)",
+      "realized_pnl": -2200.0
+    },
+    {
+      "date": "2023-07-26",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "BUY",
+      "price": 49600.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-27",
+      "stock_code": "079550",
+      "stock_name": "LIG넥스원",
+      "action": "SELL",
+      "price": 75300.0,
+      "quantity": 1,
+      "reason": "stop_loss (-6.5%)",
+      "realized_pnl": -5200.0
+    },
+    {
+      "date": "2023-07-27",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "BUY",
+      "price": 34950.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-07-27",
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "action": "BUY",
+      "price": 35150.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "015760",
+      "stock_name": "한국전력",
+      "action": "SELL",
+      "price": 18340.0,
+      "quantity": 5,
+      "reason": "lower_band_touch (-1.8%)",
+      "realized_pnl": -1650.0
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "032830",
+      "stock_name": "삼성생명",
+      "action": "SELL",
+      "price": 67500.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-4.3%)",
+      "realized_pnl": -3000.0
+    },
+    {
+      "date": "2023-08-18",
+      "stock_code": "010620",
+      "stock_name": "HD현대미포",
+      "action": "SELL",
+      "price": 84400.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-3.4%)",
+      "realized_pnl": -3000.0
+    },
+    {
+      "date": "2023-08-21",
+      "stock_code": "003490",
+      "stock_name": "대한항공",
+      "action": "SELL",
+      "price": 23200.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (-0.6%)",
+      "realized_pnl": -600.0
+    },
+    {
+      "date": "2023-08-25",
+      "stock_code": "241560",
+      "stock_name": "두산밥캣",
+      "action": "SELL",
+      "price": 51800.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+41.0%)",
+      "realized_pnl": 30100.0
+    },
+    {
+      "date": "2023-08-25",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "SELL",
+      "price": 33150.0,
+      "quantity": 3,
+      "reason": "lower_band_touch (+12.4%)",
+      "realized_pnl": 10950.0
+    },
+    {
+      "date": "2023-08-25",
+      "stock_code": "024110",
+      "stock_name": "기업은행",
+      "action": "BUY",
+      "price": 10650.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-28",
+      "stock_code": "138040",
+      "stock_name": "메리츠금융지주",
+      "action": "BUY",
+      "price": 51800.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-28",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "BUY",
+      "price": 10410.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-29",
+      "stock_code": "079550",
+      "stock_name": "LIG넥스원",
+      "action": "BUY",
+      "price": 83200.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-30",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "BUY",
+      "price": 44450.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-30",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "BUY",
+      "price": 37450.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-08-30",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "BUY",
+      "price": 12260.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-09-11",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "BUY",
+      "price": 2695.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-09-25",
+      "stock_code": "047050",
+      "stock_name": "포스코인터내셔널",
+      "action": "SELL",
+      "price": 72800.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+68.9%)",
+      "realized_pnl": 59400.0
+    },
+    {
+      "date": "2023-09-25",
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "action": "SELL",
+      "price": 7900.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (+9.7%)",
+      "realized_pnl": 2800.0
+    },
+    {
+      "date": "2023-09-25",
+      "stock_code": "000270",
+      "stock_name": "기아",
+      "action": "BUY",
+      "price": 82100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-09-25",
+      "stock_code": "086280",
+      "stock_name": "현대글로비스",
+      "action": "BUY",
+      "price": 92900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "SELL",
+      "price": 36750.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (+0.0%)",
+      "realized_pnl": 0.0
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "004020",
+      "stock_name": "현대제철",
+      "action": "SELL",
+      "price": 36650.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+4.9%)",
+      "realized_pnl": 3400.0
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "003620",
+      "stock_name": "003620",
+      "action": "SELL",
+      "price": 40650.0,
+      "quantity": 2,
+      "reason": "stop_loss (-8.5%)",
+      "realized_pnl": -7600.0
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "016360",
+      "stock_name": "삼성증권",
+      "action": "SELL",
+      "price": 35950.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-4.0%)",
+      "realized_pnl": -3000.0
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "088980",
+      "stock_name": "088980",
+      "action": "SELL",
+      "price": 11980.0,
+      "quantity": 4,
+      "reason": "lower_band_touch (-2.3%)",
+      "realized_pnl": -1120.0
+    },
+    {
+      "date": "2023-10-05",
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "action": "SELL",
+      "price": 34300.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (-2.4%)",
+      "realized_pnl": -1700.0
+    },
+    {
+      "date": "2023-10-06",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "BUY",
+      "price": 9650.0,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-10",
+      "stock_code": "018880",
+      "stock_name": "018880",
+      "action": "SELL",
+      "price": 9090.0,
+      "quantity": 10,
+      "reason": "stop_loss (-5.8%)",
+      "realized_pnl": -5600.0
+    },
+    {
+      "date": "2023-10-12",
+      "stock_code": "086280",
+      "stock_name": "현대글로비스",
+      "action": "SELL",
+      "price": 87650.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.7%)",
+      "realized_pnl": -5250.0
+    },
+    {
+      "date": "2023-10-12",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "BUY",
+      "price": 44600.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-17",
+      "stock_code": "021240",
+      "stock_name": "코웨이",
+      "action": "BUY",
+      "price": 43850.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-18",
+      "stock_code": "032830",
+      "stock_name": "삼성생명",
+      "action": "BUY",
+      "price": 73700.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-23",
+      "stock_code": "138040",
+      "stock_name": "메리츠금융지주",
+      "action": "SELL",
+      "price": 47900.0,
+      "quantity": 1,
+      "reason": "stop_loss (-7.5%)",
+      "realized_pnl": -3900.0
+    },
+    {
+      "date": "2023-10-23",
+      "stock_code": "402340",
+      "stock_name": "SK스퀘어",
+      "action": "SELL",
+      "price": 42350.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2023-10-25",
+      "stock_code": "007070",
+      "stock_name": "GS리테일",
+      "action": "BUY",
+      "price": 30810.765625,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-25",
+      "stock_code": "139480",
+      "stock_name": "139480",
+      "action": "BUY",
+      "price": 74100.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-10-26",
+      "stock_code": "105560",
+      "stock_name": "KB금융",
+      "action": "SELL",
+      "price": 53300.0,
+      "quantity": 2,
+      "reason": "lower_band_touch (+7.5%)",
+      "realized_pnl": 7400.0
+    },
+    {
+      "date": "2023-10-27",
+      "stock_code": "000270",
+      "stock_name": "기아",
+      "action": "SELL",
+      "price": 79700.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-2.9%)",
+      "realized_pnl": -2400.0
+    },
+    {
+      "date": "2023-11-01",
+      "stock_code": "161390",
+      "stock_name": "한국타이어앤테크놀로지",
+      "action": "BUY",
+      "price": 38900.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-02",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "SELL",
+      "price": 2650.0,
+      "quantity": 3,
+      "reason": "lower_band_touch (-1.7%)",
+      "realized_pnl": -135.0
+    },
+    {
+      "date": "2023-11-02",
+      "stock_code": "032830",
+      "stock_name": "삼성생명",
+      "action": "SELL",
+      "price": 70100.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-4.9%)",
+      "realized_pnl": -3600.0
+    },
+    {
+      "date": "2023-11-02",
+      "stock_code": "001040",
+      "stock_name": "CJ",
+      "action": "BUY",
+      "price": 85600.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-03",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "BUY",
+      "price": 12087.578125,
+      "quantity": 8,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-03",
+      "stock_code": "002790",
+      "stock_name": "002790",
+      "action": "BUY",
+      "price": 29800.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-03",
+      "stock_code": "272210",
+      "stock_name": "한화시스템",
+      "action": "BUY",
+      "price": 13640.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-28",
+      "stock_code": "002790",
+      "stock_name": "002790",
+      "action": "SELL",
+      "price": 28300.0,
+      "quantity": 3,
+      "reason": "stop_loss (-5.0%)",
+      "realized_pnl": -4500.0
+    },
+    {
+      "date": "2023-11-28",
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "action": "BUY",
+      "price": 8160.0,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-11-30",
+      "stock_code": "007070",
+      "stock_name": "GS리테일",
+      "action": "SELL",
+      "price": 29871.412109375,
+      "quantity": 3,
+      "reason": "lower_band_touch (-3.0%)",
+      "realized_pnl": -2818.060546875
+    },
+    {
+      "date": "2023-11-30",
+      "stock_code": "034020",
+      "stock_name": "두산에너빌리티",
+      "action": "BUY",
+      "price": 15800.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-07",
+      "stock_code": "139480",
+      "stock_name": "139480",
+      "action": "SELL",
+      "price": 73700.0,
+      "quantity": 1,
+      "reason": "lower_band_touch (-0.5%)",
+      "realized_pnl": -400.0
+    },
+    {
+      "date": "2023-12-07",
+      "stock_code": "000100",
+      "stock_name": "유한양행",
+      "action": "BUY",
+      "price": 62380.953125,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-07",
+      "stock_code": "036460",
+      "stock_name": "한국가스공사",
+      "action": "BUY",
+      "price": 25900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-14",
+      "stock_code": "032640",
+      "stock_name": "LG유플러스",
+      "action": "SELL",
+      "price": 10240.0,
+      "quantity": 9,
+      "reason": "lower_band_touch (-1.6%)",
+      "realized_pnl": -1530.0
+    },
+    {
+      "date": "2023-12-14",
+      "stock_code": "035720",
+      "stock_name": "카카오",
+      "action": "BUY",
+      "price": 54300.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-14",
+      "stock_code": "055550",
+      "stock_name": "신한지주",
+      "action": "BUY",
+      "price": 37900.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-18",
+      "stock_code": "010140",
+      "stock_name": "삼성중공업",
+      "action": "SELL",
+      "price": 7510.0,
+      "quantity": 10,
+      "reason": "stop_loss (-8.0%)",
+      "realized_pnl": -6500.0
+    },
+    {
+      "date": "2023-12-18",
+      "stock_code": "011200",
+      "stock_name": "HMM",
+      "action": "BUY",
+      "price": 17540.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-19",
+      "stock_code": "034220",
+      "stock_name": "034220",
+      "action": "SELL",
+      "price": 11067.8056640625,
+      "quantity": 8,
+      "reason": "stop_loss (-8.4%)",
+      "realized_pnl": -8158.1796875
+    },
+    {
+      "date": "2023-12-19",
+      "stock_code": "028050",
+      "stock_name": "삼성엔지니어링",
+      "action": "BUY",
+      "price": 27200.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-20",
+      "stock_code": "006800",
+      "stock_name": "미래에셋증권",
+      "action": "BUY",
+      "price": 7640.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:80)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-26",
+      "stock_code": "036460",
+      "stock_name": "한국가스공사",
+      "action": "SELL",
+      "price": 24550.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.2%)",
+      "realized_pnl": -1350.0
+    },
+    {
+      "date": "2023-12-26",
+      "stock_code": "004990",
+      "stock_name": "004990",
+      "action": "BUY",
+      "price": 28750.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:100)",
+      "realized_pnl": null
+    },
+    {
+      "date": "2023-12-27",
+      "stock_code": "004990",
+      "stock_name": "004990",
+      "action": "SELL",
+      "price": 27050.0,
+      "quantity": 1,
+      "reason": "stop_loss (-5.9%)",
+      "realized_pnl": -1700.0
+    },
+    {
+      "date": "2023-12-28",
+      "stock_code": "088350",
+      "stock_name": "한화생명",
+      "action": "BUY",
+      "price": 2830.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:75)",
+      "realized_pnl": null
+    }
+  ],
+  "pending_orders": [],
+  "last_run_output": "",
+  "backtest_metrics": {
+    "final_value": 1101191.5732421875,
+    "total_return_pct": 10.11915732421875,
+    "total_trades": 176,
+    "buy_trades": 95,
+    "sell_trades": 81,
+    "winning_trades": 16,
+    "losing_trades": 64,
+    "win_rate": 19.753086419753085,
+    "total_pnl": -54257.4736328125,
+    "avg_win": 10398.247497558594,
+    "avg_loss": -3447.3348999023438,
+    "max_drawdown": 10.823563437593478
+  },
+  "daily_values": [
+    {
+      "date": "2023-01-02",
+      "value": 1000000
+    },
+    {
+      "date": "2023-01-03",
+      "value": 1000000
+    },
+    {
+      "date": "2023-01-04",
+      "value": 1000000
+    },
+    {
+      "date": "2023-01-05",
+      "value": 1000000.0
+    },
+    {
+      "date": "2023-01-06",
+      "value": 998170.0
+    },
+    {
+      "date": "2023-01-09",
+      "value": 999870.0
+    },
+    {
+      "date": "2023-01-10",
+      "value": 997120.0
+    },
+    {
+      "date": "2023-01-11",
+      "value": 991570.0
+    },
+    {
+      "date": "2023-01-12",
+      "value": 988620.0
+    },
+    {
+      "date": "2023-01-13",
+      "value": 997470.0
+    },
+    {
+      "date": "2023-01-16",
+      "value": 1013950.0
+    },
+    {
+      "date": "2023-01-17",
+      "value": 1006030.0
+    },
+    {
+      "date": "2023-01-18",
+      "value": 1002060.0
+    },
+    {
+      "date": "2023-01-19",
+      "value": 1002710.0
+    },
+    {
+      "date": "2023-01-20",
+      "value": 1008380.0
+    },
+    {
+      "date": "2023-01-25",
+      "value": 1011800.0
+    },
+    {
+      "date": "2023-01-26",
+      "value": 1016060.0
+    },
+    {
+      "date": "2023-01-27",
+      "value": 1017250.0
+    },
+    {
+      "date": "2023-01-30",
+      "value": 1004180.0
+    },
+    {
+      "date": "2023-01-31",
+      "value": 998977.072265625
+    },
+    {
+      "date": "2023-02-01",
+      "value": 1005656.8720703125
+    },
+    {
+      "date": "2023-02-02",
+      "value": 1003832.751953125
+    },
+    {
+      "date": "2023-02-03",
+      "value": 1015868.0400390625
+    },
+    {
+      "date": "2023-02-06",
+      "value": 1001580.400390625
+    },
+    {
+      "date": "2023-02-07",
+      "value": 1003740.400390625
+    },
+    {
+      "date": "2023-02-08",
+      "value": 1021122.3515625
+    },
+    {
+      "date": "2023-02-09",
+      "value": 1019852.736328125
+    },
+    {
+      "date": "2023-02-10",
+      "value": 1024592.736328125
+    },
+    {
+      "date": "2023-02-13",
+      "value": 1016963.9765625
+    },
+    {
+      "date": "2023-02-14",
+      "value": 1025057.6083984375
+    },
+    {
+      "date": "2023-02-15",
+      "value": 1011589.4140625
+    },
+    {
+      "date": "2023-02-16",
+      "value": 1024008.8134765625
+    },
+    {
+      "date": "2023-02-17",
+      "value": 1022590.1396484375
+    },
+    {
+      "date": "2023-02-20",
+      "value": 1027030.7236328125
+    },
+    {
+      "date": "2023-02-21",
+      "value": 1024632.466796875
+    },
+    {
+      "date": "2023-02-22",
+      "value": 1006782.1953125
+    },
+    {
+      "date": "2023-02-23",
+      "value": 1014997.748046875
+    },
+    {
+      "date": "2023-02-24",
+      "value": 1009097.333984375
+    },
+    {
+      "date": "2023-02-27",
+      "value": 1000424.3857421875
+    },
+    {
+      "date": "2023-02-28",
+      "value": 990237.5595703125
+    },
+    {
+      "date": "2023-03-02",
+      "value": 997285.806640625
+    },
+    {
+      "date": "2023-03-03",
+      "value": 990550.703125
+    },
+    {
+      "date": "2023-03-06",
+      "value": 998938.9345703125
+    },
+    {
+      "date": "2023-03-07",
+      "value": 995569.134765625
+    },
+    {
+      "date": "2023-03-08",
+      "value": 997188.1513671875
+    },
+    {
+      "date": "2023-03-09",
+      "value": 1005820.111328125
+    },
+    {
+      "date": "2023-03-10",
+      "value": 988848.5517578125
+    },
+    {
+      "date": "2023-03-13",
+      "value": 1006322.86328125
+    },
+    {
+      "date": "2023-03-14",
+      "value": 972090.1357421875
+    },
+    {
+      "date": "2023-03-15",
+      "value": 993930.1357421875
+    },
+    {
+      "date": "2023-03-16",
+      "value": 986910.1357421875
+    },
+    {
+      "date": "2023-03-17",
+      "value": 989130.1357421875
+    },
+    {
+      "date": "2023-03-20",
+      "value": 980350.1357421875
+    },
+    {
+      "date": "2023-03-21",
+      "value": 981170.1357421875
+    },
+    {
+      "date": "2023-03-22",
+      "value": 974310.1357421875
+    },
+    {
+      "date": "2023-03-23",
+      "value": 966090.1357421875
+    },
+    {
+      "date": "2023-03-24",
+      "value": 968270.1357421875
+    },
+    {
+      "date": "2023-03-27",
+      "value": 964070.1357421875
+    },
+    {
+      "date": "2023-03-28",
+      "value": 968470.1357421875
+    },
+    {
+      "date": "2023-03-29",
+      "value": 969891.3173828125
+    },
+    {
+      "date": "2023-03-30",
+      "value": 970177.1943359375
+    },
+    {
+      "date": "2023-03-31",
+      "value": 987378.2841796875
+    },
+    {
+      "date": "2023-04-03",
+      "value": 982314.9228515625
+    },
+    {
+      "date": "2023-04-04",
+      "value": 990263.2607421875
+    },
+    {
+      "date": "2023-04-05",
+      "value": 996688.3759765625
+    },
+    {
+      "date": "2023-04-06",
+      "value": 979091.1533203125
+    },
+    {
+      "date": "2023-04-07",
+      "value": 976416.6162109375
+    },
+    {
+      "date": "2023-04-10",
+      "value": 975316.8720703125
+    },
+    {
+      "date": "2023-04-11",
+      "value": 978502.3349609375
+    },
+    {
+      "date": "2023-04-12",
+      "value": 995610.6416015625
+    },
+    {
+      "date": "2023-04-13",
+      "value": 1006003.6552734375
+    },
+    {
+      "date": "2023-04-14",
+      "value": 1004978.0283203125
+    },
+    {
+      "date": "2023-04-17",
+      "value": 1011827.8642578125
+    },
+    {
+      "date": "2023-04-18",
+      "value": 1010999.2099609375
+    },
+    {
+      "date": "2023-04-19",
+      "value": 1011023.5830078125
+    },
+    {
+      "date": "2023-04-20",
+      "value": 1010795.4345703125
+    },
+    {
+      "date": "2023-04-21",
+      "value": 1002209.2099609375
+    },
+    {
+      "date": "2023-04-24",
+      "value": 991141.0615234375
+    },
+    {
+      "date": "2023-04-25",
+      "value": 994507.1943359375
+    },
+    {
+      "date": "2023-04-26",
+      "value": 974496.3603515625
+    },
+    {
+      "date": "2023-04-27",
+      "value": 988283.7666015625
+    },
+    {
+      "date": "2023-04-28",
+      "value": 971283.7666015625
+    },
+    {
+      "date": "2023-05-02",
+      "value": 976503.7666015625
+    },
+    {
+      "date": "2023-05-03",
+      "value": 968053.7666015625
+    },
+    {
+      "date": "2023-05-04",
+      "value": 966953.7666015625
+    },
+    {
+      "date": "2023-05-08",
+      "value": 971103.7666015625
+    },
+    {
+      "date": "2023-05-09",
+      "value": 963463.7666015625
+    },
+    {
+      "date": "2023-05-10",
+      "value": 960683.7666015625
+    },
+    {
+      "date": "2023-05-11",
+      "value": 968213.7666015625
+    },
+    {
+      "date": "2023-05-12",
+      "value": 965363.7666015625
+    },
+    {
+      "date": "2023-05-15",
+      "value": 961903.7666015625
+    },
+    {
+      "date": "2023-05-16",
+      "value": 952263.7666015625
+    },
+    {
+      "date": "2023-05-17",
+      "value": 947183.7666015625
+    },
+    {
+      "date": "2023-05-18",
+      "value": 958193.7666015625
+    },
+    {
+      "date": "2023-05-19",
+      "value": 965893.7666015625
+    },
+    {
+      "date": "2023-05-22",
+      "value": 971573.7666015625
+    },
+    {
+      "date": "2023-05-23",
+      "value": 972303.7666015625
+    },
+    {
+      "date": "2023-05-24",
+      "value": 972733.7666015625
+    },
+    {
+      "date": "2023-05-25",
+      "value": 972683.7666015625
+    },
+    {
+      "date": "2023-05-26",
+      "value": 968503.7666015625
+    },
+    {
+      "date": "2023-05-30",
+      "value": 971503.7666015625
+    },
+    {
+      "date": "2023-05-31",
+      "value": 981993.7666015625
+    },
+    {
+      "date": "2023-06-01",
+      "value": 971663.7666015625
+    },
+    {
+      "date": "2023-06-02",
+      "value": 979243.7666015625
+    },
+    {
+      "date": "2023-06-05",
+      "value": 993173.7666015625
+    },
+    {
+      "date": "2023-06-07",
+      "value": 991103.7666015625
+    },
+    {
+      "date": "2023-06-08",
+      "value": 990513.7666015625
+    },
+    {
+      "date": "2023-06-09",
+      "value": 994113.7666015625
+    },
+    {
+      "date": "2023-06-12",
+      "value": 995303.7666015625
+    },
+    {
+      "date": "2023-06-13",
+      "value": 998223.7666015625
+    },
+    {
+      "date": "2023-06-14",
+      "value": 991693.7666015625
+    },
+    {
+      "date": "2023-06-15",
+      "value": 990193.7666015625
+    },
+    {
+      "date": "2023-06-16",
+      "value": 1001493.7666015625
+    },
+    {
+      "date": "2023-06-19",
+      "value": 1008373.7666015625
+    },
+    {
+      "date": "2023-06-20",
+      "value": 1005843.7666015625
+    },
+    {
+      "date": "2023-06-21",
+      "value": 984453.7666015625
+    },
+    {
+      "date": "2023-06-22",
+      "value": 984723.7666015625
+    },
+    {
+      "date": "2023-06-23",
+      "value": 977273.7666015625
+    },
+    {
+      "date": "2023-06-26",
+      "value": 982023.7666015625
+    },
+    {
+      "date": "2023-06-27",
+      "value": 984223.7666015625
+    },
+    {
+      "date": "2023-06-28",
+      "value": 981343.7666015625
+    },
+    {
+      "date": "2023-06-29",
+      "value": 976513.7666015625
+    },
+    {
+      "date": "2023-06-30",
+      "value": 983663.7666015625
+    },
+    {
+      "date": "2023-07-03",
+      "value": 987653.7666015625
+    },
+    {
+      "date": "2023-07-04",
+      "value": 992703.7666015625
+    },
+    {
+      "date": "2023-07-05",
+      "value": 1005153.7666015625
+    },
+    {
+      "date": "2023-07-06",
+      "value": 992203.7666015625
+    },
+    {
+      "date": "2023-07-07",
+      "value": 986253.7666015625
+    },
+    {
+      "date": "2023-07-10",
+      "value": 987503.7666015625
+    },
+    {
+      "date": "2023-07-11",
+      "value": 1009763.7666015625
+    },
+    {
+      "date": "2023-07-12",
+      "value": 1027083.7666015625
+    },
+    {
+      "date": "2023-07-13",
+      "value": 1022943.7666015625
+    },
+    {
+      "date": "2023-07-14",
+      "value": 1030843.7666015625
+    },
+    {
+      "date": "2023-07-17",
+      "value": 1016433.7666015625
+    },
+    {
+      "date": "2023-07-18",
+      "value": 1010403.7666015625
+    },
+    {
+      "date": "2023-07-19",
+      "value": 1008643.7666015625
+    },
+    {
+      "date": "2023-07-20",
+      "value": 1015373.7666015625
+    },
+    {
+      "date": "2023-07-21",
+      "value": 1019513.7666015625
+    },
+    {
+      "date": "2023-07-24",
+      "value": 1035123.7666015625
+    },
+    {
+      "date": "2023-07-25",
+      "value": 1062853.7666015625
+    },
+    {
+      "date": "2023-07-26",
+      "value": 1057133.7666015625
+    },
+    {
+      "date": "2023-07-27",
+      "value": 1017453.7666015625
+    },
+    {
+      "date": "2023-07-28",
+      "value": 1056113.7666015625
+    },
+    {
+      "date": "2023-07-31",
+      "value": 1092973.7666015625
+    },
+    {
+      "date": "2023-08-01",
+      "value": 1089003.7666015625
+    },
+    {
+      "date": "2023-08-02",
+      "value": 1081793.7666015625
+    },
+    {
+      "date": "2023-08-03",
+      "value": 1065793.7666015625
+    },
+    {
+      "date": "2023-08-04",
+      "value": 1068793.7666015625
+    },
+    {
+      "date": "2023-08-07",
+      "value": 1050313.7666015625
+    },
+    {
+      "date": "2023-08-08",
+      "value": 1085993.7666015625
+    },
+    {
+      "date": "2023-08-09",
+      "value": 1081823.7666015625
+    },
+    {
+      "date": "2023-08-10",
+      "value": 1089083.7666015625
+    },
+    {
+      "date": "2023-08-11",
+      "value": 1078093.7666015625
+    },
+    {
+      "date": "2023-08-14",
+      "value": 1081063.7666015625
+    },
+    {
+      "date": "2023-08-16",
+      "value": 1054243.7666015625
+    },
+    {
+      "date": "2023-08-17",
+      "value": 1055303.7666015625
+    },
+    {
+      "date": "2023-08-18",
+      "value": 1037793.7666015625
+    },
+    {
+      "date": "2023-08-21",
+      "value": 1032643.7666015625
+    },
+    {
+      "date": "2023-08-22",
+      "value": 1035163.7666015625
+    },
+    {
+      "date": "2023-08-23",
+      "value": 1031093.7666015625
+    },
+    {
+      "date": "2023-08-24",
+      "value": 1039643.7666015625
+    },
+    {
+      "date": "2023-08-25",
+      "value": 1021243.7666015625
+    },
+    {
+      "date": "2023-08-28",
+      "value": 1042253.7666015625
+    },
+    {
+      "date": "2023-08-29",
+      "value": 1041693.7666015625
+    },
+    {
+      "date": "2023-08-30",
+      "value": 1032523.7666015625
+    },
+    {
+      "date": "2023-08-31",
+      "value": 1036053.7666015625
+    },
+    {
+      "date": "2023-09-01",
+      "value": 1034303.7666015625
+    },
+    {
+      "date": "2023-09-04",
+      "value": 1046383.7666015625
+    },
+    {
+      "date": "2023-09-05",
+      "value": 1047363.7666015625
+    },
+    {
+      "date": "2023-09-06",
+      "value": 1044273.7666015625
+    },
+    {
+      "date": "2023-09-07",
+      "value": 1035513.7666015625
+    },
+    {
+      "date": "2023-09-08",
+      "value": 1045903.7666015625
+    },
+    {
+      "date": "2023-09-11",
+      "value": 1049583.7666015625
+    },
+    {
+      "date": "2023-09-12",
+      "value": 1037993.7666015625
+    },
+    {
+      "date": "2023-09-13",
+      "value": 1043463.7666015625
+    },
+    {
+      "date": "2023-09-14",
+      "value": 1054128.7666015625
+    },
+    {
+      "date": "2023-09-15",
+      "value": 1071408.7666015625
+    },
+    {
+      "date": "2023-09-18",
+      "value": 1068978.7666015625
+    },
+    {
+      "date": "2023-09-19",
+      "value": 1063283.7666015625
+    },
+    {
+      "date": "2023-09-20",
+      "value": 1072963.7666015625
+    },
+    {
+      "date": "2023-09-21",
+      "value": 1062488.7666015625
+    },
+    {
+      "date": "2023-09-22",
+      "value": 1056653.7666015625
+    },
+    {
+      "date": "2023-09-25",
+      "value": 1044258.7666015625
+    },
+    {
+      "date": "2023-09-26",
+      "value": 1027568.7666015625
+    },
+    {
+      "date": "2023-09-27",
+      "value": 1029623.7666015625
+    },
+    {
+      "date": "2023-10-04",
+      "value": 1007443.7666015625
+    },
+    {
+      "date": "2023-10-05",
+      "value": 1004218.7666015625
+    },
+    {
+      "date": "2023-10-06",
+      "value": 1015563.7666015625
+    },
+    {
+      "date": "2023-10-10",
+      "value": 1017023.7666015625
+    },
+    {
+      "date": "2023-10-11",
+      "value": 1013168.7666015625
+    },
+    {
+      "date": "2023-10-12",
+      "value": 1010138.7666015625
+    },
+    {
+      "date": "2023-10-13",
+      "value": 1012973.7666015625
+    },
+    {
+      "date": "2023-10-16",
+      "value": 1008623.7666015625
+    },
+    {
+      "date": "2023-10-17",
+      "value": 1003793.7666015625
+    },
+    {
+      "date": "2023-10-18",
+      "value": 1013238.7666015625
+    },
+    {
+      "date": "2023-10-19",
+      "value": 1009553.7666015625
+    },
+    {
+      "date": "2023-10-20",
+      "value": 1004508.7666015625
+    },
+    {
+      "date": "2023-10-23",
+      "value": 996438.7666015625
+    },
+    {
+      "date": "2023-10-24",
+      "value": 988658.7666015625
+    },
+    {
+      "date": "2023-10-25",
+      "value": 990998.7666015625
+    },
+    {
+      "date": "2023-10-26",
+      "value": 978945.7060546875
+    },
+    {
+      "date": "2023-10-27",
+      "value": 974675.0576171875
+    },
+    {
+      "date": "2023-10-30",
+      "value": 980139.4091796875
+    },
+    {
+      "date": "2023-10-31",
+      "value": 977311.5400390625
+    },
+    {
+      "date": "2023-11-01",
+      "value": 986175.0576171875
+    },
+    {
+      "date": "2023-11-02",
+      "value": 982844.9677734375
+    },
+    {
+      "date": "2023-11-03",
+      "value": 989739.4091796875
+    },
+    {
+      "date": "2023-11-06",
+      "value": 1015399.9970703125
+    },
+    {
+      "date": "2023-11-07",
+      "value": 1012987.2822265625
+    },
+    {
+      "date": "2023-11-08",
+      "value": 1028816.9716796875
+    },
+    {
+      "date": "2023-11-09",
+      "value": 1040208.8544921875
+    },
+    {
+      "date": "2023-11-10",
+      "value": 1041386.1103515625
+    },
+    {
+      "date": "2023-11-13",
+      "value": 1034540.4892578125
+    },
+    {
+      "date": "2023-11-14",
+      "value": 1039830.6806640625
+    },
+    {
+      "date": "2023-11-15",
+      "value": 1047582.4697265625
+    },
+    {
+      "date": "2023-11-16",
+      "value": 1046698.4873046875
+    },
+    {
+      "date": "2023-11-17",
+      "value": 1041360.3388671875
+    },
+    {
+      "date": "2023-11-20",
+      "value": 1036067.3134765625
+    },
+    {
+      "date": "2023-11-21",
+      "value": 1037023.9169921875
+    },
+    {
+      "date": "2023-11-22",
+      "value": 1039255.4892578125
+    },
+    {
+      "date": "2023-11-23",
+      "value": 1039144.0751953125
+    },
+    {
+      "date": "2023-11-24",
+      "value": 1032936.6630859375
+    },
+    {
+      "date": "2023-11-27",
+      "value": 1040518.7294921875
+    },
+    {
+      "date": "2023-11-28",
+      "value": 1043966.6650390625
+    },
+    {
+      "date": "2023-11-29",
+      "value": 1029938.3642578125
+    },
+    {
+      "date": "2023-11-30",
+      "value": 1036836.8779296875
+    },
+    {
+      "date": "2023-12-01",
+      "value": 1036314.1904296875
+    },
+    {
+      "date": "2023-12-04",
+      "value": 1044018.4169921875
+    },
+    {
+      "date": "2023-12-05",
+      "value": 1049708.1123046875
+    },
+    {
+      "date": "2023-12-06",
+      "value": 1048949.0341796875
+    },
+    {
+      "date": "2023-12-07",
+      "value": 1045110.5810546875
+    },
+    {
+      "date": "2023-12-08",
+      "value": 1044368.9833984375
+    },
+    {
+      "date": "2023-12-11",
+      "value": 1079760.4052734375
+    },
+    {
+      "date": "2023-12-12",
+      "value": 1090425.0263671875
+    },
+    {
+      "date": "2023-12-13",
+      "value": 1078202.6435546875
+    },
+    {
+      "date": "2023-12-14",
+      "value": 1079181.6787109375
+    },
+    {
+      "date": "2023-12-15",
+      "value": 1082474.1982421875
+    },
+    {
+      "date": "2023-12-18",
+      "value": 1080167.9755859375
+    },
+    {
+      "date": "2023-12-19",
+      "value": 1082067.2880859375
+    },
+    {
+      "date": "2023-12-20",
+      "value": 1108027.7646484375
+    },
+    {
+      "date": "2023-12-21",
+      "value": 1090462.0498046875
+    },
+    {
+      "date": "2023-12-22",
+      "value": 1097740.1435546875
+    },
+    {
+      "date": "2023-12-26",
+      "value": 1089893.0029296875
+    },
+    {
+      "date": "2023-12-27",
+      "value": 1086011.5732421875
+    },
+    {
+      "date": "2023-12-28",
+      "value": 1101191.5732421875
+    }
+  ]
+}

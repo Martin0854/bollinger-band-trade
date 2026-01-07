@@ -1,0 +1,174 @@
+# Sell Signal API Contract
+# Feature: 006-advanced-sell-strategy
+# Date: 2026-01-07
+
+openapi: 3.0.3
+info:
+  title: Advanced Sell Strategy API
+  version: 1.0.0
+  description: |
+    API contract for sell signal generation with stop-loss, partial take-profit, 
+    and trend breakdown conditions.
+
+paths:
+  /api/recommendations/sell:
+    post:
+      summary: Scan positions for sell signals
+      description: |
+        Evaluates all positions for sell conditions in priority order:
+        1. Stop-loss (PnL <= -stop_loss_pct)
+        2. Partial take-profit (PnL >= +take_profit_pct, first time only)
+        3. Trend breakdown (close < middle band)
+      operationId: scanForSellSignals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SellScanRequest'
+      responses:
+        '200':
+          description: Sell signals for positions meeting criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellScanResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    SellScanRequest:
+      type: object
+      properties:
+        portfolio_id:
+          type: string
+          format: uuid
+          description: Portfolio to scan
+        config:
+          $ref: '#/components/schemas/SellConfiguration'
+      required:
+        - portfolio_id
+
+    SellConfiguration:
+      type: object
+      properties:
+        stop_loss_pct:
+          type: number
+          format: float
+          default: 5.0
+          minimum: 1.0
+          maximum: 20.0
+          description: Stop-loss threshold percentage
+        take_profit_pct:
+          type: number
+          format: float
+          default: 10.0
+          minimum: 5.0
+          maximum: 50.0
+          description: Take-profit threshold percentage
+        take_profit_ratio:
+          type: number
+          format: float
+          default: 0.5
+          minimum: 0.1
+          maximum: 1.0
+          description: Ratio of position to sell on take-profit (0.5 = 50%)
+
+    SellScanResponse:
+      type: object
+      properties:
+        signals:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellSignal'
+        scanned_count:
+          type: integer
+          description: Number of positions evaluated
+        signal_count:
+          type: integer
+          description: Number of sell signals generated
+
+    SellSignal:
+      type: object
+      properties:
+        stock_code:
+          type: string
+          pattern: '^[0-9]{6}$'
+          example: '005930'
+        stock_name:
+          type: string
+          example: '삼성전자'
+        signal_type:
+          type: string
+          enum: ['SELL']
+        confidence_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Always 100 for sell signals
+        current_price:
+          type: number
+          format: float
+          description: Current stock price
+        reason:
+          type: string
+          enum:
+            - stop_loss_hit
+            - take_profit_target_hit
+            - trend_broken_middle_band
+          description: Sell trigger reason
+        indicators:
+          $ref: '#/components/schemas/SellIndicators'
+      required:
+        - stock_code
+        - stock_name
+        - signal_type
+        - current_price
+        - reason
+        - indicators
+
+    SellIndicators:
+      type: object
+      properties:
+        entry_price:
+          type: number
+          format: float
+          description: Position average entry price
+        pnl_pct:
+          type: number
+          format: float
+          description: Current profit/loss percentage
+        sell_quantity:
+          type: integer
+          minimum: 1
+          description: Number of shares to sell
+        sell_ratio:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Percentage of position being sold
+        bb_lower:
+          type: number
+          format: float
+          description: Bollinger lower band value
+        bb_middle:
+          type: number
+          format: float
+          description: Bollinger middle band (20 MA)
+        bb_upper:
+          type: number
+          format: float
+          description: Bollinger upper band value
+        rsi:
+          type: number
+          format: float
+          description: RSI indicator value
+      required:
+        - entry_price
+        - pnl_pct
+        - sell_quantity
+        - sell_ratio

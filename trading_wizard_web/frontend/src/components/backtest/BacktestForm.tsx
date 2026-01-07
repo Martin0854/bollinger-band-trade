@@ -25,7 +25,7 @@ const DEFAULT_STRATEGY: Partial<UserSettings> = {
   confidence_threshold: 50,
   take_profit_enabled: true,
   take_profit_pct: 9,
-  take_profit_ratio: 0.5,
+  take_profit_ratio: 1.0,
   bollinger_period: 12,
   bollinger_std_dev: 1.3,
   squeeze_threshold_pct: 55,

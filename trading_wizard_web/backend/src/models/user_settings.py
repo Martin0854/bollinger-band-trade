@@ -22,7 +22,7 @@ class UserSettings(BaseModel):
 
     take_profit_enabled = Column(Boolean, nullable=False, default=True)
     take_profit_pct = Column(Numeric(5, 2), nullable=False, default=9.00)
-    take_profit_ratio = Column(Numeric(3, 2), nullable=False, default=0.50)
+    take_profit_ratio = Column(Numeric(3, 2), nullable=False, default=1.00)
 
     bollinger_period = Column(Integer, nullable=False, default=12)
     bollinger_std_dev = Column(Numeric(3, 1), nullable=False, default=1.3)

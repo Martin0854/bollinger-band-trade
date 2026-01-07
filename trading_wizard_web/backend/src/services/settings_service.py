@@ -40,7 +40,7 @@ class SettingsService:
                 confidence_threshold=50,
                 take_profit_enabled=True,
                 take_profit_pct=Decimal("9.00"),
-                take_profit_ratio=Decimal("0.50"),
+                take_profit_ratio=Decimal("1.00"),
                 bollinger_period=12,
                 bollinger_std_dev=Decimal("1.3"),
                 squeeze_threshold_pct=55,
