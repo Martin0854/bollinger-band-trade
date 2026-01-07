@@ -3,18 +3,11 @@ import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 import { Card } from '../common/Card';
 import { api } from '../../services/api';
+import { UserSettings, BacktestParams } from '../../types';
 
 interface BacktestFormProps {
   onSubmit: (params: BacktestParams) => void;
   isLoading?: boolean;
-}
-
-interface BacktestParams {
-  start_date: string;
-  end_date: string;
-  stock_list: string;
-  initial_capital: number;
-  name?: string;
 }
 
 interface StockList {
@@ -24,6 +17,25 @@ interface StockList {
   stock_count: number;
   created_at: string;
 }
+
+// Default strategy settings
+const DEFAULT_STRATEGY: Partial<UserSettings> = {
+  // Risk Management
+  max_positions: 15,
+  max_position_pct: 10,
+  stop_loss_pct: 5,
+  confidence_threshold: 60,
+  // Take Profit Settings
+  take_profit_enabled: true,
+  take_profit_pct: 10,
+  take_profit_ratio: 0.5,
+  // Bollinger Band Parameters
+  bollinger_period: 20,
+  bollinger_std_dev: 2.0,
+  // Squeeze Detection
+  squeeze_threshold_pct: 30,
+  squeeze_lookback_days: 10,
+};
 
 export function BacktestForm({ onSubmit, isLoading = false }: BacktestFormProps) {
   const [params, setParams] = useState<BacktestParams>({
@@ -40,6 +52,11 @@ export function BacktestForm({ onSubmit, isLoading = false }: BacktestFormProps)
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Advanced settings state
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [useCustomStrategy, setUseCustomStrategy] = useState(false);
+  const [strategyOverrides, setStrategyOverrides] = useState<Partial<UserSettings>>(DEFAULT_STRATEGY);
+
   // Fetch user's custom stock lists
   useEffect(() => {
     const fetchCustomLists = async () => {
@@ -53,13 +70,36 @@ export function BacktestForm({ onSubmit, isLoading = false }: BacktestFormProps)
     fetchCustomLists();
   }, []);
 
+  // Fetch user's saved settings when using custom strategy
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      try {
+        const settings = await api.get<UserSettings>('/settings');
+        setStrategyOverrides(settings);
+      } catch (err) {
+        console.error('Failed to fetch user settings:', err);
+      }
+    };
+    if (useCustomStrategy) {
+      fetchUserSettings();
+    }
+  }, [useCustomStrategy]);
+
   const handleChange = (field: keyof BacktestParams, value: string | number) => {
     setParams((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleStrategyChange = (field: keyof UserSettings, value: number | boolean) => {
+    setStrategyOverrides((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(params);
+    const submitParams: BacktestParams = {
+      ...params,
+      strategy_overrides: useCustomStrategy ? strategyOverrides : undefined,
+    };
+    onSubmit(submitParams);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,6 +271,182 @@ export function BacktestForm({ onSubmit, isLoading = false }: BacktestFormProps)
           required
           helperText="최소 100,000원"
         />
+
+        {/* Advanced Strategy Settings Collapsible */}
+        <div className="border border-gray-200 rounded-lg">
+          <button
+            type="button"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="w-full px-4 py-3 flex items-center justify-between text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <span className="font-medium text-gray-700">고급 전략 설정</span>
+            <svg
+              className={`w-5 h-5 text-gray-500 transition-transform ${showAdvanced ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {showAdvanced && (
+            <div className="p-4 space-y-4 border-t border-gray-200">
+              {/* Toggle for custom strategy */}
+              <div className="flex items-center gap-3 pb-3 border-b border-gray-100">
+                <input
+                  type="checkbox"
+                  id="use_custom_strategy"
+                  checked={useCustomStrategy}
+                  onChange={(e) => setUseCustomStrategy(e.target.checked)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="use_custom_strategy" className="text-sm font-medium text-gray-700">
+                  이 백테스트에 커스텀 전략 설정 사용
+                </label>
+              </div>
+
+              {useCustomStrategy ? (
+                <div className="space-y-4">
+                  {/* Risk Management Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-800 mb-3">리스크 관리</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <Input
+                        label="최대 포지션 수"
+                        type="number"
+                        value={strategyOverrides.max_positions || 15}
+                        onChange={(e) => handleStrategyChange('max_positions', Number(e.target.value))}
+                        min={1}
+                        max={50}
+                      />
+                      <Input
+                        label="종목당 최대 비중 (%)"
+                        type="number"
+                        value={strategyOverrides.max_position_pct || 10}
+                        onChange={(e) => handleStrategyChange('max_position_pct', Number(e.target.value))}
+                        min={1}
+                        max={100}
+                        step={0.5}
+                      />
+                      <Input
+                        label="손절선 (%)"
+                        type="number"
+                        value={strategyOverrides.stop_loss_pct || 5}
+                        onChange={(e) => handleStrategyChange('stop_loss_pct', Number(e.target.value))}
+                        min={1}
+                        max={50}
+                        step={0.5}
+                      />
+                      <Input
+                        label="신뢰도 임계값"
+                        type="number"
+                        value={strategyOverrides.confidence_threshold || 60}
+                        onChange={(e) => handleStrategyChange('confidence_threshold', Number(e.target.value))}
+                        min={0}
+                        max={100}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Take Profit Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-800 mb-3">익절 설정</h4>
+                    <div className="flex items-center gap-3 mb-3">
+                      <input
+                        type="checkbox"
+                        id="override_take_profit_enabled"
+                        checked={strategyOverrides.take_profit_enabled ?? true}
+                        onChange={(e) => handleStrategyChange('take_profit_enabled', e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <label htmlFor="override_take_profit_enabled" className="text-sm text-gray-700">
+                        익절 기능 활성화
+                      </label>
+                    </div>
+                    {strategyOverrides.take_profit_enabled && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <Input
+                          label="익절 목표 (%)"
+                          type="number"
+                          value={strategyOverrides.take_profit_pct || 10}
+                          onChange={(e) => handleStrategyChange('take_profit_pct', Number(e.target.value))}
+                          min={5}
+                          max={50}
+                          step={0.5}
+                        />
+                        <Input
+                          label="익절 비율"
+                          type="number"
+                          value={strategyOverrides.take_profit_ratio || 0.5}
+                          onChange={(e) => handleStrategyChange('take_profit_ratio', Number(e.target.value))}
+                          min={0.1}
+                          max={1.0}
+                          step={0.1}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bollinger Band Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-800 mb-3">볼린저 밴드</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <Input
+                        label="볼린저 기간"
+                        type="number"
+                        value={strategyOverrides.bollinger_period || 20}
+                        onChange={(e) => handleStrategyChange('bollinger_period', Number(e.target.value))}
+                        min={5}
+                        max={200}
+                      />
+                      <Input
+                        label="표준편차 배수"
+                        type="number"
+                        value={strategyOverrides.bollinger_std_dev || 2.0}
+                        onChange={(e) => handleStrategyChange('bollinger_std_dev', Number(e.target.value))}
+                        min={0.5}
+                        max={5}
+                        step={0.1}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Squeeze Detection Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-800 mb-3">스퀴즈 감지</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <Input
+                        label="스퀴즈 임계값 (%)"
+                        type="number"
+                        value={strategyOverrides.squeeze_threshold_pct || 30}
+                        onChange={(e) => handleStrategyChange('squeeze_threshold_pct', Number(e.target.value))}
+                        min={5}
+                        max={100}
+                      />
+                      <Input
+                        label="스퀴즈 룩백 기간 (일)"
+                        type="number"
+                        value={strategyOverrides.squeeze_lookback_days || 10}
+                        onChange={(e) => handleStrategyChange('squeeze_lookback_days', Number(e.target.value))}
+                        min={2}
+                        max={30}
+                      />
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-2">
+                    * 이 설정은 현재 백테스트에만 적용되며, 저장된 설정에는 영향을 주지 않습니다.
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-gray-600">
+                  저장된 전략 설정을 사용합니다. 커스텀 설정을 사용하려면 위 체크박스를 활성화하세요.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
 
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <p className="text-sm text-yellow-800">

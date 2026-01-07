@@ -69,21 +69,51 @@ class BacktestService:
     def __init__(
         self,
         db: Session,
+        # Risk Management
         max_positions: int = 15,
         max_position_pct: float = 10.0,
         stop_loss_pct: float = 5.0,
+        confidence_threshold: int = 60,
+        # Take Profit Settings
+        take_profit_enabled: bool = True,
         take_profit_pct: float = 10.0,
         take_profit_ratio: float = 0.5,
-        confidence_threshold: int = 60,
+        # Bollinger Band Parameters
+        bollinger_period: int = 20,
+        bollinger_std_dev: float = 2.0,
+        # Squeeze Detection
+        squeeze_threshold_pct: int = 30,
+        squeeze_lookback_days: int = 10,
+        # Advanced Squeeze Settings
+        expansion_threshold_pct: float = 20.0,
+        band_touch_tolerance: float = 0.001,
+        # Metrics Configuration
+        trading_days_per_year: int = 252,
+        days_per_year: int = 365,
     ):
         """Initialize backtest service with strategy parameters."""
         self.db = db
+        # Risk Management
         self.max_positions = max_positions
         self.max_position_pct = max_position_pct
         self.stop_loss_pct = stop_loss_pct
+        self.confidence_threshold = confidence_threshold
+        # Take Profit Settings
+        self.take_profit_enabled = take_profit_enabled
         self.take_profit_pct = take_profit_pct
         self.take_profit_ratio = take_profit_ratio
-        self.confidence_threshold = confidence_threshold
+        # Bollinger Band Parameters
+        self.bollinger_period = bollinger_period
+        self.bollinger_std_dev = bollinger_std_dev
+        # Squeeze Detection
+        self.squeeze_threshold_pct = squeeze_threshold_pct
+        self.squeeze_lookback_days = squeeze_lookback_days
+        # Advanced Squeeze Settings
+        self.expansion_threshold_pct = expansion_threshold_pct
+        self.band_touch_tolerance = band_touch_tolerance
+        # Metrics Configuration
+        self.trading_days_per_year = trading_days_per_year
+        self.days_per_year = days_per_year
 
     @classmethod
     def from_user_settings(cls, db: Session, user_id: str) -> BacktestService:
@@ -92,12 +122,27 @@ class BacktestService:
         if settings:
             return cls(
                 db=db,
+                # Risk Management
                 max_positions=settings.max_positions,
                 max_position_pct=float(settings.max_position_pct),
                 stop_loss_pct=float(settings.stop_loss_pct),
-                take_profit_pct=10.0,  # Default, should add to settings schema later
-                take_profit_ratio=0.5,  # Default
                 confidence_threshold=settings.confidence_threshold,
+                # Take Profit Settings
+                take_profit_enabled=settings.take_profit_enabled,
+                take_profit_pct=float(settings.take_profit_pct),
+                take_profit_ratio=float(settings.take_profit_ratio),
+                # Bollinger Band Parameters
+                bollinger_period=settings.bollinger_period,
+                bollinger_std_dev=float(settings.bollinger_std_dev),
+                # Squeeze Detection
+                squeeze_threshold_pct=settings.squeeze_threshold_pct,
+                squeeze_lookback_days=settings.squeeze_lookback_days,
+                # Advanced Squeeze Settings
+                expansion_threshold_pct=float(settings.expansion_threshold_pct),
+                band_touch_tolerance=float(settings.band_touch_tolerance),
+                # Metrics Configuration
+                trading_days_per_year=settings.trading_days_per_year,
+                days_per_year=settings.days_per_year,
             )
         return cls(db=db)
 
@@ -471,8 +516,8 @@ class BacktestService:
                 }
 
             # 2. Daily Take Profit Check (Priority 2)
-            # Only trigger once per position
-            if pnl_pct >= self.take_profit_pct and not partial_take_profit_executed:
+            # Only trigger once per position, and only if enabled
+            if self.take_profit_enabled and pnl_pct >= self.take_profit_pct and not partial_take_profit_executed:
                 return {
                     "price": current_price,
                     "reason": "take_profit_target_hit",

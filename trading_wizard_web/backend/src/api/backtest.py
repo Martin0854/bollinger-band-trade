@@ -22,6 +22,37 @@ router = APIRouter(prefix="/backtest", tags=["Backtest"])
 
 
 # Request/Response models
+class StrategyOverrides(BaseModel):
+    """Optional strategy parameter overrides for a single backtest run."""
+
+    # Risk Management
+    max_positions: Optional[int] = Field(None, ge=1, le=50)
+    max_position_pct: Optional[float] = Field(None, ge=1, le=100)
+    stop_loss_pct: Optional[float] = Field(None, ge=1, le=50)
+    confidence_threshold: Optional[int] = Field(None, ge=0, le=100)
+
+    # Take Profit Settings
+    take_profit_enabled: Optional[bool] = None
+    take_profit_pct: Optional[float] = Field(None, ge=5, le=50)
+    take_profit_ratio: Optional[float] = Field(None, ge=0.1, le=1.0)
+
+    # Bollinger Band Parameters
+    bollinger_period: Optional[int] = Field(None, ge=5, le=200)
+    bollinger_std_dev: Optional[float] = Field(None, gt=0, le=5)
+
+    # Squeeze Detection
+    squeeze_threshold_pct: Optional[int] = Field(None, ge=5, le=100)
+    squeeze_lookback_days: Optional[int] = Field(None, ge=2, le=30)
+
+    # Advanced Squeeze Settings
+    expansion_threshold_pct: Optional[float] = Field(None, ge=5, le=100)
+    band_touch_tolerance: Optional[float] = Field(None, ge=0, le=0.01)
+
+    # Metrics Configuration
+    trading_days_per_year: Optional[int] = Field(None, ge=200, le=365)
+    days_per_year: Optional[int] = Field(None, ge=360, le=366)
+
+
 class BacktestRunRequest(BaseModel):
     """Request to run a backtest."""
 
@@ -33,6 +64,9 @@ class BacktestRunRequest(BaseModel):
     )
     initial_capital: float = Field(1_000_000, gt=0, description="Initial capital (KRW)")
     name: Optional[str] = Field(None, max_length=100, description="Backtest name")
+    strategy_overrides: Optional[StrategyOverrides] = Field(
+        None, description="Optional strategy parameter overrides for this backtest"
+    )
 
 
 class BacktestResultResponse(BaseModel):
@@ -89,7 +123,16 @@ async def run_backtest(
         )
 
     try:
+        # Create backtest service with user settings
         backtest_service = BacktestService.from_user_settings(db, current_user.id)
+
+        # Apply strategy overrides if provided
+        if request.strategy_overrides:
+            overrides = request.strategy_overrides.model_dump(exclude_none=True)
+            for key, value in overrides.items():
+                if hasattr(backtest_service, key):
+                    setattr(backtest_service, key, value)
+            logger.info(f"Applied strategy overrides: {list(overrides.keys())}")
 
         result = backtest_service.run_backtest(
             user_id=current_user.id,

@@ -94,6 +94,8 @@ export interface BacktestParams {
   stock_list: string;
   initial_capital: number;
   name?: string;
+  // Optional strategy overrides (if not provided, uses user's saved settings)
+  strategy_overrides?: Partial<UserSettings>;
 }
 
 export interface BacktestResult {
@@ -114,10 +116,32 @@ export interface BacktestResult {
 
 // Settings
 export interface UserSettings {
+  // Risk Management
   max_positions: number;
   max_position_pct: number;
   stop_loss_pct: number;
   confidence_threshold: number;
+
+  // Take Profit Settings
+  take_profit_enabled: boolean;
+  take_profit_pct: number;
+  take_profit_ratio: number;
+
+  // Bollinger Band Parameters
+  bollinger_period: number;
+  bollinger_std_dev: number;
+
+  // Squeeze Detection
+  squeeze_threshold_pct: number;
+  squeeze_lookback_days: number;
+
+  // Advanced Squeeze Settings
+  expansion_threshold_pct: number;
+  band_touch_tolerance: number;
+
+  // Metrics Configuration
+  trading_days_per_year: number;
+  days_per_year: number;
 }
 
 // Pagination

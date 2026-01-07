@@ -421,10 +421,20 @@ KOSPI_2026 = """005930
 
 
 def upgrade():
-    op.add_column("stock_lists", sa.Column("is_default", sa.Boolean(), nullable=True))
-    op.execute("UPDATE stock_lists SET is_default = false WHERE is_default IS NULL")
-    op.alter_column("stock_lists", "is_default", nullable=False, server_default=sa.false())
-    op.alter_column("stock_lists", "user_id", nullable=True)
+    # Create stock_lists table first (was missing from 001)
+    op.create_table(
+        "stock_lists",
+        sa.Column("id", sa.String(36), primary_key=True),
+        sa.Column("user_id", sa.String(36), sa.ForeignKey("users.id"), nullable=True),
+        sa.Column("name", sa.String(100), nullable=False),
+        sa.Column("description", sa.String(255), nullable=True),
+        sa.Column("stock_codes", sa.Text(), nullable=False),
+        sa.Column("stock_count", sa.String(10), nullable=False, server_default="0"),
+        sa.Column("is_default", sa.Boolean(), nullable=False, server_default=sa.false()),
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
+    )
+    op.create_index("idx_stock_lists_user", "stock_lists", ["user_id"])
 
     conn = op.get_bind()
 
@@ -455,7 +465,5 @@ def upgrade():
 
 
 def downgrade():
-    conn = op.get_bind()
-    conn.execute(sa.text("DELETE FROM stock_lists WHERE is_default = true"))
-    op.drop_column("stock_lists", "is_default")
-    op.alter_column("stock_lists", "user_id", nullable=False)
+    op.drop_index("idx_stock_lists_user", "stock_lists")
+    op.drop_table("stock_lists")
