@@ -122,7 +122,8 @@ def calculate_sharpe_ratio(
 def calculate_cagr(
     initial_value: Decimal,
     final_value: Decimal,
-    days: int
+    days: int,
+    days_per_year: int = 365
 ) -> Decimal:
     """
     Calculate Compound Annual Growth Rate.
@@ -131,6 +132,7 @@ def calculate_cagr(
         initial_value: Starting value
         final_value: Ending value
         days: Number of days in period
+        days_per_year: Calendar days per year (default 365)
 
     Returns:
         CAGR as percentage
@@ -138,7 +140,7 @@ def calculate_cagr(
     if initial_value == 0 or days == 0:
         return Decimal('0')
 
-    years = Decimal(days) / Decimal(365)
+    years = Decimal(days) / Decimal(days_per_year)
     cagr = (pow(float(final_value / initial_value), float(1 / years)) - 1) * 100
 
     return Decimal(str(cagr))
@@ -173,7 +175,9 @@ def calculate_metrics_from_trades(
     trades: List,
     initial_capital: Decimal,
     backtest_start_date: Optional[datetime] = None,
-    backtest_end_date: Optional[datetime] = None
+    backtest_end_date: Optional[datetime] = None,
+    trading_days_per_year: int = 252,
+    days_per_year: int = 365
 ) -> PerformanceReport:
     """
     Calculate all performance metrics from trade history.
@@ -183,6 +187,8 @@ def calculate_metrics_from_trades(
         initial_capital: Starting capital
         backtest_start_date: Backtest start date (for CAGR calculation)
         backtest_end_date: Backtest end date (for CAGR calculation)
+        trading_days_per_year: Trading days per year for Sharpe ratio (default 252)
+        days_per_year: Calendar days per year for CAGR (default 365)
 
     Returns:
         PerformanceReport with all metrics
@@ -236,7 +242,7 @@ def calculate_metrics_from_trades(
         # Calculate Sharpe ratio from returns
         if len(equity_series) > 1:
             returns = equity_series.pct_change().dropna()
-            sharpe_ratio = calculate_sharpe_ratio(returns)
+            sharpe_ratio = calculate_sharpe_ratio(returns, periods_per_year=trading_days_per_year)
 
     # Calculate CAGR
     cagr = Decimal('0')
@@ -251,7 +257,7 @@ def calculate_metrics_from_trades(
 
         days = (end_date - start_date).days
         if days > 0:
-            cagr = calculate_cagr(initial_capital, final_value, days)
+            cagr = calculate_cagr(initial_capital, final_value, days, days_per_year=days_per_year)
 
     return PerformanceReport(
         total_return_pct=total_return,

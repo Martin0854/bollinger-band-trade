@@ -17,6 +17,46 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 # ========================================================================
 
 
+class TakeProfitConfig(BaseModel):
+    """
+    Take profit (익절) configuration.
+    Controls partial profit-taking when position reaches target.
+    """
+    enabled: bool = Field(default=True, description="Enable take profit feature")
+    target_pct: float = Field(
+        default=10.0, ge=5.0, le=50.0, description="Take profit target percentage"
+    )
+    ratio: float = Field(
+        default=0.5, ge=0.1, le=1.0, description="Partial sell ratio (0.5 = 50%)"
+    )
+
+
+class SqueezeAdvancedConfig(BaseModel):
+    """
+    Advanced squeeze detection configuration.
+    Extends basic squeeze settings with expansion and tolerance parameters.
+    """
+    expansion_threshold_percent: float = Field(
+        default=20.0, ge=5.0, le=100.0, description="Band expansion confirmation threshold (%)"
+    )
+    band_touch_tolerance: float = Field(
+        default=0.001, ge=0.0, le=0.01, description="Band touch tolerance (0.001 = 0.1%)"
+    )
+
+
+class MetricsConfig(BaseModel):
+    """
+    Performance metrics calculation configuration.
+    Controls parameters for Sharpe ratio, CAGR, and other calculations.
+    """
+    trading_days_per_year: int = Field(
+        default=252, ge=200, le=365, description="Trading days per year for annualization"
+    )
+    days_per_year: int = Field(
+        default=365, ge=360, le=366, description="Calendar days per year for CAGR"
+    )
+
+
 class VolumeFilterConfig(BaseModel):
     """
     Volume filter configuration (Phase 1).
@@ -208,6 +248,21 @@ class BacktestConfiguration(BaseModel):
     # Enhanced Strategy Configuration (Phase 1-4, optional for backward compatibility)
     enhanced_strategy: Optional[EnhancedStrategyConfig] = Field(
         default=None, description="Auxiliary indicator configuration (Volume, RSI, MACD, ATR)"
+    )
+
+    # Take Profit Configuration (optional for backward compatibility)
+    take_profit: Optional[TakeProfitConfig] = Field(
+        default_factory=TakeProfitConfig, description="Take profit (익절) configuration"
+    )
+
+    # Advanced Squeeze Detection Configuration (optional)
+    squeeze_advanced: Optional[SqueezeAdvancedConfig] = Field(
+        default_factory=SqueezeAdvancedConfig, description="Advanced squeeze detection settings"
+    )
+
+    # Performance Metrics Configuration (optional)
+    metrics: Optional[MetricsConfig] = Field(
+        default_factory=MetricsConfig, description="Performance calculation parameters"
     )
 
     @field_validator('stocks')

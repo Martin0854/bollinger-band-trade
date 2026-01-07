@@ -38,6 +38,28 @@ initial_positions: {}
 #     purchase_price: 60000
 
 # ========================================================================
+# Take Profit Configuration (익절 설정)
+# ========================================================================
+take_profit:
+  enabled: true              # Enable/disable take profit feature
+  target_pct: 10.0           # Take profit target (%) - triggers partial sell
+  ratio: 0.5                 # Partial sell ratio (0.5 = sell 50% of position)
+
+# ========================================================================
+# Advanced Squeeze Detection Configuration
+# ========================================================================
+squeeze_advanced:
+  expansion_threshold_percent: 20.0  # Band expansion confirmation threshold (%)
+  band_touch_tolerance: 0.001        # Band touch tolerance (0.001 = 0.1%)
+
+# ========================================================================
+# Performance Metrics Configuration
+# ========================================================================
+metrics:
+  trading_days_per_year: 252  # Trading days for Sharpe ratio annualization
+  days_per_year: 365          # Calendar days for CAGR calculation
+
+# ========================================================================
 # Enhanced Strategy Configuration (Optional - Phase 1-4 Features)
 # ========================================================================
 #

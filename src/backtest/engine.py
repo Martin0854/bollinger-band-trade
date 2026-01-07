@@ -311,10 +311,19 @@ class BacktestEngine:
                         float(bollinger_values["middle"]) if bollinger_values["middle"] else None
                     )
 
+                    # Get take profit settings from config (with backward compatibility)
+                    take_profit_config = getattr(self.config, "take_profit", None)
+                    if take_profit_config is not None:
+                        take_profit_pct = take_profit_config.target_pct
+                        take_profit_ratio = take_profit_config.ratio
+                    else:
+                        take_profit_pct = 10.0  # Default fallback
+                        take_profit_ratio = 0.5  # Default fallback
+
                     sell_config = SellStrategyConfig(
                         stop_loss_pct=self.config.stop_loss_percent,
-                        take_profit_pct=getattr(self.config, "take_profit_pct", 10.0),
-                        take_profit_ratio=getattr(self.config, "take_profit_ratio", 0.5),
+                        take_profit_pct=take_profit_pct,
+                        take_profit_ratio=take_profit_ratio,
                     )
 
                     sell_signal = evaluate_sell_conditions(
@@ -357,11 +366,22 @@ class BacktestEngine:
             elif hasattr(end_val, "year"):  # date or datetime object
                 backtest_end = datetime(end_val.year, end_val.month, end_val.day)
 
+        # Get metrics config (with backward compatibility)
+        metrics_config = getattr(self.config, "metrics", None)
+        if metrics_config is not None:
+            trading_days_per_year = metrics_config.trading_days_per_year
+            days_per_year = metrics_config.days_per_year
+        else:
+            trading_days_per_year = 252  # Default
+            days_per_year = 365  # Default
+
         report = calculate_metrics_from_trades(
             trades=self.trades,
             initial_capital=self.portfolio.initial_capital,
             backtest_start_date=backtest_start,
             backtest_end_date=backtest_end,
+            trading_days_per_year=trading_days_per_year,
+            days_per_year=days_per_year,
         )
 
         return report

@@ -128,7 +128,8 @@ def determine_direction_bias(
     upper_band: pd.Series,
     lower_band: pd.Series,
     squeeze_start_idx: int,
-    squeeze_end_idx: int
+    squeeze_end_idx: int,
+    band_touch_tolerance: float = 0.001
 ) -> Optional[str]:
     """
     Determine direction bias during squeeze period.
@@ -139,6 +140,7 @@ def determine_direction_bias(
         lower_band: Series of lower Bollinger Band values
         squeeze_start_idx: Start index of squeeze period
         squeeze_end_idx: End index of squeeze period
+        band_touch_tolerance: Tolerance for band touch detection (default 0.001 = 0.1%)
 
     Returns:
         "upper" if price touched upper band, "lower" if touched lower band,
@@ -149,9 +151,9 @@ def determine_direction_bias(
     period_upper = upper_band.iloc[squeeze_start_idx:squeeze_end_idx + 1]
     period_lower = lower_band.iloc[squeeze_start_idx:squeeze_end_idx + 1]
 
-    # Check for band touches (within 0.1% tolerance)
-    upper_touches = (period_closes >= period_upper * 0.999).any()
-    lower_touches = (period_closes <= period_lower * 1.001).any()
+    # Check for band touches (configurable tolerance)
+    upper_touches = (period_closes >= period_upper * (1 - band_touch_tolerance)).any()
+    lower_touches = (period_closes <= period_lower * (1 + band_touch_tolerance)).any()
 
     if lower_touches and not upper_touches:
         return "lower"
