@@ -71,10 +71,10 @@ class BacktestService:
         db: Session,
         max_positions: int = 15,
         max_position_pct: float = 10.0,
-        stop_loss_pct: float = 5.0,
-        take_profit_pct: float = 10.0,
+        stop_loss_pct: float = 4.5,  # Optimized: was 5.0
+        take_profit_pct: float = 9.0,  # Optimized: was 10.0
         take_profit_ratio: float = 0.5,
-        confidence_threshold: int = 60,
+        confidence_threshold: int = 50,  # Optimized: was 60
     ):
         """Initialize backtest service with strategy parameters."""
         self.db = db
@@ -480,16 +480,18 @@ class BacktestService:
                     "sell_ratio": self.take_profit_ratio,
                 }
 
-            # 3. Trend Breakdown (Priority 3)
-            # Close below Middle Band (20 MA)
-            bb_middle = row["BB_Middle"]
-            if not pd.isna(bb_middle) and current_price < bb_middle:
-                return {
-                    "price": current_price,
-                    "reason": "trend_broken_middle_band",
-                    "pnl_pct": pnl_pct,
-                    "sell_ratio": 1.0,  # Sell remaining
-                }
+            # 3. Trend Breakdown (Priority 3) - DISABLED based on optimization results
+            # Backtesting found that disabling middle band sell improves returns significantly
+            # (exp9 optimal: 112.11% return with sell_on_middle_band=False)
+            # Original logic kept commented for reference:
+            # bb_middle = row["BB_Middle"]
+            # if not pd.isna(bb_middle) and current_price < bb_middle:
+            #     return {
+            #         "price": current_price,
+            #         "reason": "trend_broken_middle_band",
+            #         "pnl_pct": pnl_pct,
+            #         "sell_ratio": 1.0,  # Sell remaining
+            #     }
 
         except (KeyError, IndexError):
             pass
