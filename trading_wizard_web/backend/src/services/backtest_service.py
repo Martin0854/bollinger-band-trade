@@ -198,11 +198,13 @@ class BacktestService:
         from src.models.stock_list import StockList
 
         # Try to load from database first (by ID or name)
+        from sqlalchemy import or_
+
         stock_list = (
             self.db.query(StockList)
             .filter(
-                StockList.user_id == user_id,
-                (StockList.id == stock_list_name) | (StockList.name == stock_list_name),
+                or_(StockList.user_id == user_id, StockList.is_default == True),  # noqa: E712
+                or_(StockList.id == stock_list_name, StockList.name == stock_list_name),
             )
             .first()
         )
