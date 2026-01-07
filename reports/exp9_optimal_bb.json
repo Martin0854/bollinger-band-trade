@@ -1,0 +1,5662 @@
+{
+  "params": {
+    "max_positions": 15,
+    "max_position_pct": 10.0,
+    "stop_loss_pct": 4.5,
+    "take_profit_pct": 9.0,
+    "take_profit_ratio": 0.5,
+    "confidence_threshold": 50,
+    "bb_window": 12,
+    "bb_std": 1.3,
+    "rsi_window": 14,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "volume_window": 20,
+    "squeeze_threshold": 0.55,
+    "volume_weight": 25.0,
+    "rsi_weight": 20.0,
+    "macd_weight": 30.0,
+    "sell_on_middle_band": false
+  },
+  "metrics": {
+    "initial_capital": 10000000,
+    "final_value": 21211380.759765625,
+    "total_return_pct": 112.11380759765626,
+    "total_trades": 270,
+    "buy_trades": 120,
+    "sell_trades": 150,
+    "winning_trades": 47,
+    "losing_trades": 103,
+    "win_rate": 31.333333333333336,
+    "total_pnl": -2461969.240234375,
+    "avg_win": 49121.48936170213,
+    "avg_loss": -46317.27417703277,
+    "max_drawdown": 15.93881857052326,
+    "sharpe_ratio": 1.3848028904252772
+  },
+  "trades": [
+    {
+      "date": "2023-01-04",
+      "stock_code": "009150",
+      "action": "BUY",
+      "price": 143500.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:76)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-04",
+      "stock_code": "000660",
+      "action": "BUY",
+      "price": 81000.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-04",
+      "stock_code": "009540",
+      "action": "BUY",
+      "price": 74400.0,
+      "quantity": 13,
+      "reason": "squeeze_breakout (conf:71)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "004170",
+      "action": "BUY",
+      "price": 230000.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:84)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "035720",
+      "action": "BUY",
+      "price": 57700.0,
+      "quantity": 17,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "105560",
+      "action": "BUY",
+      "price": 53900.0,
+      "quantity": 18,
+      "reason": "squeeze_breakout (conf:62)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "055550",
+      "action": "BUY",
+      "price": 39450.0,
+      "quantity": 25,
+      "reason": "squeeze_breakout (conf:62)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "086790",
+      "action": "BUY",
+      "price": 46950.0,
+      "quantity": 21,
+      "reason": "squeeze_breakout (conf:61)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "088350",
+      "action": "BUY",
+      "price": 2890.0,
+      "quantity": 346,
+      "reason": "squeeze_breakout (conf:58)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-05",
+      "stock_code": "035420",
+      "action": "BUY",
+      "price": 186000.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:56)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-06",
+      "stock_code": "005850",
+      "action": "BUY",
+      "price": 24800.0,
+      "quantity": 17,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-10",
+      "stock_code": "088350",
+      "action": "SELL",
+      "price": 2745.0,
+      "quantity": 346,
+      "reason": "stop_loss (-5.0%)",
+      "pnl": -50170.0,
+      "pnl_pct": -5.017301038062284
+    },
+    {
+      "date": "2023-01-10",
+      "stock_code": "000150",
+      "action": "BUY",
+      "price": 89600.0,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:79)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-10",
+      "stock_code": "047040",
+      "action": "BUY",
+      "price": 4750.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:77)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 64500.0,
+      "quantity": 8,
+      "reason": "take_profit_target_hit",
+      "pnl": 54400.0,
+      "pnl_pct": 11.785095320623917
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "105560",
+      "action": "SELL",
+      "price": 60000.0,
+      "quantity": 9,
+      "reason": "take_profit_target_hit",
+      "pnl": 54900.0,
+      "pnl_pct": 11.317254174397032
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "055550",
+      "action": "SELL",
+      "price": 43800.0,
+      "quantity": 12,
+      "reason": "take_profit_target_hit",
+      "pnl": 52200.0,
+      "pnl_pct": 11.02661596958175
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "086790",
+      "action": "SELL",
+      "price": 52600.0,
+      "quantity": 10,
+      "reason": "take_profit_target_hit",
+      "pnl": 56500.0,
+      "pnl_pct": 12.034078807241746
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "011780",
+      "action": "BUY",
+      "price": 149000.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "298020",
+      "action": "BUY",
+      "price": 397500.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-16",
+      "stock_code": "138930",
+      "action": "BUY",
+      "price": 7240.0,
+      "quantity": 58,
+      "reason": "squeeze_breakout (conf:82)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-18",
+      "stock_code": "047040",
+      "action": "SELL",
+      "price": 4465.0,
+      "quantity": 12,
+      "reason": "stop_loss (-6.0%)",
+      "pnl": -3420.0,
+      "pnl_pct": -6.0
+    },
+    {
+      "date": "2023-01-18",
+      "stock_code": "001450",
+      "action": "BUY",
+      "price": 31350.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-01-25",
+      "stock_code": "000660",
+      "action": "SELL",
+      "price": 91400.0,
+      "quantity": 6,
+      "reason": "take_profit_target_hit",
+      "pnl": 62400.0,
+      "pnl_pct": 12.839506172839506
+    },
+    {
+      "date": "2023-01-26",
+      "stock_code": "005850",
+      "action": "SELL",
+      "price": 27050.0,
+      "quantity": 8,
+      "reason": "take_profit_target_hit",
+      "pnl": 18000.0,
+      "pnl_pct": 9.07258064516129
+    },
+    {
+      "date": "2023-01-27",
+      "stock_code": "035420",
+      "action": "SELL",
+      "price": 211500.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 51000.0,
+      "pnl_pct": 13.709677419354838
+    },
+    {
+      "date": "2023-02-02",
+      "stock_code": "298020",
+      "action": "SELL",
+      "price": 438000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 40500.0,
+      "pnl_pct": 10.18867924528302
+    },
+    {
+      "date": "2023-02-03",
+      "stock_code": "009540",
+      "action": "SELL",
+      "price": 83000.0,
+      "quantity": 6,
+      "reason": "take_profit_target_hit",
+      "pnl": 51600.0,
+      "pnl_pct": 11.559139784946236
+    },
+    {
+      "date": "2023-02-03",
+      "stock_code": "138930",
+      "action": "SELL",
+      "price": 6900.0,
+      "quantity": 58,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -19720.0,
+      "pnl_pct": -4.696132596685083
+    },
+    {
+      "date": "2023-02-03",
+      "stock_code": "161390",
+      "action": "BUY",
+      "price": 36650.0,
+      "quantity": 27,
+      "reason": "squeeze_breakout (conf:55)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-10",
+      "stock_code": "004170",
+      "action": "SELL",
+      "price": 219000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-4.8%)",
+      "pnl": -44000.0,
+      "pnl_pct": -4.782608695652174
+    },
+    {
+      "date": "2023-02-10",
+      "stock_code": "007070",
+      "action": "BUY",
+      "price": 38325.5859375,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:61)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "105560",
+      "action": "SELL",
+      "price": 50400.0,
+      "quantity": 9,
+      "reason": "stop_loss (-6.5%)",
+      "pnl": -31500.0,
+      "pnl_pct": -6.493506493506493
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "086790",
+      "action": "SELL",
+      "price": 44300.0,
+      "quantity": 11,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -29150.0,
+      "pnl_pct": -5.644302449414271
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "000150",
+      "action": "SELL",
+      "price": 84300.0,
+      "quantity": 10,
+      "reason": "stop_loss (-5.9%)",
+      "pnl": -53000.0,
+      "pnl_pct": -5.915178571428571
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "011780",
+      "action": "SELL",
+      "price": 142000.0,
+      "quantity": 6,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -42000.0,
+      "pnl_pct": -4.697986577181208
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "004370",
+      "action": "BUY",
+      "price": 357000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:87)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-15",
+      "stock_code": "012330",
+      "action": "BUY",
+      "price": 211500.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:52)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-16",
+      "stock_code": "051915",
+      "action": "BUY",
+      "price": 321000.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:62)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-16",
+      "stock_code": "111770",
+      "action": "BUY",
+      "price": 45200.0,
+      "quantity": 22,
+      "reason": "squeeze_breakout (conf:55)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-22",
+      "stock_code": "051915",
+      "action": "SELL",
+      "price": 304000.0,
+      "quantity": 3,
+      "reason": "stop_loss (-5.3%)",
+      "pnl": -51000.0,
+      "pnl_pct": -5.29595015576324
+    },
+    {
+      "date": "2023-02-22",
+      "stock_code": "000720",
+      "action": "BUY",
+      "price": 38450.0,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:95)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-24",
+      "stock_code": "001450",
+      "action": "SELL",
+      "price": 34950.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 3600.0,
+      "pnl_pct": 11.483253588516746
+    },
+    {
+      "date": "2023-02-24",
+      "stock_code": "000100",
+      "action": "BUY",
+      "price": 50952.3828125,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:73)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "007070",
+      "action": "SELL",
+      "price": 36133.76171875,
+      "quantity": 26,
+      "reason": "stop_loss (-5.7%)",
+      "pnl": -56987.4296875,
+      "pnl_pct": -5.718958145413221
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "111770",
+      "action": "SELL",
+      "price": 42650.0,
+      "quantity": 22,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -56100.0,
+      "pnl_pct": -5.641592920353982
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "000720",
+      "action": "SELL",
+      "price": 36400.0,
+      "quantity": 26,
+      "reason": "stop_loss (-5.3%)",
+      "pnl": -53300.0,
+      "pnl_pct": -5.331599479843954
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "001040",
+      "action": "BUY",
+      "price": 86900.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:85)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "000150",
+      "action": "BUY",
+      "price": 101000.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-02-28",
+      "stock_code": "000810",
+      "action": "BUY",
+      "price": 214500.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-03",
+      "stock_code": "055550",
+      "action": "SELL",
+      "price": 37050.0,
+      "quantity": 13,
+      "reason": "stop_loss (-6.1%)",
+      "pnl": -31200.0,
+      "pnl_pct": -6.083650190114068
+    },
+    {
+      "date": "2023-03-03",
+      "stock_code": "011790",
+      "action": "BUY",
+      "price": 112300.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-09",
+      "stock_code": "011790",
+      "action": "SELL",
+      "price": 104800.0,
+      "quantity": 5,
+      "reason": "stop_loss (-6.7%)",
+      "pnl": -37500.0,
+      "pnl_pct": -6.678539626001781
+    },
+    {
+      "date": "2023-03-09",
+      "stock_code": "111770",
+      "action": "BUY",
+      "price": 47450.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-13",
+      "stock_code": "161390",
+      "action": "SELL",
+      "price": 34500.0,
+      "quantity": 27,
+      "reason": "stop_loss (-5.9%)",
+      "pnl": -58050.0,
+      "pnl_pct": -5.866302864938609
+    },
+    {
+      "date": "2023-03-13",
+      "stock_code": "000100",
+      "action": "SELL",
+      "price": 48571.4296875,
+      "quantity": 9,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -21428.578125,
+      "pnl_pct": -4.672898485948507
+    },
+    {
+      "date": "2023-03-13",
+      "stock_code": "003550",
+      "action": "BUY",
+      "price": 88300.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-13",
+      "stock_code": "096770",
+      "action": "BUY",
+      "price": 172450.875,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-15",
+      "stock_code": "001040",
+      "action": "SELL",
+      "price": 95000.0,
+      "quantity": 5,
+      "reason": "take_profit_target_hit",
+      "pnl": 40500.0,
+      "pnl_pct": 9.321058688147296
+    },
+    {
+      "date": "2023-03-15",
+      "stock_code": "096770",
+      "action": "SELL",
+      "price": 161776.75,
+      "quantity": 2,
+      "reason": "stop_loss (-6.2%)",
+      "pnl": -21348.25,
+      "pnl_pct": -6.189661258604805
+    },
+    {
+      "date": "2023-03-15",
+      "stock_code": "006260",
+      "action": "BUY",
+      "price": 71900.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:66)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-16",
+      "stock_code": "111770",
+      "action": "SELL",
+      "price": 45050.0,
+      "quantity": 12,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -28800.0,
+      "pnl_pct": -5.05795574288725
+    },
+    {
+      "date": "2023-03-16",
+      "stock_code": "271560",
+      "action": "BUY",
+      "price": 132300.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-22",
+      "stock_code": "003550",
+      "action": "SELL",
+      "price": 83800.0,
+      "quantity": 11,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -49500.0,
+      "pnl_pct": -5.096262740656852
+    },
+    {
+      "date": "2023-03-22",
+      "stock_code": "005380",
+      "action": "BUY",
+      "price": 180300.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:57)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-23",
+      "stock_code": "000150",
+      "action": "SELL",
+      "price": 95100.0,
+      "quantity": 9,
+      "reason": "stop_loss (-5.8%)",
+      "pnl": -53100.0,
+      "pnl_pct": -5.841584158415842
+    },
+    {
+      "date": "2023-03-23",
+      "stock_code": "008770",
+      "action": "BUY",
+      "price": 78900.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:74)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-24",
+      "stock_code": "000810",
+      "action": "SELL",
+      "price": 202500.0,
+      "quantity": 4,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -48000.0,
+      "pnl_pct": -5.594405594405594
+    },
+    {
+      "date": "2023-03-24",
+      "stock_code": "005930",
+      "action": "BUY",
+      "price": 63000.0,
+      "quantity": 13,
+      "reason": "squeeze_breakout (conf:81)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-03-28",
+      "stock_code": "006260",
+      "action": "SELL",
+      "price": 80700.0,
+      "quantity": 6,
+      "reason": "take_profit_target_hit",
+      "pnl": 52800.0,
+      "pnl_pct": 12.23922114047288
+    },
+    {
+      "date": "2023-04-05",
+      "stock_code": "009150",
+      "action": "SELL",
+      "price": 157800.0,
+      "quantity": 3,
+      "reason": "take_profit_target_hit",
+      "pnl": 42900.0,
+      "pnl_pct": 9.965156794425086
+    },
+    {
+      "date": "2023-04-12",
+      "stock_code": "012330",
+      "action": "SELL",
+      "price": 232000.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 41000.0,
+      "pnl_pct": 9.692671394799055
+    },
+    {
+      "date": "2023-04-12",
+      "stock_code": "005380",
+      "action": "SELL",
+      "price": 198200.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 35800.0,
+      "pnl_pct": 9.92789794786467
+    },
+    {
+      "date": "2023-04-18",
+      "stock_code": "008770",
+      "action": "SELL",
+      "price": 86500.0,
+      "quantity": 5,
+      "reason": "take_profit_target_hit",
+      "pnl": 38000.0,
+      "pnl_pct": 9.632446134347274
+    },
+    {
+      "date": "2023-04-20",
+      "stock_code": "271560",
+      "action": "SELL",
+      "price": 144900.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 25200.0,
+      "pnl_pct": 9.523809523809524
+    },
+    {
+      "date": "2023-04-25",
+      "stock_code": "298020",
+      "action": "SELL",
+      "price": 379500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-4.5%)",
+      "pnl": -18000.0,
+      "pnl_pct": -4.528301886792453
+    },
+    {
+      "date": "2023-04-25",
+      "stock_code": "000810",
+      "action": "BUY",
+      "price": 230500.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-04-26",
+      "stock_code": "004370",
+      "action": "SELL",
+      "price": 395000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 38000.0,
+      "pnl_pct": 10.644257703081232
+    },
+    {
+      "date": "2023-05-10",
+      "stock_code": "009150",
+      "action": "SELL",
+      "price": 136000.0,
+      "quantity": 3,
+      "reason": "stop_loss (-5.2%)",
+      "pnl": -22500.0,
+      "pnl_pct": -5.2264808362369335
+    },
+    {
+      "date": "2023-05-10",
+      "stock_code": "097950",
+      "action": "BUY",
+      "price": 321500.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-05-22",
+      "stock_code": "271560",
+      "action": "SELL",
+      "price": 126300.0,
+      "quantity": 2,
+      "reason": "stop_loss (-4.5%)",
+      "pnl": -12000.0,
+      "pnl_pct": -4.535147392290249
+    },
+    {
+      "date": "2023-05-22",
+      "stock_code": "010620",
+      "action": "BUY",
+      "price": 76900.0,
+      "quantity": 13,
+      "reason": "squeeze_breakout (conf:91)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-05-25",
+      "stock_code": "005930",
+      "action": "SELL",
+      "price": 68800.0,
+      "quantity": 6,
+      "reason": "take_profit_target_hit",
+      "pnl": 34800.0,
+      "pnl_pct": 9.206349206349207
+    },
+    {
+      "date": "2023-05-26",
+      "stock_code": "010620",
+      "action": "SELL",
+      "price": 73100.0,
+      "quantity": 13,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -49400.0,
+      "pnl_pct": -4.9414824447334205
+    },
+    {
+      "date": "2023-05-26",
+      "stock_code": "034730",
+      "action": "BUY",
+      "price": 172800.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:62)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-12",
+      "stock_code": "008770",
+      "action": "SELL",
+      "price": 74100.0,
+      "quantity": 6,
+      "reason": "stop_loss (-6.1%)",
+      "pnl": -28800.0,
+      "pnl_pct": -6.083650190114068
+    },
+    {
+      "date": "2023-06-12",
+      "stock_code": "001740",
+      "action": "BUY",
+      "price": 5310.0,
+      "quantity": 188,
+      "reason": "squeeze_breakout (conf:74)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "001040",
+      "action": "SELL",
+      "price": 82400.0,
+      "quantity": 6,
+      "reason": "stop_loss (-5.2%)",
+      "pnl": -27000.0,
+      "pnl_pct": -5.178365937859609
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "001740",
+      "action": "SELL",
+      "price": 5050.0,
+      "quantity": 188,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -48880.0,
+      "pnl_pct": -4.8964218455743875
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "011170",
+      "action": "BUY",
+      "price": 179100.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:95)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-14",
+      "stock_code": "003490",
+      "action": "BUY",
+      "price": 23350.0,
+      "quantity": 42,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-15",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 53900.0,
+      "quantity": 9,
+      "reason": "stop_loss (-6.6%)",
+      "pnl": -34200.0,
+      "pnl_pct": -6.5857885615251295
+    },
+    {
+      "date": "2023-06-15",
+      "stock_code": "282330",
+      "action": "BUY",
+      "price": 190400.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:68)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "000810",
+      "action": "SELL",
+      "price": 220000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -42000.0,
+      "pnl_pct": -4.55531453362256
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "097950",
+      "action": "SELL",
+      "price": 303500.0,
+      "quantity": 3,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -54000.0,
+      "pnl_pct": -5.598755832037325
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "034730",
+      "action": "SELL",
+      "price": 164600.0,
+      "quantity": 5,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -41000.0,
+      "pnl_pct": -4.74537037037037
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "047810",
+      "action": "BUY",
+      "price": 57300.0,
+      "quantity": 17,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "064350",
+      "action": "BUY",
+      "price": 37500.0,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-19",
+      "stock_code": "012450",
+      "action": "BUY",
+      "price": 152508.15625,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-21",
+      "stock_code": "047810",
+      "action": "SELL",
+      "price": 54400.0,
+      "quantity": 17,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -49300.0,
+      "pnl_pct": -5.06108202443281
+    },
+    {
+      "date": "2023-06-21",
+      "stock_code": "042660",
+      "action": "BUY",
+      "price": 34155.86328125,
+      "quantity": 28,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-23",
+      "stock_code": "011170",
+      "action": "SELL",
+      "price": 170400.0,
+      "quantity": 5,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -43500.0,
+      "pnl_pct": -4.857621440536013
+    },
+    {
+      "date": "2023-06-23",
+      "stock_code": "282330",
+      "action": "SELL",
+      "price": 179800.0,
+      "quantity": 5,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -53000.0,
+      "pnl_pct": -5.567226890756303
+    },
+    {
+      "date": "2023-06-26",
+      "stock_code": "042660",
+      "action": "SELL",
+      "price": 32026.5546875,
+      "quantity": 28,
+      "reason": "stop_loss (-6.2%)",
+      "pnl": -59620.640625,
+      "pnl_pct": -6.234093913002903
+    },
+    {
+      "date": "2023-06-26",
+      "stock_code": "000720",
+      "action": "BUY",
+      "price": 40800.0,
+      "quantity": 24,
+      "reason": "squeeze_breakout (conf:91)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-26",
+      "stock_code": "000270",
+      "action": "BUY",
+      "price": 85500.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:52)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-27",
+      "stock_code": "012450",
+      "action": "SELL",
+      "price": 144954.953125,
+      "quantity": 5,
+      "reason": "stop_loss (-5.0%)",
+      "pnl": -37766.015625,
+      "pnl_pct": -4.95265519610529
+    },
+    {
+      "date": "2023-06-27",
+      "stock_code": "015760",
+      "action": "BUY",
+      "price": 19980.0,
+      "quantity": 50,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-27",
+      "stock_code": "111770",
+      "action": "BUY",
+      "price": 62400.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:53)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-28",
+      "stock_code": "064350",
+      "action": "SELL",
+      "price": 35750.0,
+      "quantity": 26,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -45500.0,
+      "pnl_pct": -4.666666666666667
+    },
+    {
+      "date": "2023-06-28",
+      "stock_code": "000720",
+      "action": "SELL",
+      "price": 38500.0,
+      "quantity": 24,
+      "reason": "stop_loss (-5.6%)",
+      "pnl": -55200.0,
+      "pnl_pct": -5.637254901960785
+    },
+    {
+      "date": "2023-06-28",
+      "stock_code": "001430",
+      "action": "BUY",
+      "price": 25000.0,
+      "quantity": 40,
+      "reason": "squeeze_breakout (conf:78)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-06-28",
+      "stock_code": "267270",
+      "action": "BUY",
+      "price": 86833.859375,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:62)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-07-05",
+      "stock_code": "003490",
+      "action": "SELL",
+      "price": 25700.0,
+      "quantity": 21,
+      "reason": "take_profit_target_hit",
+      "pnl": 49350.0,
+      "pnl_pct": 10.06423982869379
+    },
+    {
+      "date": "2023-07-12",
+      "stock_code": "001430",
+      "action": "SELL",
+      "price": 29350.0,
+      "quantity": 20,
+      "reason": "take_profit_target_hit",
+      "pnl": 87000.0,
+      "pnl_pct": 17.4
+    },
+    {
+      "date": "2023-07-14",
+      "stock_code": "111770",
+      "action": "SELL",
+      "price": 59500.0,
+      "quantity": 7,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -20300.0,
+      "pnl_pct": -4.647435897435898
+    },
+    {
+      "date": "2023-07-14",
+      "stock_code": "009150",
+      "action": "BUY",
+      "price": 150300.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:88)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-07-18",
+      "stock_code": "267270",
+      "action": "SELL",
+      "price": 82549.6328125,
+      "quantity": 10,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -42842.265625,
+      "pnl_pct": -4.933820278559973
+    },
+    {
+      "date": "2023-07-18",
+      "stock_code": "005490",
+      "action": "BUY",
+      "price": 488000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-07-21",
+      "stock_code": "005490",
+      "action": "SELL",
+      "price": 551000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 63000.0,
+      "pnl_pct": 12.90983606557377
+    },
+    {
+      "date": "2023-08-02",
+      "stock_code": "000270",
+      "action": "SELL",
+      "price": 80000.0,
+      "quantity": 11,
+      "reason": "stop_loss (-6.4%)",
+      "pnl": -60500.0,
+      "pnl_pct": -6.432748538011696
+    },
+    {
+      "date": "2023-08-02",
+      "stock_code": "323410",
+      "action": "BUY",
+      "price": 28100.0,
+      "quantity": 35,
+      "reason": "squeeze_breakout (conf:87)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-10",
+      "stock_code": "015760",
+      "action": "SELL",
+      "price": 19030.0,
+      "quantity": 50,
+      "reason": "stop_loss (-4.8%)",
+      "pnl": -47500.0,
+      "pnl_pct": -4.754754754754755
+    },
+    {
+      "date": "2023-08-10",
+      "stock_code": "004990",
+      "action": "BUY",
+      "price": 26200.0,
+      "quantity": 38,
+      "reason": "squeeze_breakout (conf:87)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "001430",
+      "action": "SELL",
+      "price": 23150.0,
+      "quantity": 20,
+      "reason": "stop_loss (-7.4%)",
+      "pnl": -37000.0,
+      "pnl_pct": -7.3999999999999995
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "323410",
+      "action": "SELL",
+      "price": 26600.0,
+      "quantity": 35,
+      "reason": "stop_loss (-5.3%)",
+      "pnl": -52500.0,
+      "pnl_pct": -5.338078291814947
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "003230",
+      "action": "BUY",
+      "price": 176000.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-16",
+      "stock_code": "008770",
+      "action": "BUY",
+      "price": 90400.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-17",
+      "stock_code": "009150",
+      "action": "SELL",
+      "price": 143400.0,
+      "quantity": 6,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -41400.0,
+      "pnl_pct": -4.590818363273453
+    },
+    {
+      "date": "2023-08-17",
+      "stock_code": "004990",
+      "action": "SELL",
+      "price": 24700.0,
+      "quantity": 38,
+      "reason": "stop_loss (-5.7%)",
+      "pnl": -57000.0,
+      "pnl_pct": -5.7251908396946565
+    },
+    {
+      "date": "2023-08-17",
+      "stock_code": "017670",
+      "action": "BUY",
+      "price": 47300.0,
+      "quantity": 21,
+      "reason": "squeeze_breakout (conf:61)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-21",
+      "stock_code": "008770",
+      "action": "SELL",
+      "price": 86200.0,
+      "quantity": 11,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -46200.0,
+      "pnl_pct": -4.646017699115045
+    },
+    {
+      "date": "2023-08-21",
+      "stock_code": "271560",
+      "action": "BUY",
+      "price": 127400.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-25",
+      "stock_code": "086790",
+      "action": "BUY",
+      "price": 38750.0,
+      "quantity": 25,
+      "reason": "squeeze_breakout (conf:52)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-08-31",
+      "stock_code": "003230",
+      "action": "SELL",
+      "price": 194400.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 36800.0,
+      "pnl_pct": 10.454545454545453
+    },
+    {
+      "date": "2023-09-01",
+      "stock_code": "271560",
+      "action": "SELL",
+      "price": 120800.0,
+      "quantity": 7,
+      "reason": "stop_loss (-5.2%)",
+      "pnl": -46200.0,
+      "pnl_pct": -5.180533751962323
+    },
+    {
+      "date": "2023-09-01",
+      "stock_code": "004020",
+      "action": "BUY",
+      "price": 38000.0,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-09-15",
+      "stock_code": "086790",
+      "action": "SELL",
+      "price": 43500.0,
+      "quantity": 12,
+      "reason": "take_profit_target_hit",
+      "pnl": 57000.0,
+      "pnl_pct": 12.258064516129032
+    },
+    {
+      "date": "2023-09-22",
+      "stock_code": "003490",
+      "action": "SELL",
+      "price": 22150.0,
+      "quantity": 21,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -25200.0,
+      "pnl_pct": -5.139186295503212
+    },
+    {
+      "date": "2023-09-22",
+      "stock_code": "001430",
+      "action": "BUY",
+      "price": 25000.0,
+      "quantity": 40,
+      "reason": "squeeze_breakout (conf:90)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-09-27",
+      "stock_code": "017670",
+      "action": "SELL",
+      "price": 52000.0,
+      "quantity": 10,
+      "reason": "take_profit_target_hit",
+      "pnl": 47000.0,
+      "pnl_pct": 9.936575052854122
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "001430",
+      "action": "SELL",
+      "price": 23000.0,
+      "quantity": 40,
+      "reason": "stop_loss (-8.0%)",
+      "pnl": -80000.0,
+      "pnl_pct": -8.0
+    },
+    {
+      "date": "2023-10-04",
+      "stock_code": "018880",
+      "action": "BUY",
+      "price": 9420.0,
+      "quantity": 106,
+      "reason": "squeeze_breakout (conf:83)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-05",
+      "stock_code": "004020",
+      "action": "SELL",
+      "price": 35950.0,
+      "quantity": 26,
+      "reason": "stop_loss (-5.4%)",
+      "pnl": -53300.0,
+      "pnl_pct": -5.394736842105264
+    },
+    {
+      "date": "2023-10-05",
+      "stock_code": "000270",
+      "action": "BUY",
+      "price": 83500.0,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-13",
+      "stock_code": "018880",
+      "action": "SELL",
+      "price": 7820.0,
+      "quantity": 106,
+      "reason": "stop_loss (-17.0%)",
+      "pnl": -169600.0,
+      "pnl_pct": -16.985138004246284
+    },
+    {
+      "date": "2023-10-13",
+      "stock_code": "047810",
+      "action": "BUY",
+      "price": 51400.0,
+      "quantity": 19,
+      "reason": "squeeze_breakout (conf:73)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-19",
+      "stock_code": "047810",
+      "action": "SELL",
+      "price": 49000.0,
+      "quantity": 19,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -45600.0,
+      "pnl_pct": -4.669260700389105
+    },
+    {
+      "date": "2023-10-19",
+      "stock_code": "000080",
+      "action": "BUY",
+      "price": 21300.0,
+      "quantity": 46,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-20",
+      "stock_code": "005490",
+      "action": "SELL",
+      "price": 453000.0,
+      "quantity": 1,
+      "reason": "stop_loss (-7.2%)",
+      "pnl": -35000.0,
+      "pnl_pct": -7.172131147540983
+    },
+    {
+      "date": "2023-10-20",
+      "stock_code": "000720",
+      "action": "BUY",
+      "price": 37450.0,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:95)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-23",
+      "stock_code": "000720",
+      "action": "SELL",
+      "price": 34500.0,
+      "quantity": 26,
+      "reason": "stop_loss (-7.9%)",
+      "pnl": -76700.0,
+      "pnl_pct": -7.87716955941255
+    },
+    {
+      "date": "2023-10-23",
+      "stock_code": "111770",
+      "action": "BUY",
+      "price": 52900.0,
+      "quantity": 18,
+      "reason": "squeeze_breakout (conf:63)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-27",
+      "stock_code": "000270",
+      "action": "SELL",
+      "price": 79700.0,
+      "quantity": 11,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -41800.0,
+      "pnl_pct": -4.550898203592815
+    },
+    {
+      "date": "2023-10-27",
+      "stock_code": "298020",
+      "action": "BUY",
+      "price": 326000.0,
+      "quantity": 3,
+      "reason": "squeeze_breakout (conf:65)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-10-31",
+      "stock_code": "005380",
+      "action": "SELL",
+      "price": 169700.0,
+      "quantity": 3,
+      "reason": "stop_loss (-5.9%)",
+      "pnl": -31800.0,
+      "pnl_pct": -5.879090404880754
+    },
+    {
+      "date": "2023-10-31",
+      "stock_code": "298020",
+      "action": "SELL",
+      "price": 357000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 31000.0,
+      "pnl_pct": 9.509202453987731
+    },
+    {
+      "date": "2023-10-31",
+      "stock_code": "090430",
+      "action": "BUY",
+      "price": 126400.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:73)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-11-06",
+      "stock_code": "090430",
+      "action": "SELL",
+      "price": 143300.0,
+      "quantity": 3,
+      "reason": "take_profit_target_hit",
+      "pnl": 50700.0,
+      "pnl_pct": 13.370253164556962
+    },
+    {
+      "date": "2023-11-14",
+      "stock_code": "000080",
+      "action": "SELL",
+      "price": 23250.0,
+      "quantity": 23,
+      "reason": "take_profit_target_hit",
+      "pnl": 44850.0,
+      "pnl_pct": 9.15492957746479
+    },
+    {
+      "date": "2023-11-15",
+      "stock_code": "111770",
+      "action": "SELL",
+      "price": 48400.0,
+      "quantity": 18,
+      "reason": "stop_loss (-8.5%)",
+      "pnl": -81000.0,
+      "pnl_pct": -8.506616257088846
+    },
+    {
+      "date": "2023-11-15",
+      "stock_code": "006360",
+      "action": "BUY",
+      "price": 15200.0,
+      "quantity": 65,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2023-11-21",
+      "stock_code": "006360",
+      "action": "SELL",
+      "price": 16730.0,
+      "quantity": 32,
+      "reason": "take_profit_target_hit",
+      "pnl": 48960.0,
+      "pnl_pct": 10.06578947368421
+    },
+    {
+      "date": "2024-01-04",
+      "stock_code": "006360",
+      "action": "SELL",
+      "price": 14410.0,
+      "quantity": 33,
+      "reason": "stop_loss (-5.2%)",
+      "pnl": -26070.0,
+      "pnl_pct": -5.197368421052632
+    },
+    {
+      "date": "2024-01-04",
+      "stock_code": "047810",
+      "action": "BUY",
+      "price": 54300.0,
+      "quantity": 18,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-01-18",
+      "stock_code": "012330",
+      "action": "SELL",
+      "price": 200000.0,
+      "quantity": 2,
+      "reason": "stop_loss (-5.4%)",
+      "pnl": -23000.0,
+      "pnl_pct": -5.4373522458628845
+    },
+    {
+      "date": "2024-01-18",
+      "stock_code": "161390",
+      "action": "BUY",
+      "price": 47100.0,
+      "quantity": 21,
+      "reason": "squeeze_breakout (conf:88)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-01-29",
+      "stock_code": "047810",
+      "action": "SELL",
+      "price": 51200.0,
+      "quantity": 18,
+      "reason": "stop_loss (-5.7%)",
+      "pnl": -55800.0,
+      "pnl_pct": -5.70902394106814
+    },
+    {
+      "date": "2024-01-29",
+      "stock_code": "015760",
+      "action": "BUY",
+      "price": 19920.0,
+      "quantity": 50,
+      "reason": "squeeze_breakout (conf:91)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-01-30",
+      "stock_code": "298020",
+      "action": "SELL",
+      "price": 306000.0,
+      "quantity": 2,
+      "reason": "stop_loss (-6.1%)",
+      "pnl": -40000.0,
+      "pnl_pct": -6.134969325153374
+    },
+    {
+      "date": "2024-01-30",
+      "stock_code": "028260",
+      "action": "BUY",
+      "price": 129700.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-01-31",
+      "stock_code": "090430",
+      "action": "SELL",
+      "price": 118000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-6.6%)",
+      "pnl": -33600.0,
+      "pnl_pct": -6.645569620253164
+    },
+    {
+      "date": "2024-01-31",
+      "stock_code": "005380",
+      "action": "BUY",
+      "price": 194600.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:91)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-02-01",
+      "stock_code": "161390",
+      "action": "SELL",
+      "price": 52000.0,
+      "quantity": 10,
+      "reason": "take_profit_target_hit",
+      "pnl": 49000.0,
+      "pnl_pct": 10.40339702760085
+    },
+    {
+      "date": "2024-02-01",
+      "stock_code": "028260",
+      "action": "SELL",
+      "price": 148700.0,
+      "quantity": 3,
+      "reason": "take_profit_target_hit",
+      "pnl": 57000.0,
+      "pnl_pct": 14.649190439475712
+    },
+    {
+      "date": "2024-02-02",
+      "stock_code": "005380",
+      "action": "SELL",
+      "price": 227000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 32400.0,
+      "pnl_pct": 16.649537512846866
+    },
+    {
+      "date": "2024-02-19",
+      "stock_code": "015760",
+      "action": "SELL",
+      "price": 23200.0,
+      "quantity": 25,
+      "reason": "take_profit_target_hit",
+      "pnl": 82000.0,
+      "pnl_pct": 16.46586345381526
+    },
+    {
+      "date": "2024-02-27",
+      "stock_code": "000080",
+      "action": "SELL",
+      "price": 20250.0,
+      "quantity": 23,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -24150.0,
+      "pnl_pct": -4.929577464788732
+    },
+    {
+      "date": "2024-02-27",
+      "stock_code": "010140",
+      "action": "BUY",
+      "price": 7670.0,
+      "quantity": 130,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-03-14",
+      "stock_code": "010140",
+      "action": "SELL",
+      "price": 9010.0,
+      "quantity": 65,
+      "reason": "take_profit_target_hit",
+      "pnl": 87100.0,
+      "pnl_pct": 17.470664928292045
+    },
+    {
+      "date": "2024-05-07",
+      "stock_code": "161390",
+      "action": "SELL",
+      "price": 43750.0,
+      "quantity": 11,
+      "reason": "stop_loss (-7.1%)",
+      "pnl": -36850.0,
+      "pnl_pct": -7.112526539278131
+    },
+    {
+      "date": "2024-05-07",
+      "stock_code": "068270",
+      "action": "BUY",
+      "price": 178021.984375,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:82)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-05-22",
+      "stock_code": "068270",
+      "action": "SELL",
+      "price": 169230.765625,
+      "quantity": 5,
+      "reason": "stop_loss (-4.9%)",
+      "pnl": -43956.09375,
+      "pnl_pct": -4.938277022843123
+    },
+    {
+      "date": "2024-05-22",
+      "stock_code": "271560",
+      "action": "BUY",
+      "price": 94000.0,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:67)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-05-28",
+      "stock_code": "035420",
+      "action": "SELL",
+      "price": 177400.0,
+      "quantity": 3,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -25800.0,
+      "pnl_pct": -4.623655913978494
+    },
+    {
+      "date": "2024-05-28",
+      "stock_code": "011790",
+      "action": "BUY",
+      "price": 139700.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:81)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-06-10",
+      "stock_code": "011790",
+      "action": "SELL",
+      "price": 169700.0,
+      "quantity": 3,
+      "reason": "take_profit_target_hit",
+      "pnl": 90000.0,
+      "pnl_pct": 21.47458840372226
+    },
+    {
+      "date": "2024-06-17",
+      "stock_code": "271560",
+      "action": "SELL",
+      "price": 104400.0,
+      "quantity": 5,
+      "reason": "take_profit_target_hit",
+      "pnl": 52000.0,
+      "pnl_pct": 11.063829787234042
+    },
+    {
+      "date": "2024-07-24",
+      "stock_code": "271560",
+      "action": "SELL",
+      "price": 89600.0,
+      "quantity": 5,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -22000.0,
+      "pnl_pct": -4.680851063829787
+    },
+    {
+      "date": "2024-07-24",
+      "stock_code": "000120",
+      "action": "BUY",
+      "price": 96000.0,
+      "quantity": 10,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-07-26",
+      "stock_code": "011790",
+      "action": "SELL",
+      "price": 133000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-4.8%)",
+      "pnl": -26800.0,
+      "pnl_pct": -4.795991410164638
+    },
+    {
+      "date": "2024-07-26",
+      "stock_code": "003550",
+      "action": "BUY",
+      "price": 82900.0,
+      "quantity": 12,
+      "reason": "squeeze_breakout (conf:76)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-08-05",
+      "stock_code": "015760",
+      "action": "SELL",
+      "price": 18400.0,
+      "quantity": 25,
+      "reason": "stop_loss (-7.6%)",
+      "pnl": -38000.0,
+      "pnl_pct": -7.630522088353414
+    },
+    {
+      "date": "2024-08-05",
+      "stock_code": "003550",
+      "action": "SELL",
+      "price": 78100.0,
+      "quantity": 12,
+      "reason": "stop_loss (-5.8%)",
+      "pnl": -57600.0,
+      "pnl_pct": -5.790108564535585
+    },
+    {
+      "date": "2024-08-05",
+      "stock_code": "282330",
+      "action": "BUY",
+      "price": 109500.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:89)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-08-06",
+      "stock_code": "373220",
+      "action": "BUY",
+      "price": 337000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:57)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-08-08",
+      "stock_code": "373220",
+      "action": "SELL",
+      "price": 321000.0,
+      "quantity": 2,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -32000.0,
+      "pnl_pct": -4.747774480712167
+    },
+    {
+      "date": "2024-08-08",
+      "stock_code": "010130",
+      "action": "BUY",
+      "price": 515000.0,
+      "quantity": 1,
+      "reason": "squeeze_breakout (conf:70)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-09-03",
+      "stock_code": "282330",
+      "action": "SELL",
+      "price": 121000.0,
+      "quantity": 4,
+      "reason": "take_profit_target_hit",
+      "pnl": 46000.0,
+      "pnl_pct": 10.50228310502283
+    },
+    {
+      "date": "2024-09-13",
+      "stock_code": "010130",
+      "action": "SELL",
+      "price": 666000.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 151000.0,
+      "pnl_pct": 29.320388349514566
+    },
+    {
+      "date": "2024-09-13",
+      "stock_code": "005490",
+      "action": "BUY",
+      "price": 370000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:79)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-10-08",
+      "stock_code": "000120",
+      "action": "SELL",
+      "price": 89800.0,
+      "quantity": 10,
+      "reason": "stop_loss (-6.5%)",
+      "pnl": -62000.0,
+      "pnl_pct": -6.458333333333334
+    },
+    {
+      "date": "2024-10-08",
+      "stock_code": "012450",
+      "action": "BUY",
+      "price": 364500.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:87)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-10-10",
+      "stock_code": "005930",
+      "action": "SELL",
+      "price": 58900.0,
+      "quantity": 7,
+      "reason": "stop_loss (-6.5%)",
+      "pnl": -28700.0,
+      "pnl_pct": -6.507936507936509
+    },
+    {
+      "date": "2024-10-10",
+      "stock_code": "035720",
+      "action": "BUY",
+      "price": 37350.0,
+      "quantity": 26,
+      "reason": "squeeze_breakout (conf:74)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-10-15",
+      "stock_code": "005490",
+      "action": "SELL",
+      "price": 352500.0,
+      "quantity": 2,
+      "reason": "stop_loss (-4.7%)",
+      "pnl": -35000.0,
+      "pnl_pct": -4.72972972972973
+    },
+    {
+      "date": "2024-10-15",
+      "stock_code": "032830",
+      "action": "BUY",
+      "price": 100100.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-10-31",
+      "stock_code": "028260",
+      "action": "SELL",
+      "price": 117000.0,
+      "quantity": 4,
+      "reason": "stop_loss (-9.8%)",
+      "pnl": -50800.0,
+      "pnl_pct": -9.79182729375482
+    },
+    {
+      "date": "2024-10-31",
+      "stock_code": "088350",
+      "action": "BUY",
+      "price": 2960.0,
+      "quantity": 337,
+      "reason": "squeeze_breakout (conf:76)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-08",
+      "stock_code": "012450",
+      "action": "SELL",
+      "price": 403500.0,
+      "quantity": 1,
+      "reason": "take_profit_target_hit",
+      "pnl": 39000.0,
+      "pnl_pct": 10.699588477366255
+    },
+    {
+      "date": "2024-11-08",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 35000.0,
+      "quantity": 26,
+      "reason": "stop_loss (-6.3%)",
+      "pnl": -61100.0,
+      "pnl_pct": -6.291834002677376
+    },
+    {
+      "date": "2024-11-08",
+      "stock_code": "001430",
+      "action": "BUY",
+      "price": 23950.0,
+      "quantity": 41,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-13",
+      "stock_code": "282330",
+      "action": "SELL",
+      "price": 101900.0,
+      "quantity": 5,
+      "reason": "stop_loss (-6.9%)",
+      "pnl": -38000.0,
+      "pnl_pct": -6.940639269406393
+    },
+    {
+      "date": "2024-11-13",
+      "stock_code": "088350",
+      "action": "SELL",
+      "price": 2750.0,
+      "quantity": 337,
+      "reason": "stop_loss (-7.1%)",
+      "pnl": -70770.0,
+      "pnl_pct": -7.094594594594595
+    },
+    {
+      "date": "2024-11-13",
+      "stock_code": "001430",
+      "action": "SELL",
+      "price": 22300.0,
+      "quantity": 41,
+      "reason": "stop_loss (-6.9%)",
+      "pnl": -67650.0,
+      "pnl_pct": -6.8893528183716075
+    },
+    {
+      "date": "2024-11-13",
+      "stock_code": "035420",
+      "action": "BUY",
+      "price": 182200.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-13",
+      "stock_code": "033780",
+      "action": "BUY",
+      "price": 123000.0,
+      "quantity": 8,
+      "reason": "squeeze_breakout (conf:57)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-14",
+      "stock_code": "042660",
+      "action": "BUY",
+      "price": 39200.0,
+      "quantity": 25,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-15",
+      "stock_code": "004370",
+      "action": "SELL",
+      "price": 326000.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.7%)",
+      "pnl": -31000.0,
+      "pnl_pct": -8.683473389355742
+    },
+    {
+      "date": "2024-11-15",
+      "stock_code": "011200",
+      "action": "BUY",
+      "price": 18240.0,
+      "quantity": 20,
+      "reason": "squeeze_breakout (conf:88)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-18",
+      "stock_code": "033780",
+      "action": "SELL",
+      "price": 116700.0,
+      "quantity": 8,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -50400.0,
+      "pnl_pct": -5.121951219512195
+    },
+    {
+      "date": "2024-11-18",
+      "stock_code": "018260",
+      "action": "BUY",
+      "price": 148300.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:78)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-19",
+      "stock_code": "042660",
+      "action": "SELL",
+      "price": 37050.0,
+      "quantity": 25,
+      "reason": "stop_loss (-5.5%)",
+      "pnl": -53750.0,
+      "pnl_pct": -5.48469387755102
+    },
+    {
+      "date": "2024-11-19",
+      "stock_code": "036460",
+      "action": "BUY",
+      "price": 46000.0,
+      "quantity": 21,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-26",
+      "stock_code": "012450",
+      "action": "SELL",
+      "price": 319500.0,
+      "quantity": 1,
+      "reason": "stop_loss (-12.3%)",
+      "pnl": -45000.0,
+      "pnl_pct": -12.345679012345679
+    },
+    {
+      "date": "2024-11-26",
+      "stock_code": "007070",
+      "action": "BUY",
+      "price": 28579.087890625,
+      "quantity": 11,
+      "reason": "squeeze_breakout (conf:87)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-11-27",
+      "stock_code": "035420",
+      "action": "SELL",
+      "price": 203000.0,
+      "quantity": 2,
+      "reason": "take_profit_target_hit",
+      "pnl": 41600.0,
+      "pnl_pct": 11.416026344676181
+    },
+    {
+      "date": "2024-12-02",
+      "stock_code": "036460",
+      "action": "SELL",
+      "price": 40050.0,
+      "quantity": 21,
+      "reason": "stop_loss (-12.9%)",
+      "pnl": -124950.0,
+      "pnl_pct": -12.934782608695652
+    },
+    {
+      "date": "2024-12-02",
+      "stock_code": "035720",
+      "action": "BUY",
+      "price": 42150.0,
+      "quantity": 23,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-12-03",
+      "stock_code": "018260",
+      "action": "SELL",
+      "price": 138000.0,
+      "quantity": 6,
+      "reason": "stop_loss (-6.9%)",
+      "pnl": -61800.0,
+      "pnl_pct": -6.945380984490897
+    },
+    {
+      "date": "2024-12-03",
+      "stock_code": "016360",
+      "action": "BUY",
+      "price": 50700.0,
+      "quantity": 19,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-12-04",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 46600.0,
+      "quantity": 11,
+      "reason": "take_profit_target_hit",
+      "pnl": 48950.0,
+      "pnl_pct": 10.55753262158956
+    },
+    {
+      "date": "2024-12-05",
+      "stock_code": "016360",
+      "action": "SELL",
+      "price": 47100.0,
+      "quantity": 19,
+      "reason": "stop_loss (-7.1%)",
+      "pnl": -68400.0,
+      "pnl_pct": -7.100591715976331
+    },
+    {
+      "date": "2024-12-05",
+      "stock_code": "241560",
+      "action": "BUY",
+      "price": 43400.0,
+      "quantity": 23,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-12-23",
+      "stock_code": "007070",
+      "action": "SELL",
+      "price": 18970.0,
+      "quantity": 11,
+      "reason": "stop_loss (-33.6%)",
+      "pnl": -105699.966796875,
+      "pnl_pct": -33.62279414724477
+    },
+    {
+      "date": "2024-12-23",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 39700.0,
+      "quantity": 12,
+      "reason": "stop_loss (-5.8%)",
+      "pnl": -29400.0,
+      "pnl_pct": -5.812574139976276
+    },
+    {
+      "date": "2024-12-23",
+      "stock_code": "139480",
+      "action": "BUY",
+      "price": 69600.0,
+      "quantity": 14,
+      "reason": "squeeze_breakout (conf:88)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-12-23",
+      "stock_code": "042660",
+      "action": "BUY",
+      "price": 35750.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:83)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2024-12-30",
+      "stock_code": "032830",
+      "action": "SELL",
+      "price": 94800.0,
+      "quantity": 9,
+      "reason": "stop_loss (-5.3%)",
+      "pnl": -47700.0,
+      "pnl_pct": -5.294705294705294
+    },
+    {
+      "date": "2024-12-30",
+      "stock_code": "139480",
+      "action": "SELL",
+      "price": 63400.0,
+      "quantity": 14,
+      "reason": "stop_loss (-8.9%)",
+      "pnl": -86800.0,
+      "pnl_pct": -8.908045977011495
+    },
+    {
+      "date": "2024-12-30",
+      "stock_code": "326030",
+      "action": "BUY",
+      "price": 111100.0,
+      "quantity": 9,
+      "reason": "squeeze_breakout (conf:72)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-01-02",
+      "stock_code": "086280",
+      "action": "BUY",
+      "price": 133800.0,
+      "quantity": 5,
+      "reason": "squeeze_breakout (conf:80)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-01-07",
+      "stock_code": "042660",
+      "action": "SELL",
+      "price": 42900.0,
+      "quantity": 3,
+      "reason": "take_profit_target_hit",
+      "pnl": 21450.0,
+      "pnl_pct": 20.0
+    },
+    {
+      "date": "2025-01-08",
+      "stock_code": "086280",
+      "action": "SELL",
+      "price": 127400.0,
+      "quantity": 5,
+      "reason": "stop_loss (-4.8%)",
+      "pnl": -32000.0,
+      "pnl_pct": -4.783258594917788
+    },
+    {
+      "date": "2025-01-08",
+      "stock_code": "000100",
+      "action": "BUY",
+      "price": 133700.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:86)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-01-09",
+      "stock_code": "241560",
+      "action": "SELL",
+      "price": 41200.0,
+      "quantity": 23,
+      "reason": "stop_loss (-5.1%)",
+      "pnl": -50600.0,
+      "pnl_pct": -5.0691244239631335
+    },
+    {
+      "date": "2025-01-09",
+      "stock_code": "096770",
+      "action": "BUY",
+      "price": 127500.0,
+      "quantity": 7,
+      "reason": "squeeze_breakout (conf:86)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "326030",
+      "action": "SELL",
+      "price": 103200.0,
+      "quantity": 9,
+      "reason": "stop_loss (-7.1%)",
+      "pnl": -71100.0,
+      "pnl_pct": -7.110711071107111
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "000100",
+      "action": "SELL",
+      "price": 123300.0,
+      "quantity": 6,
+      "reason": "stop_loss (-7.8%)",
+      "pnl": -62400.0,
+      "pnl_pct": -7.778608825729244
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "096770",
+      "action": "SELL",
+      "price": 120900.0,
+      "quantity": 7,
+      "reason": "stop_loss (-5.2%)",
+      "pnl": -46200.0,
+      "pnl_pct": -5.176470588235294
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "069960",
+      "action": "BUY",
+      "price": 51700.0,
+      "quantity": 19,
+      "reason": "squeeze_breakout (conf:71)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "111770",
+      "action": "BUY",
+      "price": 43200.0,
+      "quantity": 23,
+      "reason": "squeeze_breakout (conf:66)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-02-03",
+      "stock_code": "035720",
+      "action": "BUY",
+      "price": 41800.0,
+      "quantity": 15,
+      "reason": "squeeze_breakout (conf:66)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-02-14",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 38750.0,
+      "quantity": 15,
+      "reason": "stop_loss (-7.3%)",
+      "pnl": -45750.0,
+      "pnl_pct": -7.29665071770335
+    },
+    {
+      "date": "2025-02-14",
+      "stock_code": "028260",
+      "action": "BUY",
+      "price": 127600.0,
+      "quantity": 4,
+      "reason": "squeeze_breakout (conf:86)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-02-21",
+      "stock_code": "069960",
+      "action": "SELL",
+      "price": 57600.0,
+      "quantity": 9,
+      "reason": "take_profit_target_hit",
+      "pnl": 53100.0,
+      "pnl_pct": 11.411992263056092
+    },
+    {
+      "date": "2025-02-24",
+      "stock_code": "011200",
+      "action": "SELL",
+      "price": 20000.0,
+      "quantity": 10,
+      "reason": "take_profit_target_hit",
+      "pnl": 17600.0,
+      "pnl_pct": 9.649122807017543
+    },
+    {
+      "date": "2025-02-27",
+      "stock_code": "111770",
+      "action": "SELL",
+      "price": 47400.0,
+      "quantity": 11,
+      "reason": "take_profit_target_hit",
+      "pnl": 46200.0,
+      "pnl_pct": 9.722222222222223
+    },
+    {
+      "date": "2025-02-28",
+      "stock_code": "028260",
+      "action": "SELL",
+      "price": 121500.0,
+      "quantity": 4,
+      "reason": "stop_loss (-4.8%)",
+      "pnl": -24400.0,
+      "pnl_pct": -4.7805642633228835
+    },
+    {
+      "date": "2025-02-28",
+      "stock_code": "035720",
+      "action": "BUY",
+      "price": 43150.0,
+      "quantity": 23,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-03-28",
+      "stock_code": "035720",
+      "action": "SELL",
+      "price": 41150.0,
+      "quantity": 23,
+      "reason": "stop_loss (-4.6%)",
+      "pnl": -46000.0,
+      "pnl_pct": -4.634994206257242
+    },
+    {
+      "date": "2025-03-28",
+      "stock_code": "373220",
+      "action": "BUY",
+      "price": 356000.0,
+      "quantity": 2,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "373220",
+      "action": "SELL",
+      "price": 334500.0,
+      "quantity": 2,
+      "reason": "stop_loss (-6.0%)",
+      "pnl": -43000.0,
+      "pnl_pct": -6.03932584269663
+    },
+    {
+      "date": "2025-03-31",
+      "stock_code": "000720",
+      "action": "BUY",
+      "price": 35950.0,
+      "quantity": 27,
+      "reason": "squeeze_breakout (conf:60)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-04-07",
+      "stock_code": "005380",
+      "action": "SELL",
+      "price": 179100.0,
+      "quantity": 1,
+      "reason": "stop_loss (-8.0%)",
+      "pnl": -15500.0,
+      "pnl_pct": -7.965056526207605
+    },
+    {
+      "date": "2025-04-07",
+      "stock_code": "004170",
+      "action": "BUY",
+      "price": 152000.0,
+      "quantity": 6,
+      "reason": "squeeze_breakout (conf:64)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-04-09",
+      "stock_code": "004170",
+      "action": "SELL",
+      "price": 139200.0,
+      "quantity": 6,
+      "reason": "stop_loss (-8.4%)",
+      "pnl": -76800.0,
+      "pnl_pct": -8.421052631578947
+    },
+    {
+      "date": "2025-04-10",
+      "stock_code": "033780",
+      "action": "BUY",
+      "price": 104900.0,
+      "quantity": 8,
+      "reason": "squeeze_breakout (conf:75)",
+      "pnl": null,
+      "pnl_pct": null
+    },
+    {
+      "date": "2025-04-15",
+      "stock_code": "000720",
+      "action": "SELL",
+      "price": 39500.0,
+      "quantity": 13,
+      "reason": "take_profit_target_hit",
+      "pnl": 46150.0,
+      "pnl_pct": 9.874826147426981
+    },
+    {
+      "date": "2025-04-22",
+      "stock_code": "033780",
+      "action": "SELL",
+      "price": 114500.0,
+      "quantity": 4,
+      "reason": "take_profit_target_hit",
+      "pnl": 38400.0,
+      "pnl_pct": 9.151572926596758
+    }
+  ],
+  "daily_values": [
+    {
+      "date": "2023-01-02",
+      "value": 10000000
+    },
+    {
+      "date": "2023-01-03",
+      "value": 10000000
+    },
+    {
+      "date": "2023-01-04",
+      "value": 10000000.0
+    },
+    {
+      "date": "2023-01-05",
+      "value": 10000800.0
+    },
+    {
+      "date": "2023-01-06",
+      "value": 10094930.0
+    },
+    {
+      "date": "2023-01-09",
+      "value": 10343780.0
+    },
+    {
+      "date": "2023-01-10",
+      "value": 10303630.0
+    },
+    {
+      "date": "2023-01-11",
+      "value": 10255060.0
+    },
+    {
+      "date": "2023-01-12",
+      "value": 10264110.0
+    },
+    {
+      "date": "2023-01-13",
+      "value": 10367560.0
+    },
+    {
+      "date": "2023-01-16",
+      "value": 10615760.0
+    },
+    {
+      "date": "2023-01-17",
+      "value": 10537010.0
+    },
+    {
+      "date": "2023-01-18",
+      "value": 10489500.0
+    },
+    {
+      "date": "2023-01-19",
+      "value": 10463180.0
+    },
+    {
+      "date": "2023-01-20",
+      "value": 10520570.0
+    },
+    {
+      "date": "2023-01-25",
+      "value": 10706260.0
+    },
+    {
+      "date": "2023-01-26",
+      "value": 10734780.0
+    },
+    {
+      "date": "2023-01-27",
+      "value": 10822440.0
+    },
+    {
+      "date": "2023-01-30",
+      "value": 10672150.0
+    },
+    {
+      "date": "2023-01-31",
+      "value": 10651880.0
+    },
+    {
+      "date": "2023-02-01",
+      "value": 10694080.0
+    },
+    {
+      "date": "2023-02-02",
+      "value": 10699880.0
+    },
+    {
+      "date": "2023-02-03",
+      "value": 10791190.0
+    },
+    {
+      "date": "2023-02-06",
+      "value": 10700940.0
+    },
+    {
+      "date": "2023-02-07",
+      "value": 10722890.0
+    },
+    {
+      "date": "2023-02-08",
+      "value": 10880740.0
+    },
+    {
+      "date": "2023-02-09",
+      "value": 10764340.0
+    },
+    {
+      "date": "2023-02-10",
+      "value": 10755190.0
+    },
+    {
+      "date": "2023-02-13",
+      "value": 10654066.859375
+    },
+    {
+      "date": "2023-02-14",
+      "value": 10650355.3515625
+    },
+    {
+      "date": "2023-02-15",
+      "value": 10458923.2578125
+    },
+    {
+      "date": "2023-02-16",
+      "value": 10599323.2578125
+    },
+    {
+      "date": "2023-02-17",
+      "value": 10521479.65625
+    },
+    {
+      "date": "2023-02-20",
+      "value": 10590731.046875
+    },
+    {
+      "date": "2023-02-21",
+      "value": 10587179.65625
+    },
+    {
+      "date": "2023-02-22",
+      "value": 10467242.5546875
+    },
+    {
+      "date": "2023-02-23",
+      "value": 10586345.0078125
+    },
+    {
+      "date": "2023-02-24",
+      "value": 10477860.359375
+    },
+    {
+      "date": "2023-02-27",
+      "value": 10353084.65234375
+    },
+    {
+      "date": "2023-02-28",
+      "value": 10270945.4140625
+    },
+    {
+      "date": "2023-03-02",
+      "value": 10296945.40234375
+    },
+    {
+      "date": "2023-03-03",
+      "value": 10264038.26953125
+    },
+    {
+      "date": "2023-03-06",
+      "value": 10426466.84765625
+    },
+    {
+      "date": "2023-03-07",
+      "value": 10362038.28125
+    },
+    {
+      "date": "2023-03-08",
+      "value": 10212902.546875
+    },
+    {
+      "date": "2023-03-09",
+      "value": 10263166.8359375
+    },
+    {
+      "date": "2023-03-10",
+      "value": 10133916.82421875
+    },
+    {
+      "date": "2023-03-13",
+      "value": 10140823.9921875
+    },
+    {
+      "date": "2023-03-14",
+      "value": 9882426.8046875
+    },
+    {
+      "date": "2023-03-15",
+      "value": 9995175.7421875
+    },
+    {
+      "date": "2023-03-16",
+      "value": 9964325.7421875
+    },
+    {
+      "date": "2023-03-17",
+      "value": 10096375.7421875
+    },
+    {
+      "date": "2023-03-20",
+      "value": 9966125.7421875
+    },
+    {
+      "date": "2023-03-21",
+      "value": 10020125.7421875
+    },
+    {
+      "date": "2023-03-22",
+      "value": 10027025.7421875
+    },
+    {
+      "date": "2023-03-23",
+      "value": 10010025.7421875
+    },
+    {
+      "date": "2023-03-24",
+      "value": 9947225.7421875
+    },
+    {
+      "date": "2023-03-27",
+      "value": 9961075.7421875
+    },
+    {
+      "date": "2023-03-28",
+      "value": 10086675.7421875
+    },
+    {
+      "date": "2023-03-29",
+      "value": 10122425.7421875
+    },
+    {
+      "date": "2023-03-30",
+      "value": 10160175.7421875
+    },
+    {
+      "date": "2023-03-31",
+      "value": 10266025.7421875
+    },
+    {
+      "date": "2023-04-03",
+      "value": 10247525.7421875
+    },
+    {
+      "date": "2023-04-04",
+      "value": 10273075.7421875
+    },
+    {
+      "date": "2023-04-05",
+      "value": 10323225.7421875
+    },
+    {
+      "date": "2023-04-06",
+      "value": 10211425.7421875
+    },
+    {
+      "date": "2023-04-07",
+      "value": 10247525.7421875
+    },
+    {
+      "date": "2023-04-10",
+      "value": 10255275.7421875
+    },
+    {
+      "date": "2023-04-11",
+      "value": 10431275.7421875
+    },
+    {
+      "date": "2023-04-12",
+      "value": 10540375.7421875
+    },
+    {
+      "date": "2023-04-13",
+      "value": 10597775.7421875
+    },
+    {
+      "date": "2023-04-14",
+      "value": 10583225.7421875
+    },
+    {
+      "date": "2023-04-17",
+      "value": 10597025.7421875
+    },
+    {
+      "date": "2023-04-18",
+      "value": 10615175.7421875
+    },
+    {
+      "date": "2023-04-19",
+      "value": 10663025.7421875
+    },
+    {
+      "date": "2023-04-20",
+      "value": 10615375.7421875
+    },
+    {
+      "date": "2023-04-21",
+      "value": 10507425.7421875
+    },
+    {
+      "date": "2023-04-24",
+      "value": 10424125.7421875
+    },
+    {
+      "date": "2023-04-25",
+      "value": 10358775.7421875
+    },
+    {
+      "date": "2023-04-26",
+      "value": 10360975.7421875
+    },
+    {
+      "date": "2023-04-27",
+      "value": 10363525.7421875
+    },
+    {
+      "date": "2023-04-28",
+      "value": 10393525.7421875
+    },
+    {
+      "date": "2023-05-02",
+      "value": 10491425.7421875
+    },
+    {
+      "date": "2023-05-03",
+      "value": 10448325.7421875
+    },
+    {
+      "date": "2023-05-04",
+      "value": 10394475.7421875
+    },
+    {
+      "date": "2023-05-08",
+      "value": 10500725.7421875
+    },
+    {
+      "date": "2023-05-09",
+      "value": 10506825.7421875
+    },
+    {
+      "date": "2023-05-10",
+      "value": 10491275.7421875
+    },
+    {
+      "date": "2023-05-11",
+      "value": 10496025.7421875
+    },
+    {
+      "date": "2023-05-12",
+      "value": 10428025.7421875
+    },
+    {
+      "date": "2023-05-15",
+      "value": 10452975.7421875
+    },
+    {
+      "date": "2023-05-16",
+      "value": 10484725.7421875
+    },
+    {
+      "date": "2023-05-17",
+      "value": 10511925.7421875
+    },
+    {
+      "date": "2023-05-18",
+      "value": 10596425.7421875
+    },
+    {
+      "date": "2023-05-19",
+      "value": 10637725.7421875
+    },
+    {
+      "date": "2023-05-22",
+      "value": 10711625.7421875
+    },
+    {
+      "date": "2023-05-23",
+      "value": 10685025.7421875
+    },
+    {
+      "date": "2023-05-24",
+      "value": 10705875.7421875
+    },
+    {
+      "date": "2023-05-25",
+      "value": 10642125.7421875
+    },
+    {
+      "date": "2023-05-26",
+      "value": 10632975.7421875
+    },
+    {
+      "date": "2023-05-30",
+      "value": 10599925.7421875
+    },
+    {
+      "date": "2023-05-31",
+      "value": 10503975.7421875
+    },
+    {
+      "date": "2023-06-01",
+      "value": 10534375.7421875
+    },
+    {
+      "date": "2023-06-02",
+      "value": 10626225.7421875
+    },
+    {
+      "date": "2023-06-05",
+      "value": 10716825.7421875
+    },
+    {
+      "date": "2023-06-07",
+      "value": 10690875.7421875
+    },
+    {
+      "date": "2023-06-08",
+      "value": 10693675.7421875
+    },
+    {
+      "date": "2023-06-09",
+      "value": 10697525.7421875
+    },
+    {
+      "date": "2023-06-12",
+      "value": 10654475.7421875
+    },
+    {
+      "date": "2023-06-13",
+      "value": 10639685.7421875
+    },
+    {
+      "date": "2023-06-14",
+      "value": 10546245.7421875
+    },
+    {
+      "date": "2023-06-15",
+      "value": 10509895.7421875
+    },
+    {
+      "date": "2023-06-16",
+      "value": 10659195.7421875
+    },
+    {
+      "date": "2023-06-19",
+      "value": 10546295.7421875
+    },
+    {
+      "date": "2023-06-20",
+      "value": 10627825.6640625
+    },
+    {
+      "date": "2023-06-21",
+      "value": 10511226.5234375
+    },
+    {
+      "date": "2023-06-22",
+      "value": 10441350.3359375
+    },
+    {
+      "date": "2023-06-23",
+      "value": 10240036.9921875
+    },
+    {
+      "date": "2023-06-26",
+      "value": 10240718.3046875
+    },
+    {
+      "date": "2023-06-27",
+      "value": 10277959.0859375
+    },
+    {
+      "date": "2023-06-28",
+      "value": 10209109.0859375
+    },
+    {
+      "date": "2023-06-29",
+      "value": 10172249.5546875
+    },
+    {
+      "date": "2023-06-30",
+      "value": 10361472.2109375
+    },
+    {
+      "date": "2023-07-03",
+      "value": 10432646.1953125
+    },
+    {
+      "date": "2023-07-04",
+      "value": 10450586.0390625
+    },
+    {
+      "date": "2023-07-05",
+      "value": 10412926.5859375
+    },
+    {
+      "date": "2023-07-06",
+      "value": 10415448.9296875
+    },
+    {
+      "date": "2023-07-07",
+      "value": 10344597.5234375
+    },
+    {
+      "date": "2023-07-10",
+      "value": 10351407.6796875
+    },
+    {
+      "date": "2023-07-11",
+      "value": 10545080.9609375
+    },
+    {
+      "date": "2023-07-12",
+      "value": 10677288.0703125
+    },
+    {
+      "date": "2023-07-13",
+      "value": 10643168.5390625
+    },
+    {
+      "date": "2023-07-14",
+      "value": 10749669.1640625
+    },
+    {
+      "date": "2023-07-17",
+      "value": 10611574.9453125
+    },
+    {
+      "date": "2023-07-18",
+      "value": 10543016.8203125
+    },
+    {
+      "date": "2023-07-19",
+      "value": 10573066.8203125
+    },
+    {
+      "date": "2023-07-20",
+      "value": 10550516.8203125
+    },
+    {
+      "date": "2023-07-21",
+      "value": 10623666.8203125
+    },
+    {
+      "date": "2023-07-24",
+      "value": 10655916.8203125
+    },
+    {
+      "date": "2023-07-25",
+      "value": 10836566.8203125
+    },
+    {
+      "date": "2023-07-26",
+      "value": 10593516.8203125
+    },
+    {
+      "date": "2023-07-27",
+      "value": 10711166.8203125
+    },
+    {
+      "date": "2023-07-28",
+      "value": 10750016.8203125
+    },
+    {
+      "date": "2023-07-31",
+      "value": 10819066.8203125
+    },
+    {
+      "date": "2023-08-01",
+      "value": 10855966.8203125
+    },
+    {
+      "date": "2023-08-02",
+      "value": 10666766.8203125
+    },
+    {
+      "date": "2023-08-03",
+      "value": 10609466.8203125
+    },
+    {
+      "date": "2023-08-04",
+      "value": 10580766.8203125
+    },
+    {
+      "date": "2023-08-07",
+      "value": 10554016.8203125
+    },
+    {
+      "date": "2023-08-08",
+      "value": 10601066.8203125
+    },
+    {
+      "date": "2023-08-09",
+      "value": 10622966.8203125
+    },
+    {
+      "date": "2023-08-10",
+      "value": 10508816.8203125
+    },
+    {
+      "date": "2023-08-11",
+      "value": 10539566.8203125
+    },
+    {
+      "date": "2023-08-14",
+      "value": 10511466.8203125
+    },
+    {
+      "date": "2023-08-16",
+      "value": 10373566.8203125
+    },
+    {
+      "date": "2023-08-17",
+      "value": 10208066.8203125
+    },
+    {
+      "date": "2023-08-18",
+      "value": 10204066.8203125
+    },
+    {
+      "date": "2023-08-21",
+      "value": 10136966.8203125
+    },
+    {
+      "date": "2023-08-22",
+      "value": 10190366.8203125
+    },
+    {
+      "date": "2023-08-23",
+      "value": 10224866.8203125
+    },
+    {
+      "date": "2023-08-24",
+      "value": 10265566.8203125
+    },
+    {
+      "date": "2023-08-25",
+      "value": 10188816.8203125
+    },
+    {
+      "date": "2023-08-28",
+      "value": 10259966.8203125
+    },
+    {
+      "date": "2023-08-29",
+      "value": 10309666.8203125
+    },
+    {
+      "date": "2023-08-30",
+      "value": 10331866.8203125
+    },
+    {
+      "date": "2023-08-31",
+      "value": 10375066.8203125
+    },
+    {
+      "date": "2023-09-01",
+      "value": 10276166.8203125
+    },
+    {
+      "date": "2023-09-04",
+      "value": 10366066.8203125
+    },
+    {
+      "date": "2023-09-05",
+      "value": 10380216.8203125
+    },
+    {
+      "date": "2023-09-06",
+      "value": 10304566.8203125
+    },
+    {
+      "date": "2023-09-07",
+      "value": 10272066.8203125
+    },
+    {
+      "date": "2023-09-08",
+      "value": 10244216.8203125
+    },
+    {
+      "date": "2023-09-11",
+      "value": 10232366.8203125
+    },
+    {
+      "date": "2023-09-12",
+      "value": 10226066.8203125
+    },
+    {
+      "date": "2023-09-13",
+      "value": 10278316.8203125
+    },
+    {
+      "date": "2023-09-14",
+      "value": 10424916.8203125
+    },
+    {
+      "date": "2023-09-15",
+      "value": 10579016.8203125
+    },
+    {
+      "date": "2023-09-18",
+      "value": 10503066.8203125
+    },
+    {
+      "date": "2023-09-19",
+      "value": 10493616.8203125
+    },
+    {
+      "date": "2023-09-20",
+      "value": 10543866.8203125
+    },
+    {
+      "date": "2023-09-21",
+      "value": 10410366.8203125
+    },
+    {
+      "date": "2023-09-22",
+      "value": 10412416.8203125
+    },
+    {
+      "date": "2023-09-25",
+      "value": 10320266.8203125
+    },
+    {
+      "date": "2023-09-26",
+      "value": 10249866.8203125
+    },
+    {
+      "date": "2023-09-27",
+      "value": 10304266.8203125
+    },
+    {
+      "date": "2023-10-04",
+      "value": 10001916.8203125
+    },
+    {
+      "date": "2023-10-05",
+      "value": 9931946.8203125
+    },
+    {
+      "date": "2023-10-06",
+      "value": 10029746.8203125
+    },
+    {
+      "date": "2023-10-10",
+      "value": 9893686.8203125
+    },
+    {
+      "date": "2023-10-11",
+      "value": 9940806.8203125
+    },
+    {
+      "date": "2023-10-12",
+      "value": 9999826.8203125
+    },
+    {
+      "date": "2023-10-13",
+      "value": 9787816.8203125
+    },
+    {
+      "date": "2023-10-16",
+      "value": 9743466.8203125
+    },
+    {
+      "date": "2023-10-17",
+      "value": 9757566.8203125
+    },
+    {
+      "date": "2023-10-18",
+      "value": 9794766.8203125
+    },
+    {
+      "date": "2023-10-19",
+      "value": 9633466.8203125
+    },
+    {
+      "date": "2023-10-20",
+      "value": 9449066.8203125
+    },
+    {
+      "date": "2023-10-23",
+      "value": 9369166.8203125
+    },
+    {
+      "date": "2023-10-24",
+      "value": 9364966.8203125
+    },
+    {
+      "date": "2023-10-25",
+      "value": 9485866.8203125
+    },
+    {
+      "date": "2023-10-26",
+      "value": 9271116.8203125
+    },
+    {
+      "date": "2023-10-27",
+      "value": 9212666.8203125
+    },
+    {
+      "date": "2023-10-30",
+      "value": 9249266.8203125
+    },
+    {
+      "date": "2023-10-31",
+      "value": 9245766.8203125
+    },
+    {
+      "date": "2023-11-01",
+      "value": 9436716.8203125
+    },
+    {
+      "date": "2023-11-02",
+      "value": 9422416.8203125
+    },
+    {
+      "date": "2023-11-03",
+      "value": 9528666.8203125
+    },
+    {
+      "date": "2023-11-06",
+      "value": 9866116.8203125
+    },
+    {
+      "date": "2023-11-07",
+      "value": 9733766.8203125
+    },
+    {
+      "date": "2023-11-08",
+      "value": 9669066.8203125
+    },
+    {
+      "date": "2023-11-09",
+      "value": 9783616.8203125
+    },
+    {
+      "date": "2023-11-10",
+      "value": 9683666.8203125
+    },
+    {
+      "date": "2023-11-13",
+      "value": 9706716.8203125
+    },
+    {
+      "date": "2023-11-14",
+      "value": 9777966.8203125
+    },
+    {
+      "date": "2023-11-15",
+      "value": 9777916.8203125
+    },
+    {
+      "date": "2023-11-16",
+      "value": 9765116.8203125
+    },
+    {
+      "date": "2023-11-17",
+      "value": 9749266.8203125
+    },
+    {
+      "date": "2023-11-20",
+      "value": 9801066.8203125
+    },
+    {
+      "date": "2023-11-21",
+      "value": 9906266.8203125
+    },
+    {
+      "date": "2023-11-22",
+      "value": 9957636.8203125
+    },
+    {
+      "date": "2023-11-23",
+      "value": 9974656.8203125
+    },
+    {
+      "date": "2023-11-24",
+      "value": 9959286.8203125
+    },
+    {
+      "date": "2023-11-27",
+      "value": 10020696.8203125
+    },
+    {
+      "date": "2023-11-28",
+      "value": 10030856.8203125
+    },
+    {
+      "date": "2023-11-29",
+      "value": 9954376.8203125
+    },
+    {
+      "date": "2023-11-30",
+      "value": 9972956.8203125
+    },
+    {
+      "date": "2023-12-01",
+      "value": 9929536.8203125
+    },
+    {
+      "date": "2023-12-04",
+      "value": 9962146.8203125
+    },
+    {
+      "date": "2023-12-05",
+      "value": 9913686.8203125
+    },
+    {
+      "date": "2023-12-06",
+      "value": 9899896.8203125
+    },
+    {
+      "date": "2023-12-07",
+      "value": 9828456.8203125
+    },
+    {
+      "date": "2023-12-08",
+      "value": 9835326.8203125
+    },
+    {
+      "date": "2023-12-11",
+      "value": 9871596.8203125
+    },
+    {
+      "date": "2023-12-12",
+      "value": 9929226.8203125
+    },
+    {
+      "date": "2023-12-13",
+      "value": 9910716.8203125
+    },
+    {
+      "date": "2023-12-14",
+      "value": 10041446.8203125
+    },
+    {
+      "date": "2023-12-15",
+      "value": 10115446.8203125
+    },
+    {
+      "date": "2023-12-18",
+      "value": 10116536.8203125
+    },
+    {
+      "date": "2023-12-19",
+      "value": 10138126.8203125
+    },
+    {
+      "date": "2023-12-20",
+      "value": 10211806.8203125
+    },
+    {
+      "date": "2023-12-21",
+      "value": 10177966.8203125
+    },
+    {
+      "date": "2023-12-22",
+      "value": 10137366.8203125
+    },
+    {
+      "date": "2023-12-26",
+      "value": 10214686.8203125
+    },
+    {
+      "date": "2023-12-27",
+      "value": 10138226.8203125
+    },
+    {
+      "date": "2023-12-28",
+      "value": 10280586.8203125
+    },
+    {
+      "date": "2024-01-02",
+      "value": 10287516.8203125
+    },
+    {
+      "date": "2024-01-03",
+      "value": 10057336.8203125
+    },
+    {
+      "date": "2024-01-04",
+      "value": 9974106.8203125
+    },
+    {
+      "date": "2024-01-05",
+      "value": 9894006.8203125
+    },
+    {
+      "date": "2024-01-08",
+      "value": 9890356.8203125
+    },
+    {
+      "date": "2024-01-09",
+      "value": 9884306.8203125
+    },
+    {
+      "date": "2024-01-10",
+      "value": 9861656.8203125
+    },
+    {
+      "date": "2024-01-11",
+      "value": 9766706.8203125
+    },
+    {
+      "date": "2024-01-12",
+      "value": 9753106.8203125
+    },
+    {
+      "date": "2024-01-15",
+      "value": 9760306.8203125
+    },
+    {
+      "date": "2024-01-16",
+      "value": 9673056.8203125
+    },
+    {
+      "date": "2024-01-17",
+      "value": 9473406.8203125
+    },
+    {
+      "date": "2024-01-18",
+      "value": 9560206.8203125
+    },
+    {
+      "date": "2024-01-19",
+      "value": 9688156.8203125
+    },
+    {
+      "date": "2024-01-22",
+      "value": 9695206.8203125
+    },
+    {
+      "date": "2024-01-23",
+      "value": 9714856.8203125
+    },
+    {
+      "date": "2024-01-24",
+      "value": 9693156.8203125
+    },
+    {
+      "date": "2024-01-25",
+      "value": 9793906.8203125
+    },
+    {
+      "date": "2024-01-26",
+      "value": 9798106.8203125
+    },
+    {
+      "date": "2024-01-29",
+      "value": 9738456.8203125
+    },
+    {
+      "date": "2024-01-30",
+      "value": 9656456.8203125
+    },
+    {
+      "date": "2024-01-31",
+      "value": 9692756.8203125
+    },
+    {
+      "date": "2024-02-01",
+      "value": 9926556.8203125
+    },
+    {
+      "date": "2024-02-02",
+      "value": 10232806.8203125
+    },
+    {
+      "date": "2024-02-05",
+      "value": 10173556.8203125
+    },
+    {
+      "date": "2024-02-06",
+      "value": 10089756.8203125
+    },
+    {
+      "date": "2024-02-07",
+      "value": 10237656.8203125
+    },
+    {
+      "date": "2024-02-08",
+      "value": 10232356.8203125
+    },
+    {
+      "date": "2024-02-13",
+      "value": 10280006.8203125
+    },
+    {
+      "date": "2024-02-14",
+      "value": 10142556.8203125
+    },
+    {
+      "date": "2024-02-15",
+      "value": 10151806.8203125
+    },
+    {
+      "date": "2024-02-16",
+      "value": 10324956.8203125
+    },
+    {
+      "date": "2024-02-19",
+      "value": 10553156.8203125
+    },
+    {
+      "date": "2024-02-20",
+      "value": 10423156.8203125
+    },
+    {
+      "date": "2024-02-21",
+      "value": 10443356.8203125
+    },
+    {
+      "date": "2024-02-22",
+      "value": 10512306.8203125
+    },
+    {
+      "date": "2024-02-23",
+      "value": 10534756.8203125
+    },
+    {
+      "date": "2024-02-26",
+      "value": 10384606.8203125
+    },
+    {
+      "date": "2024-02-27",
+      "value": 10226856.8203125
+    },
+    {
+      "date": "2024-02-28",
+      "value": 10393406.8203125
+    },
+    {
+      "date": "2024-02-29",
+      "value": 10326256.8203125
+    },
+    {
+      "date": "2024-03-04",
+      "value": 10462256.8203125
+    },
+    {
+      "date": "2024-03-05",
+      "value": 10488406.8203125
+    },
+    {
+      "date": "2024-03-06",
+      "value": 10494556.8203125
+    },
+    {
+      "date": "2024-03-07",
+      "value": 10492656.8203125
+    },
+    {
+      "date": "2024-03-08",
+      "value": 10569906.8203125
+    },
+    {
+      "date": "2024-03-11",
+      "value": 10551606.8203125
+    },
+    {
+      "date": "2024-03-12",
+      "value": 10524906.8203125
+    },
+    {
+      "date": "2024-03-13",
+      "value": 10522306.8203125
+    },
+    {
+      "date": "2024-03-14",
+      "value": 10813806.8203125
+    },
+    {
+      "date": "2024-03-15",
+      "value": 10754456.8203125
+    },
+    {
+      "date": "2024-03-18",
+      "value": 10807006.8203125
+    },
+    {
+      "date": "2024-03-19",
+      "value": 10617456.8203125
+    },
+    {
+      "date": "2024-03-20",
+      "value": 10685206.8203125
+    },
+    {
+      "date": "2024-03-21",
+      "value": 10938506.8203125
+    },
+    {
+      "date": "2024-03-22",
+      "value": 10943256.8203125
+    },
+    {
+      "date": "2024-03-25",
+      "value": 10914356.8203125
+    },
+    {
+      "date": "2024-03-26",
+      "value": 10971356.8203125
+    },
+    {
+      "date": "2024-03-27",
+      "value": 10967956.8203125
+    },
+    {
+      "date": "2024-03-28",
+      "value": 10919456.8203125
+    },
+    {
+      "date": "2024-03-29",
+      "value": 10888956.8203125
+    },
+    {
+      "date": "2024-04-01",
+      "value": 10926756.8203125
+    },
+    {
+      "date": "2024-04-02",
+      "value": 10857106.8203125
+    },
+    {
+      "date": "2024-04-03",
+      "value": 10747656.8203125
+    },
+    {
+      "date": "2024-04-04",
+      "value": 10974406.8203125
+    },
+    {
+      "date": "2024-04-05",
+      "value": 10919556.8203125
+    },
+    {
+      "date": "2024-04-08",
+      "value": 10903856.8203125
+    },
+    {
+      "date": "2024-04-09",
+      "value": 10927606.8203125
+    },
+    {
+      "date": "2024-04-11",
+      "value": 10992456.8203125
+    },
+    {
+      "date": "2024-04-12",
+      "value": 10964956.8203125
+    },
+    {
+      "date": "2024-04-15",
+      "value": 11045656.8203125
+    },
+    {
+      "date": "2024-04-16",
+      "value": 10832706.8203125
+    },
+    {
+      "date": "2024-04-17",
+      "value": 10797456.8203125
+    },
+    {
+      "date": "2024-04-18",
+      "value": 11080706.8203125
+    },
+    {
+      "date": "2024-04-19",
+      "value": 10930756.8203125
+    },
+    {
+      "date": "2024-04-22",
+      "value": 11134056.8203125
+    },
+    {
+      "date": "2024-04-23",
+      "value": 11137656.8203125
+    },
+    {
+      "date": "2024-04-24",
+      "value": 11264606.8203125
+    },
+    {
+      "date": "2024-04-25",
+      "value": 11114156.8203125
+    },
+    {
+      "date": "2024-04-26",
+      "value": 11309306.8203125
+    },
+    {
+      "date": "2024-04-29",
+      "value": 11465306.8203125
+    },
+    {
+      "date": "2024-04-30",
+      "value": 11414006.8203125
+    },
+    {
+      "date": "2024-05-02",
+      "value": 11334306.8203125
+    },
+    {
+      "date": "2024-05-03",
+      "value": 11273156.8203125
+    },
+    {
+      "date": "2024-05-07",
+      "value": 11413156.8203125
+    },
+    {
+      "date": "2024-05-08",
+      "value": 11408322.5234375
+    },
+    {
+      "date": "2024-05-09",
+      "value": 11344136.6640625
+    },
+    {
+      "date": "2024-05-10",
+      "value": 11475738.6953125
+    },
+    {
+      "date": "2024-05-13",
+      "value": 11591073.3046875
+    },
+    {
+      "date": "2024-05-14",
+      "value": 11601581.1171875
+    },
+    {
+      "date": "2024-05-16",
+      "value": 11797846.5078125
+    },
+    {
+      "date": "2024-05-17",
+      "value": 12058428.3828125
+    },
+    {
+      "date": "2024-05-20",
+      "value": 12340424.0078125
+    },
+    {
+      "date": "2024-05-21",
+      "value": 12246761.0390625
+    },
+    {
+      "date": "2024-05-22",
+      "value": 12210950.7265625
+    },
+    {
+      "date": "2024-05-23",
+      "value": 12114150.7265625
+    },
+    {
+      "date": "2024-05-24",
+      "value": 12154900.7265625
+    },
+    {
+      "date": "2024-05-27",
+      "value": 12309900.7265625
+    },
+    {
+      "date": "2024-05-28",
+      "value": 12437650.7265625
+    },
+    {
+      "date": "2024-05-29",
+      "value": 12376250.7265625
+    },
+    {
+      "date": "2024-05-30",
+      "value": 12192050.7265625
+    },
+    {
+      "date": "2024-05-31",
+      "value": 12104450.7265625
+    },
+    {
+      "date": "2024-06-03",
+      "value": 12509650.7265625
+    },
+    {
+      "date": "2024-06-04",
+      "value": 12258650.7265625
+    },
+    {
+      "date": "2024-06-05",
+      "value": 12281850.7265625
+    },
+    {
+      "date": "2024-06-07",
+      "value": 12507350.7265625
+    },
+    {
+      "date": "2024-06-10",
+      "value": 12793150.7265625
+    },
+    {
+      "date": "2024-06-11",
+      "value": 12674650.7265625
+    },
+    {
+      "date": "2024-06-12",
+      "value": 12816800.7265625
+    },
+    {
+      "date": "2024-06-13",
+      "value": 12875150.7265625
+    },
+    {
+      "date": "2024-06-14",
+      "value": 13094250.7265625
+    },
+    {
+      "date": "2024-06-17",
+      "value": 13275600.7265625
+    },
+    {
+      "date": "2024-06-18",
+      "value": 13373750.7265625
+    },
+    {
+      "date": "2024-06-19",
+      "value": 13278700.7265625
+    },
+    {
+      "date": "2024-06-20",
+      "value": 13220600.7265625
+    },
+    {
+      "date": "2024-06-21",
+      "value": 13377000.7265625
+    },
+    {
+      "date": "2024-06-24",
+      "value": 13151000.7265625
+    },
+    {
+      "date": "2024-06-25",
+      "value": 13127100.7265625
+    },
+    {
+      "date": "2024-06-26",
+      "value": 13175400.7265625
+    },
+    {
+      "date": "2024-06-27",
+      "value": 13279050.7265625
+    },
+    {
+      "date": "2024-06-28",
+      "value": 13360350.7265625
+    },
+    {
+      "date": "2024-07-01",
+      "value": 13082750.7265625
+    },
+    {
+      "date": "2024-07-02",
+      "value": 13002150.7265625
+    },
+    {
+      "date": "2024-07-03",
+      "value": 13013750.7265625
+    },
+    {
+      "date": "2024-07-04",
+      "value": 13052350.7265625
+    },
+    {
+      "date": "2024-07-05",
+      "value": 13121400.7265625
+    },
+    {
+      "date": "2024-07-08",
+      "value": 13144950.7265625
+    },
+    {
+      "date": "2024-07-09",
+      "value": 13223300.7265625
+    },
+    {
+      "date": "2024-07-10",
+      "value": 13381650.7265625
+    },
+    {
+      "date": "2024-07-11",
+      "value": 13465800.7265625
+    },
+    {
+      "date": "2024-07-12",
+      "value": 13174850.7265625
+    },
+    {
+      "date": "2024-07-15",
+      "value": 13297050.7265625
+    },
+    {
+      "date": "2024-07-16",
+      "value": 13354550.7265625
+    },
+    {
+      "date": "2024-07-17",
+      "value": 13234750.7265625
+    },
+    {
+      "date": "2024-07-18",
+      "value": 13205600.7265625
+    },
+    {
+      "date": "2024-07-19",
+      "value": 13129750.7265625
+    },
+    {
+      "date": "2024-07-22",
+      "value": 13104500.7265625
+    },
+    {
+      "date": "2024-07-23",
+      "value": 13267450.7265625
+    },
+    {
+      "date": "2024-07-24",
+      "value": 13284500.7265625
+    },
+    {
+      "date": "2024-07-25",
+      "value": 12809400.7265625
+    },
+    {
+      "date": "2024-07-26",
+      "value": 12983400.7265625
+    },
+    {
+      "date": "2024-07-29",
+      "value": 13161200.7265625
+    },
+    {
+      "date": "2024-07-30",
+      "value": 13049750.7265625
+    },
+    {
+      "date": "2024-07-31",
+      "value": 13224400.7265625
+    },
+    {
+      "date": "2024-08-01",
+      "value": 13261400.7265625
+    },
+    {
+      "date": "2024-08-02",
+      "value": 12754650.7265625
+    },
+    {
+      "date": "2024-08-05",
+      "value": 11696250.7265625
+    },
+    {
+      "date": "2024-08-06",
+      "value": 12154150.7265625
+    },
+    {
+      "date": "2024-08-07",
+      "value": 12330650.7265625
+    },
+    {
+      "date": "2024-08-08",
+      "value": 12394500.7265625
+    },
+    {
+      "date": "2024-08-09",
+      "value": 12503750.7265625
+    },
+    {
+      "date": "2024-08-12",
+      "value": 12526800.7265625
+    },
+    {
+      "date": "2024-08-13",
+      "value": 12399500.7265625
+    },
+    {
+      "date": "2024-08-14",
+      "value": 12447650.7265625
+    },
+    {
+      "date": "2024-08-16",
+      "value": 12531200.7265625
+    },
+    {
+      "date": "2024-08-19",
+      "value": 12451050.7265625
+    },
+    {
+      "date": "2024-08-20",
+      "value": 12554450.7265625
+    },
+    {
+      "date": "2024-08-21",
+      "value": 12473300.7265625
+    },
+    {
+      "date": "2024-08-22",
+      "value": 12357650.7265625
+    },
+    {
+      "date": "2024-08-23",
+      "value": 12334300.7265625
+    },
+    {
+      "date": "2024-08-26",
+      "value": 12252900.7265625
+    },
+    {
+      "date": "2024-08-27",
+      "value": 12221100.7265625
+    },
+    {
+      "date": "2024-08-28",
+      "value": 12151200.7265625
+    },
+    {
+      "date": "2024-08-29",
+      "value": 11978900.7265625
+    },
+    {
+      "date": "2024-08-30",
+      "value": 12170900.7265625
+    },
+    {
+      "date": "2024-09-02",
+      "value": 12036600.7265625
+    },
+    {
+      "date": "2024-09-03",
+      "value": 12149950.7265625
+    },
+    {
+      "date": "2024-09-04",
+      "value": 11786500.7265625
+    },
+    {
+      "date": "2024-09-05",
+      "value": 11774700.7265625
+    },
+    {
+      "date": "2024-09-06",
+      "value": 11703750.7265625
+    },
+    {
+      "date": "2024-09-09",
+      "value": 11812750.7265625
+    },
+    {
+      "date": "2024-09-10",
+      "value": 11830900.7265625
+    },
+    {
+      "date": "2024-09-11",
+      "value": 11849650.7265625
+    },
+    {
+      "date": "2024-09-12",
+      "value": 11977000.7265625
+    },
+    {
+      "date": "2024-09-13",
+      "value": 12163550.7265625
+    },
+    {
+      "date": "2024-09-19",
+      "value": 12257750.7265625
+    },
+    {
+      "date": "2024-09-20",
+      "value": 12312200.7265625
+    },
+    {
+      "date": "2024-09-23",
+      "value": 12417600.7265625
+    },
+    {
+      "date": "2024-09-24",
+      "value": 12487000.7265625
+    },
+    {
+      "date": "2024-09-25",
+      "value": 12341700.7265625
+    },
+    {
+      "date": "2024-09-26",
+      "value": 12674750.7265625
+    },
+    {
+      "date": "2024-09-27",
+      "value": 12491300.7265625
+    },
+    {
+      "date": "2024-09-30",
+      "value": 12312550.7265625
+    },
+    {
+      "date": "2024-10-02",
+      "value": 12088150.7265625
+    },
+    {
+      "date": "2024-10-04",
+      "value": 12146200.7265625
+    },
+    {
+      "date": "2024-10-07",
+      "value": 12380800.7265625
+    },
+    {
+      "date": "2024-10-08",
+      "value": 12136100.7265625
+    },
+    {
+      "date": "2024-10-10",
+      "value": 12243450.7265625
+    },
+    {
+      "date": "2024-10-11",
+      "value": 12235200.7265625
+    },
+    {
+      "date": "2024-10-14",
+      "value": 12252550.7265625
+    },
+    {
+      "date": "2024-10-15",
+      "value": 12533850.7265625
+    },
+    {
+      "date": "2024-10-16",
+      "value": 12483950.7265625
+    },
+    {
+      "date": "2024-10-17",
+      "value": 12514500.7265625
+    },
+    {
+      "date": "2024-10-18",
+      "value": 12429900.7265625
+    },
+    {
+      "date": "2024-10-21",
+      "value": 12477400.7265625
+    },
+    {
+      "date": "2024-10-22",
+      "value": 12427300.7265625
+    },
+    {
+      "date": "2024-10-23",
+      "value": 12368400.7265625
+    },
+    {
+      "date": "2024-10-24",
+      "value": 12337500.7265625
+    },
+    {
+      "date": "2024-10-25",
+      "value": 12329800.7265625
+    },
+    {
+      "date": "2024-10-28",
+      "value": 12235400.7265625
+    },
+    {
+      "date": "2024-10-29",
+      "value": 12177300.7265625
+    },
+    {
+      "date": "2024-10-30",
+      "value": 12075900.7265625
+    },
+    {
+      "date": "2024-10-31",
+      "value": 11921150.7265625
+    },
+    {
+      "date": "2024-11-01",
+      "value": 11854705.7265625
+    },
+    {
+      "date": "2024-11-04",
+      "value": 12213870.7265625
+    },
+    {
+      "date": "2024-11-05",
+      "value": 12243080.7265625
+    },
+    {
+      "date": "2024-11-06",
+      "value": 12334320.7265625
+    },
+    {
+      "date": "2024-11-07",
+      "value": 12387490.7265625
+    },
+    {
+      "date": "2024-11-08",
+      "value": 12407895.7265625
+    },
+    {
+      "date": "2024-11-11",
+      "value": 12345570.7265625
+    },
+    {
+      "date": "2024-11-12",
+      "value": 12041940.7265625
+    },
+    {
+      "date": "2024-11-13",
+      "value": 11791980.7265625
+    },
+    {
+      "date": "2024-11-14",
+      "value": 11740630.7265625
+    },
+    {
+      "date": "2024-11-15",
+      "value": 11694730.7265625
+    },
+    {
+      "date": "2024-11-18",
+      "value": 11757980.7265625
+    },
+    {
+      "date": "2024-11-19",
+      "value": 11720030.7265625
+    },
+    {
+      "date": "2024-11-20",
+      "value": 11776080.7265625
+    },
+    {
+      "date": "2024-11-21",
+      "value": 11619280.7265625
+    },
+    {
+      "date": "2024-11-22",
+      "value": 11835480.7265625
+    },
+    {
+      "date": "2024-11-25",
+      "value": 11970680.7265625
+    },
+    {
+      "date": "2024-11-26",
+      "value": 11920480.7265625
+    },
+    {
+      "date": "2024-11-27",
+      "value": 11912761.1796875
+    },
+    {
+      "date": "2024-11-28",
+      "value": 11871511.1796875
+    },
+    {
+      "date": "2024-11-29",
+      "value": 11706561.1796875
+    },
+    {
+      "date": "2024-12-02",
+      "value": 11599711.1796875
+    },
+    {
+      "date": "2024-12-03",
+      "value": 11804661.1796875
+    },
+    {
+      "date": "2024-12-04",
+      "value": 11739611.1796875
+    },
+    {
+      "date": "2024-12-05",
+      "value": 11673461.1796875
+    },
+    {
+      "date": "2024-12-06",
+      "value": 11603611.1796875
+    },
+    {
+      "date": "2024-12-09",
+      "value": 11319511.1796875
+    },
+    {
+      "date": "2024-12-10",
+      "value": 11768261.1796875
+    },
+    {
+      "date": "2024-12-11",
+      "value": 12060811.1796875
+    },
+    {
+      "date": "2024-12-12",
+      "value": 12080511.1796875
+    },
+    {
+      "date": "2024-12-13",
+      "value": 12108061.1796875
+    },
+    {
+      "date": "2024-12-16",
+      "value": 12168761.1796875
+    },
+    {
+      "date": "2024-12-17",
+      "value": 12189411.1796875
+    },
+    {
+      "date": "2024-12-18",
+      "value": 12243711.1796875
+    },
+    {
+      "date": "2024-12-19",
+      "value": 12311761.1796875
+    },
+    {
+      "date": "2024-12-20",
+      "value": 12206611.1796875
+    },
+    {
+      "date": "2024-12-23",
+      "value": 12343630.759765625
+    },
+    {
+      "date": "2024-12-24",
+      "value": 12388680.759765625
+    },
+    {
+      "date": "2024-12-26",
+      "value": 12427380.759765625
+    },
+    {
+      "date": "2024-12-27",
+      "value": 12145480.759765625
+    },
+    {
+      "date": "2024-12-30",
+      "value": 12001130.759765625
+    },
+    {
+      "date": "2025-01-02",
+      "value": 11950530.759765625
+    },
+    {
+      "date": "2025-01-03",
+      "value": 12031480.759765625
+    },
+    {
+      "date": "2025-01-06",
+      "value": 12170630.759765625
+    },
+    {
+      "date": "2025-01-07",
+      "value": 12243280.759765625
+    },
+    {
+      "date": "2025-01-08",
+      "value": 12229830.759765625
+    },
+    {
+      "date": "2025-01-09",
+      "value": 12403880.759765625
+    },
+    {
+      "date": "2025-01-10",
+      "value": 12431380.759765625
+    },
+    {
+      "date": "2025-01-13",
+      "value": 12365880.759765625
+    },
+    {
+      "date": "2025-01-14",
+      "value": 12331880.759765625
+    },
+    {
+      "date": "2025-01-15",
+      "value": 12481280.759765625
+    },
+    {
+      "date": "2025-01-16",
+      "value": 12739680.759765625
+    },
+    {
+      "date": "2025-01-17",
+      "value": 12742380.759765625
+    },
+    {
+      "date": "2025-01-20",
+      "value": 12577180.759765625
+    },
+    {
+      "date": "2025-01-21",
+      "value": 12587880.759765625
+    },
+    {
+      "date": "2025-01-22",
+      "value": 12608830.759765625
+    },
+    {
+      "date": "2025-01-23",
+      "value": 12354230.759765625
+    },
+    {
+      "date": "2025-01-24",
+      "value": 12496180.759765625
+    },
+    {
+      "date": "2025-01-31",
+      "value": 12342630.759765625
+    },
+    {
+      "date": "2025-02-03",
+      "value": 12091030.759765625
+    },
+    {
+      "date": "2025-02-04",
+      "value": 12204680.759765625
+    },
+    {
+      "date": "2025-02-05",
+      "value": 12264030.759765625
+    },
+    {
+      "date": "2025-02-06",
+      "value": 12692530.759765625
+    },
+    {
+      "date": "2025-02-07",
+      "value": 12609780.759765625
+    },
+    {
+      "date": "2025-02-10",
+      "value": 12425880.759765625
+    },
+    {
+      "date": "2025-02-11",
+      "value": 12541730.759765625
+    },
+    {
+      "date": "2025-02-12",
+      "value": 12797130.759765625
+    },
+    {
+      "date": "2025-02-13",
+      "value": 12811530.759765625
+    },
+    {
+      "date": "2025-02-14",
+      "value": 12800180.759765625
+    },
+    {
+      "date": "2025-02-17",
+      "value": 12866380.759765625
+    },
+    {
+      "date": "2025-02-18",
+      "value": 13000380.759765625
+    },
+    {
+      "date": "2025-02-19",
+      "value": 13289030.759765625
+    },
+    {
+      "date": "2025-02-20",
+      "value": 13012980.759765625
+    },
+    {
+      "date": "2025-02-21",
+      "value": 13096430.759765625
+    },
+    {
+      "date": "2025-02-24",
+      "value": 13099530.759765625
+    },
+    {
+      "date": "2025-02-25",
+      "value": 13222230.759765625
+    },
+    {
+      "date": "2025-02-26",
+      "value": 13240930.759765625
+    },
+    {
+      "date": "2025-02-27",
+      "value": 13151330.759765625
+    },
+    {
+      "date": "2025-02-28",
+      "value": 12768330.759765625
+    },
+    {
+      "date": "2025-03-04",
+      "value": 12899530.759765625
+    },
+    {
+      "date": "2025-03-05",
+      "value": 13268530.759765625
+    },
+    {
+      "date": "2025-03-06",
+      "value": 13351380.759765625
+    },
+    {
+      "date": "2025-03-07",
+      "value": 13099130.759765625
+    },
+    {
+      "date": "2025-03-10",
+      "value": 13086180.759765625
+    },
+    {
+      "date": "2025-03-11",
+      "value": 12829980.759765625
+    },
+    {
+      "date": "2025-03-12",
+      "value": 12901480.759765625
+    },
+    {
+      "date": "2025-03-13",
+      "value": 13043430.759765625
+    },
+    {
+      "date": "2025-03-14",
+      "value": 13197980.759765625
+    },
+    {
+      "date": "2025-03-17",
+      "value": 13317130.759765625
+    },
+    {
+      "date": "2025-03-18",
+      "value": 13384330.759765625
+    },
+    {
+      "date": "2025-03-19",
+      "value": 13347980.759765625
+    },
+    {
+      "date": "2025-03-20",
+      "value": 13229430.759765625
+    },
+    {
+      "date": "2025-03-21",
+      "value": 13323930.759765625
+    },
+    {
+      "date": "2025-03-24",
+      "value": 13151480.759765625
+    },
+    {
+      "date": "2025-03-25",
+      "value": 13004330.759765625
+    },
+    {
+      "date": "2025-03-26",
+      "value": 13036380.759765625
+    },
+    {
+      "date": "2025-03-27",
+      "value": 12693180.759765625
+    },
+    {
+      "date": "2025-03-28",
+      "value": 12654030.759765625
+    },
+    {
+      "date": "2025-03-31",
+      "value": 12522030.759765625
+    },
+    {
+      "date": "2025-04-01",
+      "value": 12622430.759765625
+    },
+    {
+      "date": "2025-04-02",
+      "value": 12646730.759765625
+    },
+    {
+      "date": "2025-04-03",
+      "value": 12498130.759765625
+    },
+    {
+      "date": "2025-04-04",
+      "value": 12273780.759765625
+    },
+    {
+      "date": "2025-04-07",
+      "value": 11663130.759765625
+    },
+    {
+      "date": "2025-04-08",
+      "value": 11797530.759765625
+    },
+    {
+      "date": "2025-04-09",
+      "value": 11614280.759765625
+    },
+    {
+      "date": "2025-04-10",
+      "value": 12420530.759765625
+    },
+    {
+      "date": "2025-04-11",
+      "value": 12644630.759765625
+    },
+    {
+      "date": "2025-04-14",
+      "value": 12780980.759765625
+    },
+    {
+      "date": "2025-04-15",
+      "value": 12933930.759765625
+    },
+    {
+      "date": "2025-04-16",
+      "value": 12889830.759765625
+    },
+    {
+      "date": "2025-04-17",
+      "value": 12986430.759765625
+    },
+    {
+      "date": "2025-04-18",
+      "value": 13045830.759765625
+    },
+    {
+      "date": "2025-04-21",
+      "value": 12981780.759765625
+    },
+    {
+      "date": "2025-04-22",
+      "value": 13077030.759765625
+    },
+    {
+      "date": "2025-04-23",
+      "value": 13066580.759765625
+    },
+    {
+      "date": "2025-04-24",
+      "value": 13263880.759765625
+    },
+    {
+      "date": "2025-04-25",
+      "value": 13509430.759765625
+    },
+    {
+      "date": "2025-04-28",
+      "value": 13554830.759765625
+    },
+    {
+      "date": "2025-04-29",
+      "value": 13666230.759765625
+    },
+    {
+      "date": "2025-04-30",
+      "value": 13644730.759765625
+    },
+    {
+      "date": "2025-05-02",
+      "value": 13739480.759765625
+    },
+    {
+      "date": "2025-05-07",
+      "value": 13721130.759765625
+    },
+    {
+      "date": "2025-05-08",
+      "value": 13828530.759765625
+    },
+    {
+      "date": "2025-05-09",
+      "value": 13877630.759765625
+    },
+    {
+      "date": "2025-05-12",
+      "value": 13803380.759765625
+    },
+    {
+      "date": "2025-05-13",
+      "value": 13939680.759765625
+    },
+    {
+      "date": "2025-05-14",
+      "value": 14266530.759765625
+    },
+    {
+      "date": "2025-05-15",
+      "value": 14171280.759765625
+    },
+    {
+      "date": "2025-05-16",
+      "value": 14859780.759765625
+    },
+    {
+      "date": "2025-05-19",
+      "value": 14678380.759765625
+    },
+    {
+      "date": "2025-05-20",
+      "value": 14676180.759765625
+    },
+    {
+      "date": "2025-05-21",
+      "value": 14899730.759765625
+    },
+    {
+      "date": "2025-05-22",
+      "value": 14745730.759765625
+    },
+    {
+      "date": "2025-05-23",
+      "value": 14926080.759765625
+    },
+    {
+      "date": "2025-05-26",
+      "value": 15138230.759765625
+    },
+    {
+      "date": "2025-05-27",
+      "value": 15220130.759765625
+    },
+    {
+      "date": "2025-05-28",
+      "value": 15114230.759765625
+    },
+    {
+      "date": "2025-05-29",
+      "value": 15508980.759765625
+    },
+    {
+      "date": "2025-05-30",
+      "value": 15532330.759765625
+    },
+    {
+      "date": "2025-06-02",
+      "value": 15401380.759765625
+    },
+    {
+      "date": "2025-06-04",
+      "value": 15958430.759765625
+    },
+    {
+      "date": "2025-06-05",
+      "value": 15942130.759765625
+    },
+    {
+      "date": "2025-06-09",
+      "value": 16093730.759765625
+    },
+    {
+      "date": "2025-06-10",
+      "value": 16331180.759765625
+    },
+    {
+      "date": "2025-06-11",
+      "value": 16576130.759765625
+    },
+    {
+      "date": "2025-06-12",
+      "value": 16623530.759765625
+    },
+    {
+      "date": "2025-06-13",
+      "value": 16655130.759765625
+    },
+    {
+      "date": "2025-06-16",
+      "value": 17323830.759765625
+    },
+    {
+      "date": "2025-06-17",
+      "value": 17293480.759765625
+    },
+    {
+      "date": "2025-06-18",
+      "value": 17322180.759765625
+    },
+    {
+      "date": "2025-06-19",
+      "value": 17485980.759765625
+    },
+    {
+      "date": "2025-06-20",
+      "value": 17623330.759765625
+    },
+    {
+      "date": "2025-06-23",
+      "value": 17769930.759765625
+    },
+    {
+      "date": "2025-06-24",
+      "value": 18001980.759765625
+    },
+    {
+      "date": "2025-06-25",
+      "value": 17882680.759765625
+    },
+    {
+      "date": "2025-06-26",
+      "value": 17867280.759765625
+    },
+    {
+      "date": "2025-06-27",
+      "value": 17841930.759765625
+    },
+    {
+      "date": "2025-06-30",
+      "value": 18247280.759765625
+    },
+    {
+      "date": "2025-07-01",
+      "value": 18238030.759765625
+    },
+    {
+      "date": "2025-07-02",
+      "value": 17784330.759765625
+    },
+    {
+      "date": "2025-07-03",
+      "value": 17575630.759765625
+    },
+    {
+      "date": "2025-07-04",
+      "value": 16912080.759765625
+    },
+    {
+      "date": "2025-07-07",
+      "value": 17260030.759765625
+    },
+    {
+      "date": "2025-07-08",
+      "value": 17963930.759765625
+    },
+    {
+      "date": "2025-07-09",
+      "value": 18225930.759765625
+    },
+    {
+      "date": "2025-07-10",
+      "value": 18359180.759765625
+    },
+    {
+      "date": "2025-07-11",
+      "value": 18155680.759765625
+    },
+    {
+      "date": "2025-07-14",
+      "value": 18312030.759765625
+    },
+    {
+      "date": "2025-07-15",
+      "value": 18480730.759765625
+    },
+    {
+      "date": "2025-07-16",
+      "value": 18275380.759765625
+    },
+    {
+      "date": "2025-07-17",
+      "value": 18183780.759765625
+    },
+    {
+      "date": "2025-07-18",
+      "value": 17920580.759765625
+    },
+    {
+      "date": "2025-07-21",
+      "value": 17969780.759765625
+    },
+    {
+      "date": "2025-07-22",
+      "value": 17711130.759765625
+    },
+    {
+      "date": "2025-07-23",
+      "value": 17615630.759765625
+    },
+    {
+      "date": "2025-07-24",
+      "value": 17559180.759765625
+    },
+    {
+      "date": "2025-07-25",
+      "value": 17703130.759765625
+    },
+    {
+      "date": "2025-07-28",
+      "value": 17524880.759765625
+    },
+    {
+      "date": "2025-07-29",
+      "value": 17587280.759765625
+    },
+    {
+      "date": "2025-07-30",
+      "value": 17671280.759765625
+    },
+    {
+      "date": "2025-07-31",
+      "value": 18070530.759765625
+    },
+    {
+      "date": "2025-08-01",
+      "value": 17570430.759765625
+    },
+    {
+      "date": "2025-08-04",
+      "value": 17511730.759765625
+    },
+    {
+      "date": "2025-08-05",
+      "value": 17903680.759765625
+    },
+    {
+      "date": "2025-08-06",
+      "value": 17989030.759765625
+    },
+    {
+      "date": "2025-08-07",
+      "value": 18133080.759765625
+    },
+    {
+      "date": "2025-08-08",
+      "value": 18123430.759765625
+    },
+    {
+      "date": "2025-08-11",
+      "value": 18167330.759765625
+    },
+    {
+      "date": "2025-08-12",
+      "value": 17923330.759765625
+    },
+    {
+      "date": "2025-08-13",
+      "value": 18008930.759765625
+    },
+    {
+      "date": "2025-08-14",
+      "value": 17872530.759765625
+    },
+    {
+      "date": "2025-08-18",
+      "value": 17683780.759765625
+    },
+    {
+      "date": "2025-08-19",
+      "value": 17481680.759765625
+    },
+    {
+      "date": "2025-08-20",
+      "value": 17287330.759765625
+    },
+    {
+      "date": "2025-08-21",
+      "value": 17403280.759765625
+    },
+    {
+      "date": "2025-08-22",
+      "value": 17756280.759765625
+    },
+    {
+      "date": "2025-08-25",
+      "value": 17952880.759765625
+    },
+    {
+      "date": "2025-08-26",
+      "value": 17971780.759765625
+    },
+    {
+      "date": "2025-08-27",
+      "value": 18258830.759765625
+    },
+    {
+      "date": "2025-08-28",
+      "value": 18848580.759765625
+    },
+    {
+      "date": "2025-08-29",
+      "value": 18742230.759765625
+    },
+    {
+      "date": "2025-09-01",
+      "value": 18667930.759765625
+    },
+    {
+      "date": "2025-09-02",
+      "value": 18666880.759765625
+    },
+    {
+      "date": "2025-09-03",
+      "value": 18658230.759765625
+    },
+    {
+      "date": "2025-09-04",
+      "value": 18829030.759765625
+    },
+    {
+      "date": "2025-09-05",
+      "value": 18916130.759765625
+    },
+    {
+      "date": "2025-09-08",
+      "value": 18873880.759765625
+    },
+    {
+      "date": "2025-09-09",
+      "value": 18860030.759765625
+    },
+    {
+      "date": "2025-09-10",
+      "value": 19133130.759765625
+    },
+    {
+      "date": "2025-09-11",
+      "value": 19573080.759765625
+    },
+    {
+      "date": "2025-09-12",
+      "value": 19622530.759765625
+    },
+    {
+      "date": "2025-09-15",
+      "value": 19591830.759765625
+    },
+    {
+      "date": "2025-09-16",
+      "value": 19694780.759765625
+    },
+    {
+      "date": "2025-09-17",
+      "value": 19590430.759765625
+    },
+    {
+      "date": "2025-09-18",
+      "value": 19687880.759765625
+    },
+    {
+      "date": "2025-09-22",
+      "value": 19510680.759765625
+    },
+    {
+      "date": "2025-09-23",
+      "value": 19396880.759765625
+    },
+    {
+      "date": "2025-09-24",
+      "value": 19311330.759765625
+    },
+    {
+      "date": "2025-09-25",
+      "value": 19200880.759765625
+    },
+    {
+      "date": "2025-09-26",
+      "value": 18923230.759765625
+    },
+    {
+      "date": "2025-09-29",
+      "value": 19253880.759765625
+    },
+    {
+      "date": "2025-09-30",
+      "value": 19413230.759765625
+    },
+    {
+      "date": "2025-10-01",
+      "value": 19517030.759765625
+    },
+    {
+      "date": "2025-10-02",
+      "value": 19685030.759765625
+    },
+    {
+      "date": "2025-10-10",
+      "value": 19682630.759765625
+    },
+    {
+      "date": "2025-10-13",
+      "value": 19533580.759765625
+    },
+    {
+      "date": "2025-10-14",
+      "value": 19229080.759765625
+    },
+    {
+      "date": "2025-10-15",
+      "value": 19677130.759765625
+    },
+    {
+      "date": "2025-10-16",
+      "value": 19785180.759765625
+    },
+    {
+      "date": "2025-10-17",
+      "value": 19627880.759765625
+    },
+    {
+      "date": "2025-10-20",
+      "value": 20078730.759765625
+    },
+    {
+      "date": "2025-10-21",
+      "value": 20060430.759765625
+    },
+    {
+      "date": "2025-10-22",
+      "value": 20309230.759765625
+    },
+    {
+      "date": "2025-10-23",
+      "value": 20090630.759765625
+    },
+    {
+      "date": "2025-10-24",
+      "value": 20480080.759765625
+    },
+    {
+      "date": "2025-10-27",
+      "value": 21136030.759765625
+    },
+    {
+      "date": "2025-10-28",
+      "value": 20967780.759765625
+    },
+    {
+      "date": "2025-10-29",
+      "value": 21203230.759765625
+    },
+    {
+      "date": "2025-10-30",
+      "value": 21452580.759765625
+    },
+    {
+      "date": "2025-10-31",
+      "value": 21481430.759765625
+    },
+    {
+      "date": "2025-11-03",
+      "value": 21878430.759765625
+    },
+    {
+      "date": "2025-11-04",
+      "value": 21666680.759765625
+    },
+    {
+      "date": "2025-11-05",
+      "value": 21020130.759765625
+    },
+    {
+      "date": "2025-11-06",
+      "value": 21070980.759765625
+    },
+    {
+      "date": "2025-11-07",
+      "value": 20794180.759765625
+    },
+    {
+      "date": "2025-11-10",
+      "value": 21302680.759765625
+    },
+    {
+      "date": "2025-11-11",
+      "value": 21078930.759765625
+    },
+    {
+      "date": "2025-11-12",
+      "value": 21243480.759765625
+    },
+    {
+      "date": "2025-11-13",
+      "value": 21696080.759765625
+    },
+    {
+      "date": "2025-11-14",
+      "value": 20997130.759765625
+    },
+    {
+      "date": "2025-11-17",
+      "value": 21666330.759765625
+    },
+    {
+      "date": "2025-11-18",
+      "value": 21175480.759765625
+    },
+    {
+      "date": "2025-11-19",
+      "value": 21113280.759765625
+    },
+    {
+      "date": "2025-11-20",
+      "value": 21518180.759765625
+    },
+    {
+      "date": "2025-11-21",
+      "value": 20921980.759765625
+    },
+    {
+      "date": "2025-11-24",
+      "value": 20862630.759765625
+    },
+    {
+      "date": "2025-11-25",
+      "value": 20533480.759765625
+    },
+    {
+      "date": "2025-11-26",
+      "value": 21140380.759765625
+    },
+    {
+      "date": "2025-11-27",
+      "value": 21430130.759765625
+    },
+    {
+      "date": "2025-11-28",
+      "value": 21063730.759765625
+    },
+    {
+      "date": "2025-12-01",
+      "value": 20735330.759765625
+    },
+    {
+      "date": "2025-12-02",
+      "value": 21053430.759765625
+    },
+    {
+      "date": "2025-12-03",
+      "value": 21197180.759765625
+    },
+    {
+      "date": "2025-12-04",
+      "value": 20951680.759765625
+    },
+    {
+      "date": "2025-12-05",
+      "value": 21246230.759765625
+    },
+    {
+      "date": "2025-12-08",
+      "value": 21446530.759765625
+    },
+    {
+      "date": "2025-12-09",
+      "value": 21517580.759765625
+    },
+    {
+      "date": "2025-12-10",
+      "value": 21406930.759765625
+    },
+    {
+      "date": "2025-12-11",
+      "value": 21287230.759765625
+    },
+    {
+      "date": "2025-12-12",
+      "value": 21548080.759765625
+    },
+    {
+      "date": "2025-12-15",
+      "value": 21051080.759765625
+    },
+    {
+      "date": "2025-12-16",
+      "value": 20682880.759765625
+    },
+    {
+      "date": "2025-12-17",
+      "value": 20857180.759765625
+    },
+    {
+      "date": "2025-12-18",
+      "value": 20633880.759765625
+    },
+    {
+      "date": "2025-12-19",
+      "value": 20816380.759765625
+    },
+    {
+      "date": "2025-12-22",
+      "value": 21113480.759765625
+    },
+    {
+      "date": "2025-12-23",
+      "value": 21173980.759765625
+    },
+    {
+      "date": "2025-12-24",
+      "value": 21074830.759765625
+    },
+    {
+      "date": "2025-12-26",
+      "value": 20806680.759765625
+    },
+    {
+      "date": "2025-12-29",
+      "value": 21377780.759765625
+    },
+    {
+      "date": "2025-12-30",
+      "value": 21211380.759765625
+    }
+  ]
+}
