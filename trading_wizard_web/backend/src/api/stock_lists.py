@@ -14,11 +14,11 @@ router = APIRouter(prefix="/stock-lists", tags=["stock-lists"])
 
 
 class StockListResponse(BaseModel):
-    """Stock list response."""
     id: str
     name: str
     description: Optional[str]
     stock_count: int
+    is_default: bool = False
     created_at: str
 
     class Config:
@@ -27,11 +27,13 @@ class StockListResponse(BaseModel):
 
 class StockListDetailResponse(StockListResponse):
     """Stock list detail response with stock codes."""
+
     stock_codes: list[str]
 
 
 class StockListCreateRequest(BaseModel):
     """Request to create stock list from text."""
+
     name: str
     description: Optional[str] = None
     stock_codes: str  # Newline-separated stock codes
@@ -42,10 +44,19 @@ async def get_stock_lists(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """Get all stock lists for the current user."""
-    stock_lists = db.query(StockList).filter(
-        StockList.user_id == current_user.id
-    ).order_by(StockList.created_at.desc()).all()
+    from sqlalchemy import or_
+
+    stock_lists = (
+        db.query(StockList)
+        .filter(
+            or_(
+                StockList.user_id == current_user.id,
+                StockList.is_default == True,  # noqa: E712
+            )
+        )
+        .order_by(StockList.is_default.desc(), StockList.created_at.desc())
+        .all()
+    )
 
     return [
         StockListResponse(
@@ -53,6 +64,7 @@ async def get_stock_lists(
             name=sl.name,
             description=sl.description,
             stock_count=int(sl.stock_count),
+            is_default=sl.is_default or False,
             created_at=sl.created_at.isoformat(),
         )
         for sl in stock_lists
@@ -65,11 +77,19 @@ async def get_stock_list(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """Get a specific stock list with stock codes."""
-    stock_list = db.query(StockList).filter(
-        StockList.id == list_id,
-        StockList.user_id == current_user.id,
-    ).first()
+    from sqlalchemy import or_
+
+    stock_list = (
+        db.query(StockList)
+        .filter(
+            StockList.id == list_id,
+            or_(
+                StockList.user_id == current_user.id,
+                StockList.is_default == True,  # noqa: E712
+            ),
+        )
+        .first()
+    )
 
     if not stock_list:
         raise HTTPException(status_code=404, detail="Stock list not found")
@@ -79,6 +99,7 @@ async def get_stock_list(
         name=stock_list.name,
         description=stock_list.description,
         stock_count=int(stock_list.stock_count),
+        is_default=stock_list.is_default or False,
         created_at=stock_list.created_at.isoformat(),
         stock_codes=stock_list.get_stock_codes_list(),
     )
@@ -106,7 +127,9 @@ async def upload_stock_list(
         try:
             text = content.decode("euc-kr")
         except UnicodeDecodeError:
-            raise HTTPException(status_code=400, detail="Failed to decode file. Use UTF-8 or EUC-KR encoding.")
+            raise HTTPException(
+                status_code=400, detail="Failed to decode file. Use UTF-8 or EUC-KR encoding."
+            )
 
     # Parse stock codes
     stock_codes = _parse_stock_codes(text)
@@ -118,10 +141,14 @@ async def upload_stock_list(
         raise HTTPException(status_code=400, detail="Maximum 200 stocks allowed per list")
 
     # Check for duplicate name
-    existing = db.query(StockList).filter(
-        StockList.user_id == current_user.id,
-        StockList.name == name,
-    ).first()
+    existing = (
+        db.query(StockList)
+        .filter(
+            StockList.user_id == current_user.id,
+            StockList.name == name,
+        )
+        .first()
+    )
 
     if existing:
         raise HTTPException(status_code=400, detail="Stock list with this name already exists")
@@ -165,10 +192,14 @@ async def create_stock_list(
         raise HTTPException(status_code=400, detail="Maximum 200 stocks allowed per list")
 
     # Check for duplicate name
-    existing = db.query(StockList).filter(
-        StockList.user_id == current_user.id,
-        StockList.name == request.name,
-    ).first()
+    existing = (
+        db.query(StockList)
+        .filter(
+            StockList.user_id == current_user.id,
+            StockList.name == request.name,
+        )
+        .first()
+    )
 
     if existing:
         raise HTTPException(status_code=400, detail="Stock list with this name already exists")
@@ -202,10 +233,14 @@ async def delete_stock_list(
     db: Session = Depends(get_db),
 ):
     """Delete a stock list."""
-    stock_list = db.query(StockList).filter(
-        StockList.id == list_id,
-        StockList.user_id == current_user.id,
-    ).first()
+    stock_list = (
+        db.query(StockList)
+        .filter(
+            StockList.id == list_id,
+            StockList.user_id == current_user.id,
+        )
+        .first()
+    )
 
     if not stock_list:
         raise HTTPException(status_code=404, detail="Stock list not found")
