@@ -1,0 +1,336 @@
+{
+  "rankings": [
+    [
+      "robust_9_standard_bb",
+      79.3263763671875,
+      89.09205421875001,
+      9.7656778515625,
+      84.20921529296876,
+      79.32637636718752
+    ],
+    [
+      "robust_2_50ma_filter",
+      102.4116872265625,
+      47.819683164062496,
+      54.59200406250001,
+      75.1156851953125,
+      47.81968316406249
+    ],
+    [
+      "original_optimal",
+      112.11380759765626,
+      46.426989443359375,
+      65.68681815429689,
+      79.27039852050783,
+      46.42698944335938
+    ],
+    [
+      "robust_3_conservative",
+      52.37826382812501,
+      45.44616330566406,
+      6.932100522460949,
+      48.912213566894536,
+      45.44616330566406
+    ],
+    [
+      "robust_6_both_ma",
+      77.868300390625,
+      40.41534306640625,
+      37.452957324218744,
+      59.14182172851562,
+      40.41534306640625
+    ],
+    [
+      "robust_5_balanced",
+      69.5165271484375,
+      37.886149804687506,
+      31.63037734375,
+      53.701338476562505,
+      37.886149804687506
+    ],
+    [
+      "robust_4_trailing",
+      36.97232115234375,
+      33.73381231933594,
+      3.2385088330078133,
+      35.353066735839846,
+      33.73381231933594
+    ],
+    [
+      "robust_1_trend_filter",
+      73.4315718359375,
+      30.521420722656252,
+      42.91015111328125,
+      51.97649627929688,
+      30.521420722656256
+    ],
+    [
+      "robust_8_high_conf",
+      67.03238669921875,
+      26.8888457421875,
+      40.14354095703125,
+      46.96061622070312,
+      26.8888457421875
+    ],
+    [
+      "robust_7_wider_stop",
+      99.91620259765625,
+      26.653019999999998,
+      73.26318259765625,
+      63.284611298828125,
+      26.653019999999998
+    ],
+    [
+      "baseline",
+      25.151819941406252,
+      54.53172130859375,
+      29.3799013671875,
+      39.841770625,
+      25.151819941406252
+    ]
+  ],
+  "all_results": [
+    {
+      "experiment": "robust_1_trend_filter",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 73.4315718359375,
+        "sharpe_ratio": 0.9710820298379303,
+        "max_drawdown": 20.240289144675796,
+        "win_rate": 30.065359477124183,
+        "total_trades": 281
+      }
+    },
+    {
+      "experiment": "robust_1_trend_filter",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 30.521420722656252,
+        "sharpe_ratio": 0.45294452295875565,
+        "max_drawdown": 43.23691572482096,
+        "win_rate": 32.407407407407405,
+        "total_trades": 199
+      }
+    },
+    {
+      "experiment": "baseline",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 25.151819941406252,
+        "sharpe_ratio": 0.5214760610480107,
+        "max_drawdown": 25.371229354811657,
+        "win_rate": 45.63843236409608,
+        "total_trades": 1436
+      }
+    },
+    {
+      "experiment": "baseline",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 54.53172130859375,
+        "sharpe_ratio": 0.8677020849912387,
+        "max_drawdown": 26.616100973601515,
+        "win_rate": 46.87819856704197,
+        "total_trades": 1774
+      }
+    },
+    {
+      "experiment": "robust_2_50ma_filter",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 102.4116872265625,
+        "sharpe_ratio": 1.261322424776415,
+        "max_drawdown": 19.168140873605296,
+        "win_rate": 31.2,
+        "total_trades": 227
+      }
+    },
+    {
+      "experiment": "robust_2_50ma_filter",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 47.819683164062496,
+        "sharpe_ratio": 0.5822475484615239,
+        "max_drawdown": 29.617660228702885,
+        "win_rate": 29.850746268656714,
+        "total_trades": 247
+      }
+    },
+    {
+      "experiment": "robust_3_conservative",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 52.37826382812501,
+        "sharpe_ratio": 0.9430027618503538,
+        "max_drawdown": 17.747221663041422,
+        "win_rate": 45.879120879120876,
+        "total_trades": 1335
+      }
+    },
+    {
+      "experiment": "robust_3_conservative",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 45.44616330566406,
+        "sharpe_ratio": 0.7781076048876331,
+        "max_drawdown": 27.759071536424813,
+        "win_rate": 43.44827586206896,
+        "total_trades": 1614
+      }
+    },
+    {
+      "experiment": "robust_4_trailing",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 36.97232115234375,
+        "sharpe_ratio": 0.708867623998292,
+        "max_drawdown": 16.425369688972392,
+        "win_rate": 44.878706199460915,
+        "total_trades": 1388
+      }
+    },
+    {
+      "experiment": "robust_5_balanced",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 69.5165271484375,
+        "sharpe_ratio": 1.0027617975360499,
+        "max_drawdown": 18.026793312869156,
+        "win_rate": 30.16759776536313,
+        "total_trades": 325
+      }
+    },
+    {
+      "experiment": "robust_4_trailing",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 33.73381231933594,
+        "sharpe_ratio": 0.5629384021011744,
+        "max_drawdown": 34.69913544177945,
+        "win_rate": 42.80936454849498,
+        "total_trades": 1684
+      }
+    },
+    {
+      "experiment": "robust_5_balanced",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 37.886149804687506,
+        "sharpe_ratio": 0.5084507441121264,
+        "max_drawdown": 32.02081499398572,
+        "win_rate": 27.586206896551722,
+        "total_trades": 268
+      }
+    },
+    {
+      "experiment": "robust_6_both_ma",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 77.868300390625,
+        "sharpe_ratio": 1.0331289475337426,
+        "max_drawdown": 21.611984834730922,
+        "win_rate": 29.166666666666668,
+        "total_trades": 265
+      }
+    },
+    {
+      "experiment": "robust_7_wider_stop",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 99.91620259765625,
+        "sharpe_ratio": 1.2649742244416327,
+        "max_drawdown": 16.15408635617161,
+        "win_rate": 34.04255319148936,
+        "total_trades": 172
+      }
+    },
+    {
+      "experiment": "robust_6_both_ma",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 40.41534306640625,
+        "sharpe_ratio": 0.5318086781156773,
+        "max_drawdown": 35.77708111579735,
+        "win_rate": 31.496062992125985,
+        "total_trades": 234
+      }
+    },
+    {
+      "experiment": "robust_7_wider_stop",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 26.653019999999998,
+        "sharpe_ratio": 0.4121206534955693,
+        "max_drawdown": 37.39443874994872,
+        "win_rate": 34.61538461538461,
+        "total_trades": 192
+      }
+    },
+    {
+      "experiment": "robust_8_high_conf",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 67.03238669921875,
+        "sharpe_ratio": 0.947230229408461,
+        "max_drawdown": 20.72779477132326,
+        "win_rate": 30.967741935483872,
+        "total_trades": 281
+      }
+    },
+    {
+      "experiment": "robust_9_standard_bb",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 79.3263763671875,
+        "sharpe_ratio": 1.0442895189206154,
+        "max_drawdown": 17.406878669322605,
+        "win_rate": 32.592592592592595,
+        "total_trades": 247
+      }
+    },
+    {
+      "experiment": "robust_8_high_conf",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 26.8888457421875,
+        "sharpe_ratio": 0.40798700561638984,
+        "max_drawdown": 36.23933282127016,
+        "win_rate": 30.681818181818183,
+        "total_trades": 166
+      }
+    },
+    {
+      "experiment": "robust_9_standard_bb",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 89.09205421875001,
+        "sharpe_ratio": 0.8391625874798841,
+        "max_drawdown": 38.397844526495334,
+        "win_rate": 38.88888888888889,
+        "total_trades": 133
+      }
+    },
+    {
+      "experiment": "original_optimal",
+      "period": "2023-2025",
+      "metrics": {
+        "total_return_pct": 112.11380759765626,
+        "sharpe_ratio": 1.3848028904252772,
+        "max_drawdown": 15.93881857052326,
+        "win_rate": 31.333333333333336,
+        "total_trades": 270
+      }
+    },
+    {
+      "experiment": "original_optimal",
+      "period": "2020-2023",
+      "metrics": {
+        "total_return_pct": 46.426989443359375,
+        "sharpe_ratio": 0.5577603610862188,
+        "max_drawdown": 41.052873975563024,
+        "win_rate": 29.86111111111111,
+        "total_trades": 262
+      }
+    }
+  ]
+}
