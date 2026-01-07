@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Navigation } from './components/common/Navigation';
+import { Disclaimer } from './components/common/Disclaimer';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import TradePage from './pages/TradePage';
@@ -13,6 +14,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+        <Disclaimer />
         <Navigation />
         <Routes>
           <Route path="/login" element={<LoginPage />} />

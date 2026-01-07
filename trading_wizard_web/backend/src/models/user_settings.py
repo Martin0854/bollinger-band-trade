@@ -1,78 +1,84 @@
 """UserSettings model for strategy parameters."""
 
 from datetime import datetime
+from decimal import Decimal
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, Integer, Numeric, DateTime, ForeignKey, String, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, Numeric, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.models.base import BaseModel
 
+if TYPE_CHECKING:
+    from src.models.user import User
+
 
 class UserSettings(BaseModel):
-    """User strategy settings with Constitution III defaults."""
+    """User strategy settings."""
 
     __tablename__ = "user_settings"
 
-    # Foreign key to User
-    user_id = Column(String(36), ForeignKey("users.id"), unique=True, nullable=False)
+    user_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("users.id"), unique=True, nullable=False
+    )
 
-    # Strategy parameters with Constitution III defaults
-    max_positions = Column(Integer, nullable=False, default=15)
-    max_position_pct = Column(Numeric(5, 2), nullable=False, default=10.00)
-    stop_loss_pct = Column(Numeric(5, 2), nullable=False, default=5.00)
-    confidence_threshold = Column(Integer, nullable=False, default=60)
+    max_positions: Mapped[int] = mapped_column(default=15)
+    max_position_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("10.00"))
+    stop_loss_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("4.50"))
+    confidence_threshold: Mapped[int] = mapped_column(default=50)
 
-    # Take Profit Settings (익절 설정)
-    take_profit_enabled = Column(Boolean, nullable=False, default=True)
-    take_profit_pct = Column(Numeric(5, 2), nullable=False, default=10.00)
-    take_profit_ratio = Column(Numeric(3, 2), nullable=False, default=0.50)
+    take_profit_enabled: Mapped[bool] = mapped_column(default=True)
+    take_profit_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("9.00"))
+    take_profit_ratio: Mapped[Decimal] = mapped_column(Numeric(3, 2), default=Decimal("0.50"))
 
-    # Bollinger Band Parameters
-    bollinger_period = Column(Integer, nullable=False, default=20)
-    bollinger_std_dev = Column(Numeric(3, 1), nullable=False, default=2.0)
+    bollinger_period: Mapped[int] = mapped_column(default=12)
+    bollinger_std_dev: Mapped[Decimal] = mapped_column(Numeric(3, 1), default=Decimal("1.3"))
 
-    # Squeeze Detection
-    squeeze_threshold_pct = Column(Integer, nullable=False, default=30)
-    squeeze_lookback_days = Column(Integer, nullable=False, default=10)
+    squeeze_threshold_pct: Mapped[int] = mapped_column(default=55)
+    squeeze_lookback_days: Mapped[int] = mapped_column(default=10)
 
-    # Advanced Squeeze Settings
-    expansion_threshold_pct = Column(Numeric(5, 2), nullable=False, default=20.00)
-    band_touch_tolerance = Column(Numeric(5, 4), nullable=False, default=0.0010)
+    expansion_threshold_pct: Mapped[Decimal] = mapped_column(
+        Numeric(5, 2), default=Decimal("20.00")
+    )
+    band_touch_tolerance: Mapped[Decimal] = mapped_column(Numeric(5, 4), default=Decimal("0.0010"))
 
-    # Metrics Configuration
-    trading_days_per_year = Column(Integer, nullable=False, default=252)
-    days_per_year = Column(Integer, nullable=False, default=365)
+    trading_days_per_year: Mapped[int] = mapped_column(default=252)
+    days_per_year: Mapped[int] = mapped_column(default=365)
 
-    # Timestamps
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Relationships
-    user = relationship("User", back_populates="settings")
+    user: Mapped["User"] = relationship(back_populates="settings")
 
     def check_constitution_compliance(self) -> list[dict]:
         """Check if settings comply with Constitution III and return warnings."""
         warnings = []
 
         if float(self.stop_loss_pct) < 5.0:
-            warnings.append({
-                "field": "stop_loss_pct",
-                "message": "Constitution III recommends stop_loss_pct >= 5%",
-                "recommended_value": 5.0,
-            })
+            warnings.append(
+                {
+                    "field": "stop_loss_pct",
+                    "message": "Constitution III recommends stop_loss_pct >= 5%",
+                    "recommended_value": 5.0,
+                }
+            )
 
         if float(self.max_position_pct) > 10.0:
-            warnings.append({
-                "field": "max_position_pct",
-                "message": "Constitution III recommends max_position_pct <= 10%",
-                "recommended_value": 10.0,
-            })
+            warnings.append(
+                {
+                    "field": "max_position_pct",
+                    "message": "Constitution III recommends max_position_pct <= 10%",
+                    "recommended_value": 10.0,
+                }
+            )
 
         if self.max_positions > 15:
-            warnings.append({
-                "field": "max_positions",
-                "message": "Constitution III recommends max_positions <= 15",
-                "recommended_value": 15,
-            })
+            warnings.append(
+                {
+                    "field": "max_positions",
+                    "message": "Constitution III recommends max_positions <= 15",
+                    "recommended_value": 15,
+                }
+            )
 
         return warnings
 

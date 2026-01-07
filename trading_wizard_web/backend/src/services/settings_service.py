@@ -28,35 +28,25 @@ class SettingsService:
         Returns:
             UserSettings model
         """
-        settings = (
-            self.db.query(UserSettings)
-            .filter(UserSettings.user_id == user_id)
-            .first()
-        )
+        settings = self.db.query(UserSettings).filter(UserSettings.user_id == user_id).first()
 
         if not settings:
             # Create default settings
             settings = UserSettings(
                 user_id=user_id,
-                # Risk Management
                 max_positions=15,
                 max_position_pct=Decimal("10.00"),
-                stop_loss_pct=Decimal("5.00"),
-                confidence_threshold=60,
-                # Take Profit Settings
+                stop_loss_pct=Decimal("4.50"),
+                confidence_threshold=50,
                 take_profit_enabled=True,
-                take_profit_pct=Decimal("10.00"),
+                take_profit_pct=Decimal("9.00"),
                 take_profit_ratio=Decimal("0.50"),
-                # Bollinger Band Parameters
-                bollinger_period=20,
-                bollinger_std_dev=Decimal("2.0"),
-                # Squeeze Detection
-                squeeze_threshold_pct=30,
+                bollinger_period=12,
+                bollinger_std_dev=Decimal("1.3"),
+                squeeze_threshold_pct=55,
                 squeeze_lookback_days=10,
-                # Advanced Squeeze Settings
                 expansion_threshold_pct=Decimal("20.00"),
                 band_touch_tolerance=Decimal("0.0010"),
-                # Metrics Configuration
                 trading_days_per_year=252,
                 days_per_year=365,
             )

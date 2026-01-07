@@ -18,22 +18,17 @@ interface StockList {
   created_at: string;
 }
 
-// Default strategy settings
 const DEFAULT_STRATEGY: Partial<UserSettings> = {
-  // Risk Management
   max_positions: 15,
   max_position_pct: 10,
-  stop_loss_pct: 5,
-  confidence_threshold: 60,
-  // Take Profit Settings
+  stop_loss_pct: 4.5,
+  confidence_threshold: 50,
   take_profit_enabled: true,
-  take_profit_pct: 10,
+  take_profit_pct: 9,
   take_profit_ratio: 0.5,
-  // Bollinger Band Parameters
-  bollinger_period: 20,
-  bollinger_std_dev: 2.0,
-  // Squeeze Detection
-  squeeze_threshold_pct: 30,
+  bollinger_period: 12,
+  bollinger_std_dev: 1.3,
+  squeeze_threshold_pct: 55,
   squeeze_lookback_days: 10,
 };
 

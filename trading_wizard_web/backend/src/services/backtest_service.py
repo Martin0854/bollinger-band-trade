@@ -69,25 +69,19 @@ class BacktestService:
     def __init__(
         self,
         db: Session,
-        # Risk Management
         max_positions: int = 15,
         max_position_pct: float = 10.0,
-        stop_loss_pct: float = 5.0,
-        confidence_threshold: int = 60,
-        # Take Profit Settings
+        stop_loss_pct: float = 4.5,
+        confidence_threshold: int = 50,
         take_profit_enabled: bool = True,
-        take_profit_pct: float = 10.0,
+        take_profit_pct: float = 9.0,
         take_profit_ratio: float = 0.5,
-        # Bollinger Band Parameters
-        bollinger_period: int = 20,
-        bollinger_std_dev: float = 2.0,
-        # Squeeze Detection
-        squeeze_threshold_pct: int = 30,
+        bollinger_period: int = 12,
+        bollinger_std_dev: float = 1.3,
+        squeeze_threshold_pct: int = 55,
         squeeze_lookback_days: int = 10,
-        # Advanced Squeeze Settings
         expansion_threshold_pct: float = 20.0,
         band_touch_tolerance: float = 0.001,
-        # Metrics Configuration
         trading_days_per_year: int = 252,
         days_per_year: int = 365,
     ):
@@ -517,7 +511,11 @@ class BacktestService:
 
             # 2. Daily Take Profit Check (Priority 2)
             # Only trigger once per position, and only if enabled
-            if self.take_profit_enabled and pnl_pct >= self.take_profit_pct and not partial_take_profit_executed:
+            if (
+                self.take_profit_enabled
+                and pnl_pct >= self.take_profit_pct
+                and not partial_take_profit_executed
+            ):
                 return {
                     "price": current_price,
                     "reason": "take_profit_target_hit",

@@ -10,27 +10,20 @@ interface SettingsFormProps {
   isLoading?: boolean;
 }
 
-// Default settings for reset functionality
 const DEFAULT_SETTINGS: UserSettings = {
-  // Risk Management
   max_positions: 15,
   max_position_pct: 10,
-  stop_loss_pct: 5,
-  confidence_threshold: 60,
-  // Take Profit Settings
+  stop_loss_pct: 4.5,
+  confidence_threshold: 50,
   take_profit_enabled: true,
-  take_profit_pct: 10,
+  take_profit_pct: 9,
   take_profit_ratio: 0.5,
-  // Bollinger Band Parameters
-  bollinger_period: 20,
-  bollinger_std_dev: 2.0,
-  // Squeeze Detection
-  squeeze_threshold_pct: 30,
+  bollinger_period: 12,
+  bollinger_std_dev: 1.3,
+  squeeze_threshold_pct: 55,
   squeeze_lookback_days: 10,
-  // Advanced Squeeze Settings
   expansion_threshold_pct: 20,
   band_touch_tolerance: 0.001,
-  // Metrics Configuration
   trading_days_per_year: 252,
   days_per_year: 365,
 };
@@ -194,7 +187,7 @@ export function SettingsForm({
                 min={1}
                 max={50}
                 step={0.5}
-                helperText="매수가 대비 손절 기준 (권장: 5%)"
+                helperText="매수가 대비 손절 기준 (기본: 4.5%)"
               />
             </div>
 
@@ -206,7 +199,7 @@ export function SettingsForm({
                 onChange={(e) => handleChange('confidence_threshold', Number(e.target.value))}
                 min={0}
                 max={100}
-                helperText="매수 신호 최소 신뢰도 점수 (권장: 60)"
+                helperText="매수 신호 최소 신뢰도 점수 (기본: 50)"
               />
             </div>
 
@@ -236,7 +229,7 @@ export function SettingsForm({
                     min={5}
                     max={50}
                     step={0.5}
-                    helperText="목표 수익률 도달 시 일부 익절 (기본: 10%)"
+                    helperText="목표 수익률 도달 시 일부 익절 (기본: 9%)"
                   />
                 </div>
 

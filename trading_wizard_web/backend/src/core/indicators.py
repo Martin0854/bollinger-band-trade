@@ -7,7 +7,7 @@ import pandas as pd
 
 
 def calculate_bollinger_bands(
-    close: pd.Series, window: int = 20, num_std: float = 2.0
+    close: pd.Series, window: int = 12, num_std: float = 1.3
 ) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Calculate Bollinger Bands.
@@ -126,8 +126,9 @@ def calculate_all_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df["Volume_MA"] = volume.rolling(window=20).mean()
     df["Volume_Ratio"] = calculate_volume_ratio(volume)
 
-    # Squeeze detection (bandwidth < 70% of 10-day average)
-    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * 0.7)
+    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * 0.55)
+
+    df["MA_200"] = close.rolling(window=200).mean()
 
     return df
 
