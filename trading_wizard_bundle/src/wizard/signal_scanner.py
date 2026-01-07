@@ -85,11 +85,7 @@ def load_kospi_top100(filepath: str = "kospi_top100.txt") -> List[str]:
     for path in possible_paths:
         if path.exists():
             with open(path, "r") as f:
-                stocks = [
-                    line.strip()
-                    for line in f
-                    if line.strip() and not line.startswith("#")
-                ]
+                stocks = [line.strip() for line in f if line.strip() and not line.startswith("#")]
             return [s for s in stocks if s][:100]
 
     raise FileNotFoundError(f"Could not find {filepath} in any expected location")
@@ -143,6 +139,12 @@ def fetch_stock_data(stock_code: str, days: int = 60) -> Optional[pd.DataFrame]:
         return None
 
 
+BB_WINDOW = 12
+BB_STD = 1.3
+SQUEEZE_THRESHOLD = 0.55
+MARKET_FILTER_MA = 200
+
+
 def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculate all technical indicators needed for signal generation.
@@ -156,35 +158,32 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
     close = df["Close"].copy()
     volume = df["Volume"].copy()
 
-    # Bollinger Bands (20-day, 2 std dev)
-    sma = close.rolling(window=20).mean()
-    std = close.rolling(window=20).std()
-    df["BB_Upper"] = sma + (std * 2.0)
+    sma = close.rolling(window=BB_WINDOW).mean()
+    std = close.rolling(window=BB_WINDOW).std()
+    df["BB_Upper"] = sma + (std * BB_STD)
     df["BB_Middle"] = sma
-    df["BB_Lower"] = sma - (std * 2.0)
+    df["BB_Lower"] = sma - (std * BB_STD)
     df["BB_Width"] = (df["BB_Upper"] - df["BB_Lower"]) / sma * 100
     df["BB_Width_MA"] = df["BB_Width"].rolling(window=10).mean()
 
-    # RSI (14-day)
     delta = close.diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
     rs = gain / loss
     df["RSI"] = 100 - (100 / (1 + rs))
 
-    # MACD (12, 26, 9)
     ema12 = close.ewm(span=12).mean()
     ema26 = close.ewm(span=26).mean()
     df["MACD"] = ema12 - ema26
     df["MACD_Signal"] = df["MACD"].ewm(span=9).mean()
     df["MACD_Histogram"] = df["MACD"] - df["MACD_Signal"]
 
-    # Volume (20-day average)
     df["Volume_MA"] = volume.rolling(window=20).mean()
     df["Volume_Ratio"] = volume / df["Volume_MA"]
 
-    # Squeeze detection (bandwidth < 70% of 10-day average)
-    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * 0.7)
+    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * SQUEEZE_THRESHOLD)
+
+    df["MA_200"] = close.rolling(window=MARKET_FILTER_MA).mean()
 
     return df
 
@@ -288,15 +287,14 @@ class SignalScanner:
             df = calculate_indicators(df)
             latest = df.iloc[-1]
 
-            # Skip if indicators are NaN
             if pd.isna(latest["BB_Upper"]) or pd.isna(latest["RSI"]):
                 continue
 
-            # Check BUY conditions
-            # 1. Price above upper Bollinger Band (breakout)
+            if not pd.isna(latest["MA_200"]) and latest["Close"] < latest["MA_200"]:
+                continue
+
             price_breakout = latest["Close"] > latest["BB_Upper"]
 
-            # 2. Bandwidth expanding (was in squeeze recently)
             was_in_squeeze = df["In_Squeeze"].iloc[-5:-1].any()
             bandwidth_expanding = latest["BB_Width"] > df["BB_Width"].iloc[-2]
 
@@ -327,6 +325,9 @@ class SignalScanner:
                                 "bb_upper": float(latest["BB_Upper"]),
                                 "bb_middle": float(latest["BB_Middle"]),
                                 "bb_lower": float(latest["BB_Lower"]),
+                                "ma_200": float(latest["MA_200"])
+                                if not pd.isna(latest["MA_200"])
+                                else 0.0,
                             },
                         )
                     )
@@ -399,9 +400,7 @@ class SignalScanner:
 
         return signals
 
-    def get_current_prices(
-        self, stock_codes: List[str]
-    ) -> Dict[str, float]:
+    def get_current_prices(self, stock_codes: List[str]) -> Dict[str, float]:
         """
         Get current prices for a list of stocks.
 

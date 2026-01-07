@@ -35,13 +35,14 @@ from src.wizard.recommendation import (
 )
 
 
-# Configuration constants
-INITIAL_CAPITAL = 1_000_000  # KRW
+# Configuration (optimized via time-period validation 2026-01-08)
+INITIAL_CAPITAL = 1_000_000
 START_DATE = "2026-01-05"
 MAX_POSITIONS = 15
-MAX_POSITION_PERCENT = 10.0  # 10% per position (~100,000 KRW)
-CONFIDENCE_THRESHOLD = 60
-STOP_LOSS_PERCENT = 5.0
+MAX_POSITION_PERCENT = 10.0
+CONFIDENCE_THRESHOLD = 50
+STOP_LOSS_PERCENT = 4.5
+TAKE_PROFIT_PERCENT = 9.0
 
 
 def generate_buy_reason_detail(rec) -> str:
@@ -57,20 +58,32 @@ def generate_buy_reason_detail(rec) -> str:
     lines.append(f"[매수 추천] {rec.stock_code} ({rec.stock_name})")
     lines.append(f"")
     lines.append(f"1. 볼린저 밴드 상단 돌파 (Squeeze Breakout)")
-    lines.append(f"   - 현재가 {rec.recommended_price:,.0f}원이 상단밴드 {ind.get('bb_upper', 0):,.0f}원을 돌파")
+    lines.append(
+        f"   - 현재가 {rec.recommended_price:,.0f}원이 상단밴드 {ind.get('bb_upper', 0):,.0f}원을 돌파"
+    )
     lines.append(f"   - 밴드폭: {ind.get('bb_width', 0):.2f}% (변동성 확대 중)")
     lines.append(f"")
     lines.append(f"2. 보조지표 분석")
-    lines.append(f"   - RSI({ind.get('rsi', 0):.1f}): {'중립구간 ✓' if rsi_pass else '과매수/과매도 구간'}")
-    lines.append(f"   - MACD({ind.get('macd_histogram', 0):.2f}): {'상승추세 ✓' if macd_pass else '하락추세'}")
-    lines.append(f"   - 거래량({ind.get('volume_ratio', 0):.1f}x): {'평균 대비 급증 ✓' if volume_pass else '평균 수준'}")
+    lines.append(
+        f"   - RSI({ind.get('rsi', 0):.1f}): {'중립구간 ✓' if rsi_pass else '과매수/과매도 구간'}"
+    )
+    lines.append(
+        f"   - MACD({ind.get('macd_histogram', 0):.2f}): {'상승추세 ✓' if macd_pass else '하락추세'}"
+    )
+    lines.append(
+        f"   - 거래량({ind.get('volume_ratio', 0):.1f}x): {'평균 대비 급증 ✓' if volume_pass else '평균 수준'}"
+    )
     lines.append(f"")
     lines.append(f"3. 신뢰도 점수: {rec.confidence_score}/100")
-    lines.append(f"   - 기본(25) + {'Volume(25)' if volume_pass else 'Volume(0)'} + {'RSI(20)' if rsi_pass else 'RSI(0)'} + {'MACD(30)' if macd_pass else 'MACD(0)'}")
+    lines.append(
+        f"   - 기본(25) + {'Volume(25)' if volume_pass else 'Volume(0)'} + {'RSI(20)' if rsi_pass else 'RSI(0)'} + {'MACD(30)' if macd_pass else 'MACD(0)'}"
+    )
     lines.append(f"")
     lines.append(f"4. 포지션 사이징")
     lines.append(f"   - 추천 수량: {rec.quantity}주")
-    lines.append(f"   - 투자금액: {rec.total_cost:,.0f}원 (포트폴리오의 {rec.total_cost/INITIAL_CAPITAL*100:.1f}%)")
+    lines.append(
+        f"   - 투자금액: {rec.total_cost:,.0f}원 (포트폴리오의 {rec.total_cost / INITIAL_CAPITAL * 100:.1f}%)"
+    )
 
     return "\n".join(lines)
 
@@ -185,20 +198,14 @@ def show_status(pm: PortfolioManager):
 
 def main():
     parser = argparse.ArgumentParser(description="Daily Trading Wizard")
-    parser.add_argument(
-        "--init", action="store_true", help="Initialize new portfolio"
-    )
+    parser.add_argument("--init", action="store_true", help="Initialize new portfolio")
     parser.add_argument(
         "--state-file",
         default="portfolio_state.json",
         help="Portfolio state file path",
     )
-    parser.add_argument(
-        "--no-time-check", action="store_true", help="Skip market hours check"
-    )
-    parser.add_argument(
-        "--status", action="store_true", help="Show current portfolio status only"
-    )
+    parser.add_argument("--no-time-check", action="store_true", help="Skip market hours check")
+    parser.add_argument("--status", action="store_true", help="Show current portfolio status only")
     args = parser.parse_args()
 
     print_header()
@@ -213,9 +220,7 @@ def main():
 
     # Market hours check
     if not args.no_time_check and not check_market_hours():
-        print(
-            "\nWARNING: Market may still be open (before 3:30 PM)."
-        )
+        print("\nWARNING: Market may still be open (before 3:30 PM).")
         print("Run after market close for accurate signals.")
         response = input("Continue anyway? (y/N): ")
         if response.lower() != "y":
@@ -389,9 +394,7 @@ def main():
     pm.save(state)
     print(f"\nPortfolio state saved to: {args.state_file}")
     if state.pending_orders:
-        print(
-            f"Pending orders: {len(sell_recs)} SELL, {len(buy_recs)} BUY"
-        )
+        print(f"Pending orders: {len(sell_recs)} SELL, {len(buy_recs)} BUY")
 
 
 if __name__ == "__main__":

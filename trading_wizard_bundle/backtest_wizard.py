@@ -23,15 +23,21 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 
 # ============================================================================
-# Configuration
+# Configuration (optimized via time-period validation 2026-01-08)
 # ============================================================================
-INITIAL_CAPITAL = 1_000_000  # KRW (100만원)
+INITIAL_CAPITAL = 1_000_000
 MAX_POSITIONS = 15
-MAX_POSITION_PERCENT = 10.0  # 10% per position
-CONFIDENCE_THRESHOLD = 60
-STOP_LOSS_PERCENT = 5.0
+MAX_POSITION_PERCENT = 10.0
 
-# Default dates (can be overridden by command line)
+BB_WINDOW = 12
+BB_STD = 1.3
+SQUEEZE_THRESHOLD = 0.55
+CONFIDENCE_THRESHOLD = 50
+STOP_LOSS_PERCENT = 4.5
+TAKE_PROFIT_PERCENT = 9.0
+MARKET_FILTER_ENABLED = True
+MARKET_FILTER_MA = 200
+
 DEFAULT_START_DATE = "2025-01-02"
 DEFAULT_END_DATE = "2025-12-31"
 
@@ -79,6 +85,7 @@ class BacktestState:
 def load_stock_names() -> Dict[str, str]:
     """Load Korean stock names from JSON file."""
     import json
+
     path = Path(__file__).parent / "data" / "stock_names_kr.json"
     if path.exists():
         with open(path, "r", encoding="utf-8") as f:
@@ -94,7 +101,9 @@ def load_kospi_top100(stock_file: str = "kospi_top100.txt") -> List[str]:
     return stocks[:100]
 
 
-def fetch_all_data(stock_codes: List[str], start_date: str, end_date: str) -> Dict[str, pd.DataFrame]:
+def fetch_all_data(
+    stock_codes: List[str], start_date: str, end_date: str
+) -> Dict[str, pd.DataFrame]:
     """Fetch all stock data upfront for faster backtesting."""
     print(f"\n[1] Fetching data for {len(stock_codes)} stocks...")
 
@@ -106,17 +115,19 @@ def fetch_all_data(stock_codes: List[str], start_date: str, end_date: str) -> Di
     failed = []
 
     for i, code in enumerate(stock_codes):
-        print(f"\r    Loading {i+1}/{len(stock_codes)}: {code}    ", end="")
+        print(f"\r    Loading {i + 1}/{len(stock_codes)}: {code}    ", end="")
 
         ticker = f"{code}.KS"
         try:
-            df = yf.download(ticker, start=start_with_buffer, end=end_date,
-                           progress=False, auto_adjust=False)
+            df = yf.download(
+                ticker, start=start_with_buffer, end=end_date, progress=False, auto_adjust=False
+            )
 
             if df.empty:
                 ticker = f"{code}.KQ"
-                df = yf.download(ticker, start=start_with_buffer, end=end_date,
-                               progress=False, auto_adjust=False)
+                df = yf.download(
+                    ticker, start=start_with_buffer, end=end_date, progress=False, auto_adjust=False
+                )
 
             if not df.empty and len(df) >= 30:
                 if isinstance(df.columns, pd.MultiIndex):
@@ -137,35 +148,32 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
     close = df["Close"]
     volume = df["Volume"]
 
-    # Bollinger Bands
-    sma = close.rolling(window=20).mean()
-    std = close.rolling(window=20).std()
-    df["BB_Upper"] = sma + (std * 2.0)
+    sma = close.rolling(window=BB_WINDOW).mean()
+    std = close.rolling(window=BB_WINDOW).std()
+    df["BB_Upper"] = sma + (std * BB_STD)
     df["BB_Middle"] = sma
-    df["BB_Lower"] = sma - (std * 2.0)
+    df["BB_Lower"] = sma - (std * BB_STD)
     df["BB_Width"] = (df["BB_Upper"] - df["BB_Lower"]) / sma * 100
     df["BB_Width_MA"] = df["BB_Width"].rolling(window=10).mean()
 
-    # RSI
     delta = close.diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
     rs = gain / loss
     df["RSI"] = 100 - (100 / (1 + rs))
 
-    # MACD
     ema12 = close.ewm(span=12).mean()
     ema26 = close.ewm(span=26).mean()
     df["MACD"] = ema12 - ema26
     df["MACD_Signal"] = df["MACD"].ewm(span=9).mean()
     df["MACD_Histogram"] = df["MACD"] - df["MACD_Signal"]
 
-    # Volume
     df["Volume_MA"] = volume.rolling(window=20).mean()
     df["Volume_Ratio"] = volume / df["Volume_MA"]
 
-    # Squeeze
-    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * 0.7)
+    df["In_Squeeze"] = df["BB_Width"] < (df["BB_Width_MA"] * SQUEEZE_THRESHOLD)
+
+    df["MA_200"] = close.rolling(window=MARKET_FILTER_MA).mean()
 
     return df
 
@@ -217,22 +225,23 @@ def check_buy_signal(df: pd.DataFrame, date: str) -> Optional[dict]:
     """Check if there's a buy signal on given date."""
     try:
         idx = df.index.get_loc(pd.Timestamp(date))
-        if idx < 30:  # Need enough history
+        if idx < 30:
             return None
 
         row = df.iloc[idx]
-        prev_rows = df.iloc[idx-5:idx]
+        prev_rows = df.iloc[idx - 5 : idx]
 
-        # Check conditions
         if pd.isna(row["BB_Upper"]) or pd.isna(row["RSI"]):
             return None
 
-        # 1. Price breakout above upper band
+        if MARKET_FILTER_ENABLED and not pd.isna(row["MA_200"]):
+            if row["Close"] < row["MA_200"]:
+                return None
+
         price_breakout = row["Close"] > row["BB_Upper"]
 
-        # 2. Was in squeeze or bandwidth expanding
         was_in_squeeze = prev_rows["In_Squeeze"].any()
-        bandwidth_expanding = row["BB_Width"] > df.iloc[idx-1]["BB_Width"]
+        bandwidth_expanding = row["BB_Width"] > df.iloc[idx - 1]["BB_Width"]
 
         if price_breakout and (was_in_squeeze or bandwidth_expanding):
             confidence = calculate_confidence(row)
@@ -244,7 +253,10 @@ def check_buy_signal(df: pd.DataFrame, date: str) -> Optional[dict]:
                         "rsi": float(row["RSI"]),
                         "macd": float(row["MACD_Histogram"]),
                         "volume_ratio": float(row["Volume_Ratio"]),
-                    }
+                        "above_ma200": bool(row["Close"] > row["MA_200"])
+                        if not pd.isna(row["MA_200"])
+                        else None,
+                    },
                 }
     except (KeyError, IndexError):
         pass
@@ -261,7 +273,6 @@ def check_sell_signal(df: pd.DataFrame, date: str, entry_price: float) -> Option
         current_price = float(row["Close"])
         pnl_pct = ((current_price - entry_price) / entry_price) * 100
 
-        # Stop loss
         if pnl_pct <= -STOP_LOSS_PERCENT:
             return {
                 "price": current_price,
@@ -269,7 +280,13 @@ def check_sell_signal(df: pd.DataFrame, date: str, entry_price: float) -> Option
                 "pnl_pct": pnl_pct,
             }
 
-        # Price below lower band
+        if pnl_pct >= TAKE_PROFIT_PERCENT:
+            return {
+                "price": current_price,
+                "reason": f"take_profit ({pnl_pct:+.1f}%)",
+                "pnl_pct": pnl_pct,
+            }
+
         if current_price < row["BB_Lower"]:
             return {
                 "price": current_price,
@@ -343,17 +360,19 @@ def run_backtest(
             pnl = (signal["price"] - pos.entry_price) * pos.quantity
 
             state.cash += proceeds
-            state.trades.append(Trade(
-                date=date_str,
-                stock_code=code,
-                stock_name=pos.stock_name,
-                action="SELL",
-                price=signal["price"],
-                quantity=pos.quantity,
-                reason=signal["reason"],
-                pnl=pnl,
-                pnl_pct=signal["pnl_pct"],
-            ))
+            state.trades.append(
+                Trade(
+                    date=date_str,
+                    stock_code=code,
+                    stock_name=pos.stock_name,
+                    action="SELL",
+                    price=signal["price"],
+                    quantity=pos.quantity,
+                    reason=signal["reason"],
+                    pnl=pnl,
+                    pnl_pct=signal["pnl_pct"],
+                )
+            )
             del state.positions[code]
 
         # 2. Check BUY signals for stocks not in portfolio
@@ -392,15 +411,17 @@ def run_backtest(
                     entry_price=signal["price"],
                     entry_date=date_str,
                 )
-                state.trades.append(Trade(
-                    date=date_str,
-                    stock_code=code,
-                    stock_name=stock_names.get(code, code),
-                    action="BUY",
-                    price=signal["price"],
-                    quantity=quantity,
-                    reason=f"squeeze_breakout (conf:{signal['confidence']})",
-                ))
+                state.trades.append(
+                    Trade(
+                        date=date_str,
+                        stock_code=code,
+                        stock_name=stock_names.get(code, code),
+                        action="BUY",
+                        price=signal["price"],
+                        quantity=quantity,
+                        reason=f"squeeze_breakout (conf:{signal['confidence']})",
+                    )
+                )
 
         # 3. Calculate daily portfolio value
         positions_value = 0
@@ -492,7 +513,7 @@ def print_results(state: BacktestState, metrics: dict):
     print(f"  시작 금액:        {metrics['initial_capital']:>15,} KRW")
     print(f"  최종 금액:        {metrics['final_value']:>15,.0f} KRW")
 
-    ret = metrics['total_return_pct']
+    ret = metrics["total_return_pct"]
     ret_str = f"+{ret:.2f}%" if ret >= 0 else f"{ret:.2f}%"
     print(f"  총 수익률:        {ret_str:>15}")
     print(f"  최대 낙폭:        {metrics['max_drawdown']:>14.2f}%")
@@ -531,16 +552,20 @@ def print_results(state: BacktestState, metrics: dict):
         pnl_str = ""
         if t.pnl is not None:
             pnl_str = f" (PnL: {t.pnl:+,.0f})"
-        print(f"  {t.date} {t.action:4} {t.stock_code} ({t.stock_name[:8]:<8}) "
-              f"x{t.quantity} @ {t.price:,.0f}{pnl_str}")
+        print(
+            f"  {t.date} {t.action:4} {t.stock_code} ({t.stock_name[:8]:<8}) "
+            f"x{t.quantity} @ {t.price:,.0f}{pnl_str}"
+        )
 
     # Current positions
     if state.positions:
         print(f"\n[최종 보유 종목]")
         print("-" * 70)
         for code, pos in state.positions.items():
-            print(f"  {pos.stock_code} ({pos.stock_name}) "
-                  f"x{pos.quantity} @ {pos.entry_price:,.0f} (매수일: {pos.entry_date})")
+            print(
+                f"  {pos.stock_code} ({pos.stock_name}) "
+                f"x{pos.quantity} @ {pos.entry_price:,.0f} (매수일: {pos.entry_date})"
+            )
 
     print("\n" + "=" * 70)
 
@@ -548,8 +573,14 @@ def print_results(state: BacktestState, metrics: dict):
 # ============================================================================
 # Main
 # ============================================================================
-def save_to_json(state: BacktestState, metrics: dict, output_file: str = "backtest_2025_result.json",
-                 start_date: str = None, end_date: str = None, all_data: Dict[str, pd.DataFrame] = None):
+def save_to_json(
+    state: BacktestState,
+    metrics: dict,
+    output_file: str = "backtest_2025_result.json",
+    start_date: str = None,
+    end_date: str = None,
+    all_data: Dict[str, pd.DataFrame] = None,
+):
     """Save backtest results to JSON file in portfolio_state.json format."""
     import json
     from datetime import datetime
@@ -620,9 +651,7 @@ def save_to_json(state: BacktestState, metrics: dict, output_file: str = "backte
             "avg_loss": metrics["avg_loss"],
             "max_drawdown": metrics["max_drawdown"],
         },
-        "daily_values": [
-            {"date": d, "value": v} for d, v in state.daily_values
-        ],
+        "daily_values": [{"date": d, "value": v} for d, v in state.daily_values],
     }
 
     with open(output_file, "w", encoding="utf-8") as f:
@@ -631,8 +660,12 @@ def save_to_json(state: BacktestState, metrics: dict, output_file: str = "backte
     print(f"\n결과가 저장되었습니다: {output_file}")
 
 
-def main(stock_file: str = "kospi_top100.txt", output_file: str = "backtest_result.json",
-         start_date: str = None, end_date: str = None):
+def main(
+    stock_file: str = "kospi_top100.txt",
+    output_file: str = "backtest_result.json",
+    start_date: str = None,
+    end_date: str = None,
+):
     start_date = start_date or DEFAULT_START_DATE
     end_date = end_date or DEFAULT_END_DATE
     year = start_date[:4]
@@ -669,6 +702,7 @@ def main(stock_file: str = "kospi_top100.txt", output_file: str = "backtest_resu
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="연도별 백테스트")
     parser.add_argument("--stocks", default="kospi_top100.txt", help="종목 리스트 파일")
     parser.add_argument("--output", default="backtest_result.json", help="결과 JSON 파일")
