@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     )
 
     # Database
-    DATABASE_URL: str = "sqlite:///./data/trading_wizard.db"
+    DATABASE_URL: str = "postgresql://user:password@localhost:5432/trading_wizard"
 
     # JWT
     JWT_SECRET_KEY: str = "dev-secret-key-change-in-production"
@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     JWT_EXPIRE_MINUTES: int = 30
 
     # CORS
-    CORS_ORIGINS: str = "http://localhost:5173"
+    CORS_ORIGINS: str
 
     # Logging
     LOG_LEVEL: str = "INFO"

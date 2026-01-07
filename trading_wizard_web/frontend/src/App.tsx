@@ -12,7 +12,7 @@ import { SettingsPage } from './pages/SettingsPage';
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
         <Navigation />
         <Routes>
           <Route path="/login" element={<LoginPage />} />

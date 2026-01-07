@@ -60,6 +60,8 @@ class SellRecommendationResponse(BaseModel):
     stock_name: str
     current_price: float
     quantity: int
+    sell_quantity: int
+    sell_ratio: float
     entry_price: float
     pnl_pct: float
     reason: str
@@ -68,6 +70,7 @@ class SellRecommendationResponse(BaseModel):
 
 class BuySignalResponse(BaseModel):
     """All detected buy signals (regardless of affordability)."""
+
     stock_code: str
     stock_name: str
     current_price: float
@@ -155,6 +158,7 @@ async def get_recommendations(
                 "stock_code": p.stock_code,
                 "avg_entry_price": float(p.avg_entry_price),
                 "quantity": p.quantity,
+                "partial_take_profit_executed": getattr(p, "partial_take_profit_executed", False),
             }
             for p in portfolio.positions
         ]
@@ -169,6 +173,8 @@ async def get_recommendations(
                         stock_name=sig.stock_name,
                         current_price=sig.current_price,
                         quantity=pos.quantity,
+                        sell_quantity=sig.indicators.get("sell_quantity", pos.quantity),
+                        sell_ratio=sig.indicators.get("sell_ratio", 1.0),
                         entry_price=float(pos.avg_entry_price),
                         pnl_pct=sig.indicators.get("pnl_pct", 0),
                         reason=sig.reason,

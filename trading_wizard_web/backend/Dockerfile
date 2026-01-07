@@ -6,6 +6,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for layer caching
@@ -23,13 +24,15 @@ COPY data/ ./data/
 # Copy cache files to separate directory (pre-built stock data cache)
 COPY data/cache/ ./cache/
 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV DATABASE_URL=sqlite:///./data/trading_wizard.db
+ENV DATABASE_URL=postgresql://user:password@localhost:5432/trading_wizard
 
 # Expose port
 EXPOSE 8000
 
-# Run with gunicorn for production
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./entrypoint.sh"]

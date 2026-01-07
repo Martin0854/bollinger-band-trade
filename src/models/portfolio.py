@@ -29,6 +29,7 @@ class Position:
         unrealized_pnl: Profit/Loss = (current_price - purchase_price) * quantity
         unrealized_pnl_pct: PnL percentage = unrealized_pnl / cost_basis * 100
     """
+
     stock_code: str
     quantity: int
     purchase_price: Decimal
@@ -37,24 +38,22 @@ class Position:
     current_price: Decimal = field(default=None)
     dynamic_stop_loss: Optional[Decimal] = field(default=None)
     atr_value: Optional[float] = field(default=None)
+    partial_take_profit_executed: bool = field(default=False)
 
     def __post_init__(self):
         """Validate position fields."""
         # Validate stock_code
         from src.utils.validation import validate_stock_code
+
         validate_stock_code(self.stock_code)
 
         # Validate quantity > 0
         if self.quantity <= 0:
-            raise ValueError(
-                f"quantity must be positive, got: {self.quantity}"
-            )
+            raise ValueError(f"quantity must be positive, got: {self.quantity}")
 
         # Validate purchase_price > 0
         if self.purchase_price <= 0:
-            raise ValueError(
-                f"purchase_price must be positive, got: {self.purchase_price}"
-            )
+            raise ValueError(f"purchase_price must be positive, got: {self.purchase_price}")
 
         # Initialize current_price to purchase_price if not set
         if self.current_price is None:
@@ -79,7 +78,7 @@ class Position:
     def unrealized_pnl_pct(self) -> Decimal:
         """Unrealized PnL percentage = unrealized_pnl / cost_basis * 100."""
         if self.cost_basis == 0:
-            return Decimal('0')
+            return Decimal("0")
         return (self.unrealized_pnl / self.cost_basis) * 100
 
     def check_stop_loss(self, stop_loss_percent: Decimal) -> bool:
@@ -124,6 +123,7 @@ class Portfolio:
         total_value: Sum of cash + all position market values
         total_return_pct: (total_value - initial_capital) / initial_capital * 100
     """
+
     cash_balance: Decimal
     initial_capital: Decimal
     positions: Dict[str, Position] = field(default_factory=dict)
@@ -134,10 +134,7 @@ class Portfolio:
         """
         Total portfolio value = cash + sum of all position market values.
         """
-        positions_value = sum(
-            position.market_value
-            for position in self.positions.values()
-        )
+        positions_value = sum(position.market_value for position in self.positions.values())
         return self.cash_balance + positions_value
 
     @property
@@ -146,7 +143,7 @@ class Portfolio:
         Total return percentage = (total_value - initial_capital) / initial_capital * 100.
         """
         if self.initial_capital == 0:
-            return Decimal('0')
+            return Decimal("0")
         return ((self.total_value - self.initial_capital) / self.initial_capital) * 100
 
     def validate_cash_nonnegative(self) -> None:
@@ -157,9 +154,7 @@ class Portfolio:
             ValueError: If cash_balance is negative
         """
         if self.cash_balance < 0:
-            raise ValueError(
-                f"cash_balance cannot be negative, got: {self.cash_balance}"
-            )
+            raise ValueError(f"cash_balance cannot be negative, got: {self.cash_balance}")
 
     def record_snapshot(self, timestamp: datetime) -> None:
         """
@@ -181,9 +176,7 @@ class Portfolio:
             ValueError: If position with same stock_code already exists
         """
         if position.stock_code in self.positions:
-            raise ValueError(
-                f"Position for {position.stock_code} already exists"
-            )
+            raise ValueError(f"Position for {position.stock_code} already exists")
         self.positions[position.stock_code] = position
 
     def remove_position(self, stock_code: str) -> Optional[Position]:

@@ -6,6 +6,7 @@ Fetches data from yfinance and calculates technical indicators.
 from __future__ import annotations
 
 import json
+import math
 import warnings
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -89,14 +90,12 @@ def load_kospi_top100(filepath: str = "kospi_top100.txt") -> List[str]:
     for path in possible_paths:
         if path.exists():
             with open(path, "r") as f:
-                stocks = [
-                    line.strip()
-                    for line in f
-                    if line.strip() and not line.startswith("#")
-                ]
+                stocks = [line.strip() for line in f if line.strip() and not line.startswith("#")]
             return [s for s in stocks if s][:100]
 
-    raise FileNotFoundError(f"Could not find {filepath} in any expected location. Tried: {[str(p) for p in possible_paths]}")
+    raise FileNotFoundError(
+        f"Could not find {filepath} in any expected location. Tried: {[str(p) for p in possible_paths]}"
+    )
 
 
 def fetch_stock_data(stock_code: str, days: int = 60) -> Optional[pd.DataFrame]:
@@ -216,10 +215,21 @@ class SignalScanner:
         self,
         confidence_threshold: int = 60,
         stop_loss_percent: float = 5.0,
+        take_profit_pct: float = 10.0,
+        take_profit_ratio: float = 0.5,
         use_cache: bool = True,
     ):
+        if not 1.0 <= stop_loss_percent <= 20.0:
+            raise ValueError("stop_loss_percent must be between 1.0 and 20.0")
+        if not 5.0 <= take_profit_pct <= 50.0:
+            raise ValueError("take_profit_pct must be between 5.0 and 50.0")
+        if not 0.1 <= take_profit_ratio <= 1.0:
+            raise ValueError("take_profit_ratio must be between 0.1 and 1.0")
+
         self.confidence_threshold = confidence_threshold
         self.stop_loss_percent = stop_loss_percent
+        self.take_profit_pct = take_profit_pct
+        self.take_profit_ratio = take_profit_ratio
         self.use_cache = use_cache
         self._cache: Dict[str, pd.DataFrame] = {}
 
@@ -228,6 +238,7 @@ class SignalScanner:
         if not self._cache and self.use_cache:
             try:
                 from src.wizard.data_cache import load_cache, is_cache_valid
+
                 # Use cache if valid within 7 days (avoid yfinance rate limits)
                 if is_cache_valid(max_age_hours=168):
                     self._cache = load_cache()
@@ -367,20 +378,16 @@ class SignalScanner:
         self,
         positions: List[dict],
     ) -> List[StockSignal]:
-        """
-        Scan for SELL signals on existing positions.
-
-        Args:
-            positions: List of position dicts with stock_code, avg_entry_price, quantity
-
-        Returns:
-            List of StockSignal objects for SELL recommendations
-        """
         signals = []
 
         for pos in positions:
             stock_code = pos.get("stock_code")
             entry_price = pos.get("avg_entry_price", 0)
+            quantity = pos.get("quantity", 0)
+            partial_take_profit_executed = pos.get("partial_take_profit_executed", False)
+
+            if not stock_code or quantity <= 0:
+                continue
 
             df = self._get_stock_data(stock_code)
             if df is None:
@@ -389,25 +396,22 @@ class SignalScanner:
             latest = df.iloc[-1]
             current_price = float(latest["Close"])
 
-            # Calculate P&L percentage
-            if entry_price > 0:
-                pnl_pct = ((current_price - entry_price) / entry_price) * 100
-            else:
-                pnl_pct = 0
+            pnl_pct = ((current_price - entry_price) / entry_price) * 100 if entry_price > 0 else 0
 
-            # Check SELL conditions
-            sell_reason = None
+            bb_middle = float(latest["BB_Middle"]) if not pd.isna(latest["BB_Middle"]) else None
 
-            # 1. Stop-loss hit (-5%)
+            base_indicators = {
+                "entry_price": entry_price,
+                "pnl_pct": pnl_pct,
+                "rsi": float(latest["RSI"]) if not pd.isna(latest["RSI"]) else 0,
+                "bb_lower": float(latest["BB_Lower"]) if not pd.isna(latest["BB_Lower"]) else 0,
+                "bb_middle": bb_middle if bb_middle is not None else 0,
+                "bb_upper": float(latest["BB_Upper"]) if not pd.isna(latest["BB_Upper"]) else 0,
+            }
+
+            stock_name = get_stock_name(stock_code)
+
             if pnl_pct <= -self.stop_loss_percent:
-                sell_reason = f"stop_loss ({pnl_pct:.1f}%)"
-
-            # 2. Price below lower Bollinger Band
-            elif current_price < latest["BB_Lower"]:
-                sell_reason = f"lower_band_touch (PnL: {pnl_pct:+.1f}%)"
-
-            if sell_reason:
-                stock_name = get_stock_name(stock_code)
                 signals.append(
                     StockSignal(
                         stock_code=stock_code,
@@ -415,14 +419,65 @@ class SignalScanner:
                         signal_type="SELL",
                         confidence_score=100,
                         current_price=current_price,
-                        reason=sell_reason,
+                        reason="stop_loss_hit",
                         indicators={
-                            "entry_price": entry_price,
-                            "pnl_pct": pnl_pct,
-                            "rsi": float(latest["RSI"]),
-                            "bb_lower": float(latest["BB_Lower"]),
-                            "bb_middle": float(latest["BB_Middle"]),
-                            "bb_upper": float(latest["BB_Upper"]),
+                            **base_indicators,
+                            "sell_quantity": quantity,
+                            "sell_ratio": 1.0,
+                        },
+                    )
+                )
+                continue
+
+            if pnl_pct >= self.take_profit_pct and not partial_take_profit_executed:
+                sell_quantity = max(1, math.ceil(quantity * self.take_profit_ratio))
+                signals.append(
+                    StockSignal(
+                        stock_code=stock_code,
+                        stock_name=stock_name,
+                        signal_type="SELL",
+                        confidence_score=100,
+                        current_price=current_price,
+                        reason="take_profit_target_hit",
+                        indicators={
+                            **base_indicators,
+                            "sell_quantity": sell_quantity,
+                            "sell_ratio": self.take_profit_ratio,
+                        },
+                    )
+                )
+                remaining_quantity = quantity - sell_quantity
+                if remaining_quantity > 0 and bb_middle is not None and current_price < bb_middle:
+                    signals.append(
+                        StockSignal(
+                            stock_code=stock_code,
+                            stock_name=stock_name,
+                            signal_type="SELL",
+                            confidence_score=100,
+                            current_price=current_price,
+                            reason="trend_broken_middle_band",
+                            indicators={
+                                **base_indicators,
+                                "sell_quantity": remaining_quantity,
+                                "sell_ratio": 1.0,
+                            },
+                        )
+                    )
+                continue
+
+            if bb_middle is not None and current_price < bb_middle:
+                signals.append(
+                    StockSignal(
+                        stock_code=stock_code,
+                        stock_name=stock_name,
+                        signal_type="SELL",
+                        confidence_score=100,
+                        current_price=current_price,
+                        reason="trend_broken_middle_band",
+                        indicators={
+                            **base_indicators,
+                            "sell_quantity": quantity,
+                            "sell_ratio": 1.0,
                         },
                     )
                 )

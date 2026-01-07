@@ -3,7 +3,18 @@
 from datetime import date, datetime
 from decimal import Decimal
 
-from sqlalchemy import Column, String, Integer, Numeric, Date, DateTime, ForeignKey, UniqueConstraint, Index
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    Numeric,
+    Date,
+    DateTime,
+    Boolean,
+    ForeignKey,
+    UniqueConstraint,
+    Index,
+)
 from sqlalchemy.orm import relationship
 
 from src.models.base import BaseModel
@@ -33,6 +44,8 @@ class Position(BaseModel):
     # From trading_wizard_bundle - entry reason and confidence
     entry_reason = Column(String(50), nullable=True)
     confidence_score = Column(Integer, nullable=True)  # 0-100
+
+    partial_take_profit_executed = Column(Boolean, nullable=False, default=False)
 
     # Timestamps
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -82,6 +95,9 @@ class Position(BaseModel):
     def total_cost(self) -> Decimal:
         """Calculate total cost of position."""
         return Decimal(str(self.avg_entry_price)) * self.quantity
+
+    def mark_take_profit_executed(self) -> None:
+        self.partial_take_profit_executed = True
 
     def __repr__(self):
         return f"<Position(stock_code={self.stock_code}, quantity={self.quantity})>"

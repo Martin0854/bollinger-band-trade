@@ -28,16 +28,19 @@ from src.core.logging import logger
 @dataclass
 class Position:
     """Backtest position."""
+
     stock_code: str
     stock_name: str
     quantity: int
     entry_price: float
     entry_date: str
+    partial_take_profit_executed: bool = False
 
 
 @dataclass
 class Trade:
     """Backtest trade record."""
+
     date: str
     stock_code: str
     stock_name: str
@@ -52,6 +55,7 @@ class Trade:
 @dataclass
 class BacktestState:
     """Backtest simulation state."""
+
     initial_capital: float
     cash: float
     positions: dict[str, Position] = field(default_factory=dict)
@@ -68,6 +72,8 @@ class BacktestService:
         max_positions: int = 15,
         max_position_pct: float = 10.0,
         stop_loss_pct: float = 5.0,
+        take_profit_pct: float = 10.0,
+        take_profit_ratio: float = 0.5,
         confidence_threshold: int = 60,
     ):
         """Initialize backtest service with strategy parameters."""
@@ -75,6 +81,8 @@ class BacktestService:
         self.max_positions = max_positions
         self.max_position_pct = max_position_pct
         self.stop_loss_pct = stop_loss_pct
+        self.take_profit_pct = take_profit_pct
+        self.take_profit_ratio = take_profit_ratio
         self.confidence_threshold = confidence_threshold
 
     @classmethod
@@ -87,6 +95,8 @@ class BacktestService:
                 max_positions=settings.max_positions,
                 max_position_pct=float(settings.max_position_pct),
                 stop_loss_pct=float(settings.stop_loss_pct),
+                take_profit_pct=10.0,  # Default, should add to settings schema later
+                take_profit_ratio=0.5,  # Default
                 confidence_threshold=settings.confidence_threshold,
             )
         return cls(db=db)
@@ -188,10 +198,14 @@ class BacktestService:
         from src.models.stock_list import StockList
 
         # Try to load from database first (by ID or name)
-        stock_list = self.db.query(StockList).filter(
-            StockList.user_id == user_id,
-            (StockList.id == stock_list_name) | (StockList.name == stock_list_name)
-        ).first()
+        stock_list = (
+            self.db.query(StockList)
+            .filter(
+                StockList.user_id == user_id,
+                (StockList.id == stock_list_name) | (StockList.name == stock_list_name),
+            )
+            .first()
+        )
 
         if stock_list:
             return stock_list.get_stock_codes_list()[:100]
@@ -208,9 +222,7 @@ class BacktestService:
             if path.exists():
                 with open(path, "r") as f:
                     stocks = [
-                        line.strip()
-                        for line in f
-                        if line.strip() and not line.startswith("#")
+                        line.strip() for line in f if line.strip() and not line.startswith("#")
                     ]
                 return stocks[:100]
 
@@ -275,7 +287,7 @@ class BacktestService:
             return state
 
         sample_df = list(all_data.values())[0]
-        trading_days = sample_df.loc[str(start_date):str(end_date)].index.tolist()
+        trading_days = sample_df.loc[str(start_date) : str(end_date)].index.tolist()
 
         for trading_date in trading_days:
             date_str = trading_date.strftime("%Y-%m-%d")
@@ -286,29 +298,50 @@ class BacktestService:
                 if code not in all_data:
                     continue
 
-                sell_signal = self._check_sell_signal(all_data[code], date_str, pos.entry_price)
+                sell_signal = self._check_sell_signal(
+                    all_data[code], date_str, pos.entry_price, pos.partial_take_profit_executed
+                )
                 if sell_signal:
                     positions_to_sell.append((code, sell_signal))
 
             # Execute sells
             for code, signal in positions_to_sell:
                 pos = state.positions[code]
-                proceeds = signal["price"] * pos.quantity
-                pnl = (signal["price"] - pos.entry_price) * pos.quantity
+
+                # Determine sell quantity
+                sell_ratio = signal.get("sell_ratio", 1.0)
+                sell_quantity = int(pos.quantity * sell_ratio)
+                if sell_quantity < 1:
+                    sell_quantity = pos.quantity  # Force sell at least 1 or all if tiny
+
+                proceeds = signal["price"] * sell_quantity
+                pnl = (signal["price"] - pos.entry_price) * sell_quantity
+                pnl_pct = signal["pnl_pct"]
 
                 state.cash += proceeds
-                state.trades.append(Trade(
-                    date=date_str,
-                    stock_code=code,
-                    stock_name=pos.stock_name,
-                    action="SELL",
-                    price=signal["price"],
-                    quantity=pos.quantity,
-                    reason=signal["reason"],
-                    pnl=pnl,
-                    pnl_pct=signal["pnl_pct"],
-                ))
-                del state.positions[code]
+                state.trades.append(
+                    Trade(
+                        date=date_str,
+                        stock_code=code,
+                        stock_name=pos.stock_name,
+                        action="SELL",
+                        price=signal["price"],
+                        quantity=sell_quantity,
+                        reason=signal["reason"],
+                        pnl=pnl,
+                        pnl_pct=pnl_pct,
+                    )
+                )
+
+                # Update position state
+                if sell_ratio >= 1.0 or sell_quantity >= pos.quantity:
+                    # Full exit
+                    del state.positions[code]
+                else:
+                    # Partial exit
+                    pos.quantity -= sell_quantity
+                    if signal["reason"] == "take_profit_target_hit":
+                        pos.partial_take_profit_executed = True
 
             # 2. Check BUY signals
             if len(state.positions) < self.max_positions:
@@ -330,7 +363,9 @@ class BacktestService:
                     if len(state.positions) >= self.max_positions:
                         break
 
-                    quantity = self._calculate_position_size(signal["price"], state.cash, initial_capital)
+                    quantity = self._calculate_position_size(
+                        signal["price"], state.cash, initial_capital
+                    )
                     if quantity < 1:
                         continue
 
@@ -346,15 +381,17 @@ class BacktestService:
                         entry_price=signal["price"],
                         entry_date=date_str,
                     )
-                    state.trades.append(Trade(
-                        date=date_str,
-                        stock_code=code,
-                        stock_name=stock_names.get(code, code),
-                        action="BUY",
-                        price=signal["price"],
-                        quantity=quantity,
-                        reason=f"squeeze_breakout (conf:{signal['confidence']})",
-                    ))
+                    state.trades.append(
+                        Trade(
+                            date=date_str,
+                            stock_code=code,
+                            stock_name=stock_names.get(code, code),
+                            action="BUY",
+                            price=signal["price"],
+                            quantity=quantity,
+                            reason=f"squeeze_breakout (conf:{signal['confidence']})",
+                        )
+                    )
 
             # 3. Calculate daily value
             positions_value = 0
@@ -380,14 +417,14 @@ class BacktestService:
                 return None
 
             row = df.iloc[idx]
-            prev_rows = df.iloc[idx-5:idx]
+            prev_rows = df.iloc[idx - 5 : idx]
 
             if pd.isna(row["BB_Upper"]) or pd.isna(row["RSI"]):
                 return None
 
             price_breakout = row["Close"] > row["BB_Upper"]
             was_in_squeeze = prev_rows["In_Squeeze"].any()
-            bandwidth_expanding = row["BB_Width"] > df.iloc[idx-1]["BB_Width"]
+            bandwidth_expanding = row["BB_Width"] > df.iloc[idx - 1]["BB_Width"]
 
             if price_breakout and (was_in_squeeze or bandwidth_expanding):
                 # Calculate continuous confidence score
@@ -407,8 +444,14 @@ class BacktestService:
             pass
         return None
 
-    def _check_sell_signal(self, df: pd.DataFrame, date_str: str, entry_price: float) -> Optional[dict]:
-        """Check for sell signal on given date."""
+    def _check_sell_signal(
+        self,
+        df: pd.DataFrame,
+        date_str: str,
+        entry_price: float,
+        partial_take_profit_executed: bool = False,
+    ) -> Optional[dict]:
+        """Check for sell signal with priority: Stop Loss > Take Profit > Trend Breakdown."""
         try:
             idx = df.index.get_loc(pd.Timestamp(date_str))
             row = df.iloc[idx]
@@ -416,21 +459,36 @@ class BacktestService:
             current_price = float(row["Close"])
             pnl_pct = ((current_price - entry_price) / entry_price) * 100
 
-            # Stop loss
+            # 1. Stop Loss (Priority 1)
             if pnl_pct <= -self.stop_loss_pct:
                 return {
                     "price": current_price,
                     "reason": f"stop_loss ({pnl_pct:.1f}%)",
                     "pnl_pct": pnl_pct,
+                    "sell_ratio": 1.0,
                 }
 
-            # Price below lower band
-            if current_price < row["BB_Lower"]:
+            # 2. Daily Take Profit Check (Priority 2)
+            # Only trigger once per position
+            if pnl_pct >= self.take_profit_pct and not partial_take_profit_executed:
                 return {
                     "price": current_price,
-                    "reason": f"lower_band_touch ({pnl_pct:+.1f}%)",
+                    "reason": "take_profit_target_hit",
                     "pnl_pct": pnl_pct,
+                    "sell_ratio": self.take_profit_ratio,
                 }
+
+            # 3. Trend Breakdown (Priority 3)
+            # Close below Middle Band (20 MA)
+            bb_middle = row["BB_Middle"]
+            if not pd.isna(bb_middle) and current_price < bb_middle:
+                return {
+                    "price": current_price,
+                    "reason": "trend_broken_middle_band",
+                    "pnl_pct": pnl_pct,
+                    "sell_ratio": 1.0,  # Sell remaining
+                }
+
         except (KeyError, IndexError):
             pass
         return None
@@ -511,10 +569,7 @@ class BacktestService:
                 }
                 for t in state.trades
             ],
-            "daily_values": [
-                {"date": d, "value": v}
-                for d, v in state.daily_values
-            ],
+            "daily_values": [{"date": d, "value": v} for d, v in state.daily_values],
         }
 
     def get_results(self, user_id: str, limit: int = 20) -> list[BacktestResult]:

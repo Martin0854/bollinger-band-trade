@@ -3,8 +3,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime
-from sqlalchemy.dialects.sqlite import CHAR
+from sqlalchemy import Column, DateTime, String
 
 from src.db.database import Base
 
@@ -19,7 +18,7 @@ class BaseModel(Base):
 
     __abstract__ = True
 
-    id = Column(CHAR(36), primary_key=True, default=generate_uuid)
+    id = Column(String(36), primary_key=True, default=generate_uuid)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
 

@@ -1,5 +1,9 @@
 import { Card } from '../common/Card';
 import { Table } from '../common/Table';
+import { BacktestPortfolioChart } from './BacktestPortfolioChart';
+import { BacktestMonthlyHeatmap } from './BacktestMonthlyHeatmap';
+import { BacktestStockRanking } from './BacktestStockRanking';
+import { BacktestTradeHistory } from './BacktestTradeHistory';
 
 interface BacktestDetailData {
   id: string;
@@ -64,61 +68,7 @@ export function BacktestDetail({ result }: BacktestDetailProps) {
   const metrics = result.result_json.backtest_metrics;
   const trades = result.result_json.trade_history;
   const positions = result.result_json.positions;
-
-  const tradeColumns = [
-    { key: 'date', header: '날짜' },
-    {
-      key: 'stock_code',
-      header: '종목',
-      render: (t: (typeof trades)[0]) => (
-        <div>
-          <span className="font-mono text-sm">{t.stock_code}</span>
-          <br />
-          <span className="text-xs text-gray-500">{t.stock_name}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'action',
-      header: '유형',
-      render: (t: (typeof trades)[0]) => (
-        <span
-          className={`px-2 py-1 rounded text-xs font-medium ${
-            t.action === 'BUY'
-              ? 'bg-red-100 text-red-800'
-              : 'bg-blue-100 text-blue-800'
-          }`}
-        >
-          {t.action === 'BUY' ? '매수' : '매도'}
-        </span>
-      ),
-    },
-    {
-      key: 'price',
-      header: '가격',
-      className: 'text-right',
-      render: (t: (typeof trades)[0]) => formatCurrency(t.price),
-    },
-    { key: 'quantity', header: '수량', className: 'text-right' },
-    {
-      key: 'pnl',
-      header: '손익',
-      className: 'text-right',
-      render: (t: (typeof trades)[0]) => {
-        if (t.pnl === null) return '-';
-        const color = t.pnl >= 0 ? 'text-green-600' : 'text-red-600';
-        const sign = t.pnl >= 0 ? '+' : '';
-        return <span className={color}>{sign}{formatCurrency(t.pnl)}</span>;
-      },
-    },
-    {
-      key: 'reason',
-      header: '사유',
-      render: (t: (typeof trades)[0]) => (
-        <span className="text-xs text-gray-500">{t.reason}</span>
-      ),
-    },
-  ];
+  const dailyValues = result.result_json.daily_values;
 
   const positionColumns = [
     { key: 'stock_code', header: '종목코드' },
@@ -181,6 +131,25 @@ export function BacktestDetail({ result }: BacktestDetailProps) {
         </div>
       </Card>
 
+      {/* Portfolio Value Chart */}
+      {dailyValues.length > 0 && (
+        <BacktestPortfolioChart
+          dailyValues={dailyValues}
+          initialCapital={result.initial_capital}
+        />
+      )}
+
+      {/* Monthly Heatmap */}
+      {dailyValues.length > 0 && (
+        <BacktestMonthlyHeatmap
+          dailyValues={dailyValues}
+          initialCapital={result.initial_capital}
+        />
+      )}
+
+      {/* Stock Ranking */}
+      <BacktestStockRanking trades={trades} />
+
       {/* Remaining Positions */}
       {positions.length > 0 && (
         <Card className="p-6">
@@ -195,23 +164,8 @@ export function BacktestDetail({ result }: BacktestDetailProps) {
         </Card>
       )}
 
-      {/* Trade History */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">
-          거래 내역 (최근 50건)
-        </h3>
-        <Table
-          columns={tradeColumns}
-          data={trades.slice(0, 50)}
-          keyExtractor={(t, i: number) => `${t.date}-${t.stock_code}-${i}`}
-          emptyMessage="거래 내역이 없습니다."
-        />
-        {trades.length > 50 && (
-          <p className="mt-2 text-sm text-gray-500 text-center">
-            ... 외 {trades.length - 50}건
-          </p>
-        )}
-      </Card>
+      {/* Trade History with Pagination */}
+      <BacktestTradeHistory trades={trades} />
     </div>
   );
 }

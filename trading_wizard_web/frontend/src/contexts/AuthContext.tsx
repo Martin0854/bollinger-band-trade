@@ -47,6 +47,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false;
   }, [clearSession]);
 
+  const userRef = useRef<User | null>(null);
+  userRef.current = user;
+
   const resetActivityTimer = useCallback(() => {
     localStorage.setItem(LAST_ACTIVITY_KEY, Date.now().toString());
 
@@ -55,12 +58,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     timeoutRef.current = setTimeout(() => {
-      if (user) {
+      if (userRef.current) {
         console.log('Session timeout due to inactivity');
         clearSession();
       }
     }, SESSION_TIMEOUT_MS);
-  }, [user, clearSession]);
+  }, [clearSession]);
 
   useEffect(() => {
     // Check for existing token on mount

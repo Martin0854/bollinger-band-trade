@@ -8,13 +8,13 @@ metadata:
     app: trading-wizard
     component: backend
 spec:
-  replicas: 1  # SQLite requires single instance
+  replicas: 1
   selector:
     matchLabels:
       app: trading-wizard
       component: backend
   strategy:
-    type: Recreate  # Required for SQLite (no concurrent access)
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -30,7 +30,10 @@ spec:
               name: http
           env:
             - name: DATABASE_URL
-              value: "sqlite:///./data/trading_wizard.db"
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: DATABASE_URL
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:

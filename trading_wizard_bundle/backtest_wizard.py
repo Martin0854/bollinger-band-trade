@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 # ============================================================================
 # Configuration
 # ============================================================================
-INITIAL_CAPITAL = 1_000_000  # KRW
+INITIAL_CAPITAL = 1_000_000  # KRW (100만원)
 MAX_POSITIONS = 15
 MAX_POSITION_PERCENT = 10.0  # 10% per position
 CONFIDENCE_THRESHOLD = 60
@@ -170,16 +170,42 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def calculate_confidence(row: pd.Series) -> int:
-    """Calculate confidence score for a signal."""
-    score = 25  # Base score
+def calculate_confidence(row: pd.Series) -> float:
+    """
+    Calculate confidence score for a signal (continuous scoring).
 
-    if row["Volume_Ratio"] >= 1.5:
-        score += 25
-    if 30 <= row["RSI"] <= 70:
-        score += 20
-    if row["MACD_Histogram"] > 0:
-        score += 30
+    Scoring (0-100):
+        - Base (Bollinger breakout): 25 points
+        - Volume (0-25): Linear scale from 1.0x to 2.0x
+        - RSI (0-20): Peak at 50, decreases toward 30/70
+        - MACD (0-30): Based on histogram strength relative to signal
+    """
+    score = 25.0  # Base score for Bollinger breakout
+
+    # Volume Score (0-25점)
+    # 1.0x -> 0점, 1.5x -> 12.5점, 2.0x -> 25점 (cap)
+    vol_ratio = row["Volume_Ratio"]
+    if vol_ratio > 1.0:
+        vol_score = min(25.0, (vol_ratio - 1.0) * 25.0)
+        score += vol_score
+
+    # RSI Score (0-20점)
+    # 50이 최적(20점), 30/70에서 0점, 범위 밖은 0점
+    rsi = row["RSI"]
+    if 30 <= rsi <= 70:
+        distance = abs(rsi - 50)
+        rsi_score = 20.0 * (1 - distance / 20.0)
+        score += rsi_score
+
+    # MACD Score (0-30점)
+    # Histogram이 양수일 때, Signal 대비 비율로 점수 계산
+    macd_hist = row["MACD_Histogram"]
+    if macd_hist > 0:
+        macd_signal = abs(row["MACD_Signal"]) if row["MACD_Signal"] != 0 else 0.001
+        # histogram/signal 비율: 0.5 이상이면 만점
+        macd_ratio = min(macd_hist / macd_signal, 1.0)
+        macd_score = 30.0 * macd_ratio
+        score += macd_score
 
     return score
 

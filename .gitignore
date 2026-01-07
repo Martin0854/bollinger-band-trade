@@ -93,3 +93,22 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Node.js / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Vite / Build artifacts
+dist/
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# ESLint / Prettier
+.eslintcache
+*.eslintcache

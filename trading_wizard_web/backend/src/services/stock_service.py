@@ -101,6 +101,14 @@ class StockService:
         """Check if a stock code exists in the database."""
         return stock_code in self._stock_names
 
+    def get_all_stock_names(self) -> dict[str, str]:
+        """Get all stock names as a dictionary.
+
+        Returns:
+            Dictionary mapping stock code to stock name
+        """
+        return self._stock_names.copy()
+
     @property
     def total_stocks(self) -> int:
         """Total number of stocks in the database."""

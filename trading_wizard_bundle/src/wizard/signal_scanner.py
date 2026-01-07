@@ -190,32 +190,49 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def calculate_confidence_score(
-    volume_pass: bool, rsi_pass: bool, macd_pass: bool
-) -> int:
+    volume_ratio: float, rsi: float, macd_histogram: float, macd_signal: float
+) -> float:
     """
-    Calculate signal confidence score (0-100 points).
+    Calculate signal confidence score (0-100 points) with continuous scoring.
 
     Scoring:
         - Base (Bollinger breakout): 25 points
-        - Volume filter passed: +25 points
-        - RSI neutral zone: +20 points
-        - MACD bullish: +30 points
+        - Volume (0-25): Linear scale from 1.0x to 2.0x
+        - RSI (0-20): Peak at 50, decreases toward 30/70
+        - MACD (0-30): Based on histogram strength relative to signal
 
     Args:
-        volume_pass: Volume >= 1.5x 20-day average
-        rsi_pass: RSI in neutral zone (30-70)
-        macd_pass: MACD histogram > 0
+        volume_ratio: Volume / 20-day average volume
+        rsi: RSI value (0-100)
+        macd_histogram: MACD histogram value
+        macd_signal: MACD signal line value
 
     Returns:
         Confidence score (0-100)
     """
-    score = 25  # Base score for Bollinger breakout
-    if volume_pass:
-        score += 25
-    if rsi_pass:
-        score += 20
-    if macd_pass:
-        score += 30
+    score = 25.0  # Base score for Bollinger breakout
+
+    # Volume Score (0-25점)
+    # 1.0x -> 0점, 1.5x -> 12.5점, 2.0x -> 25점 (cap)
+    if volume_ratio > 1.0:
+        vol_score = min(25.0, (volume_ratio - 1.0) * 25.0)
+        score += vol_score
+
+    # RSI Score (0-20점)
+    # 50이 최적(20점), 30/70에서 0점, 범위 밖은 0점
+    if 30 <= rsi <= 70:
+        distance = abs(rsi - 50)
+        rsi_score = 20.0 * (1 - distance / 20.0)
+        score += rsi_score
+
+    # MACD Score (0-30점)
+    # Histogram이 양수일 때, Signal 대비 비율로 점수 계산
+    if macd_histogram > 0:
+        macd_signal_abs = abs(macd_signal) if macd_signal != 0 else 0.001
+        macd_ratio = min(macd_histogram / macd_signal_abs, 1.0)
+        macd_score = 30.0 * macd_ratio
+        score += macd_score
+
     return score
 
 
@@ -283,17 +300,14 @@ class SignalScanner:
             was_in_squeeze = df["In_Squeeze"].iloc[-5:-1].any()
             bandwidth_expanding = latest["BB_Width"] > df["BB_Width"].iloc[-2]
 
-            # 3. Volume filter (1.5x average)
-            volume_pass = latest["Volume_Ratio"] >= 1.5
-
-            # 4. RSI neutral (30-70)
-            rsi_pass = 30 <= latest["RSI"] <= 70
-
-            # 5. MACD bullish (histogram > 0)
-            macd_pass = latest["MACD_Histogram"] > 0
-
             if price_breakout and (was_in_squeeze or bandwidth_expanding):
-                confidence = calculate_confidence_score(volume_pass, rsi_pass, macd_pass)
+                # Calculate continuous confidence score
+                confidence = calculate_confidence_score(
+                    volume_ratio=float(latest["Volume_Ratio"]),
+                    rsi=float(latest["RSI"]),
+                    macd_histogram=float(latest["MACD_Histogram"]),
+                    macd_signal=float(latest["MACD_Signal"]),
+                )
 
                 if confidence >= self.confidence_threshold:
                     stock_name = get_stock_name(stock_code)

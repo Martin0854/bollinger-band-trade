@@ -5,11 +5,10 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 from src.core.config import settings
 
-# Create SQLite engine
 engine = create_engine(
     settings.DATABASE_URL,
-    connect_args={"check_same_thread": False},  # Required for SQLite
     echo=settings.LOG_LEVEL == "DEBUG",
+    pool_pre_ping=True,
 )
 
 # Session factory
