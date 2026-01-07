@@ -1,0 +1,326 @@
+[
+  {
+    "strategy": "baseline",
+    "period": "2024H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 5.1454725,
+      "sharpe_ratio": 0.7162992812969711,
+      "max_drawdown": 12.440279441722637,
+      "win_rate": 47.31182795698925,
+      "total_trades": 174
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2024H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -15.37532109375,
+      "sharpe_ratio": -2.049831643940975,
+      "max_drawdown": 17.691796665610838,
+      "win_rate": 28.749999999999996,
+      "total_trades": 156
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2023H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 5.56594515625,
+      "sharpe_ratio": 1.0051480099871621,
+      "max_drawdown": 6.7089702582982,
+      "win_rate": 45.33333333333333,
+      "total_trades": 150
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2023H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -2.17622205078125,
+      "sharpe_ratio": -0.34369701421186494,
+      "max_drawdown": 8.07532844050224,
+      "win_rate": 39.53488372093023,
+      "total_trades": 164
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2025H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 19.8431,
+      "sharpe_ratio": 2.3707164654350326,
+      "max_drawdown": 7.139307360994719,
+      "win_rate": 44.18604651162791,
+      "total_trades": 163
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2023",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 5.31417611328125,
+      "sharpe_ratio": 0.5009582079067194,
+      "max_drawdown": 8.07532844050224,
+      "win_rate": 43.19526627218935,
+      "total_trades": 321
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2025",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 33.8565,
+      "sharpe_ratio": 1.9366532865055,
+      "max_drawdown": 7.139307360994719,
+      "win_rate": 50.24630541871922,
+      "total_trades": 364
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2024",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": -9.163548593749999,
+      "sharpe_ratio": -0.5297832609018014,
+      "max_drawdown": 23.173822278478042,
+      "win_rate": 41.01123595505618,
+      "total_trades": 331
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2023H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 6.77324365234375,
+      "sharpe_ratio": 1.0862174940247438,
+      "max_drawdown": 4.736157294893719,
+      "win_rate": 40.0,
+      "total_trades": 90
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2023H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 4.73395703125,
+      "sharpe_ratio": 0.7523044465201159,
+      "max_drawdown": 9.852468327295744,
+      "win_rate": 40.38461538461539,
+      "total_trades": 102
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2024H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 14.2405334375,
+      "sharpe_ratio": 1.6939803958527457,
+      "max_drawdown": 8.075852545097478,
+      "win_rate": 42.10526315789473,
+      "total_trades": 75
+    }
+  },
+  {
+    "strategy": "baseline",
+    "period": "2023-2025",
+    "period_type": "3Y",
+    "metrics": {
+      "total_return_pct": 30.410636113281246,
+      "sharpe_ratio": 0.6759581857865854,
+      "max_drawdown": 24.049349722384022,
+      "win_rate": 46.08540925266904,
+      "total_trades": 1019
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2024H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -15.4785265625,
+      "sharpe_ratio": -1.6015830722418516,
+      "max_drawdown": 19.704784317430015,
+      "win_rate": 23.456790123456788,
+      "total_trades": 156
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2025H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 18.06776171875,
+      "sharpe_ratio": 1.985878474361227,
+      "max_drawdown": 10.393947443248736,
+      "win_rate": 35.9375,
+      "total_trades": 123
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2023",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 11.44800302734375,
+      "sharpe_ratio": 0.8448274071416434,
+      "max_drawdown": 14.25782940060993,
+      "win_rate": 37.3134328358209,
+      "total_trades": 127
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2024",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 11.3984334375,
+      "sharpe_ratio": 0.69023615349914,
+      "max_drawdown": 10.000337542346067,
+      "win_rate": 39.62264150943396,
+      "total_trades": 100
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2025",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 36.67306171875,
+      "sharpe_ratio": 1.9462769258251829,
+      "max_drawdown": 10.393947443248736,
+      "win_rate": 36.231884057971016,
+      "total_trades": 131
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2023H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -3.07396703125,
+      "sharpe_ratio": -0.6368843529058192,
+      "max_drawdown": 6.443059609375,
+      "win_rate": 26.31578947368421,
+      "total_trades": 82
+    }
+  },
+  {
+    "strategy": "original_optimal",
+    "period": "2023-2025",
+    "period_type": "3Y",
+    "metrics": {
+      "total_return_pct": 91.77740302734375,
+      "sharpe_ratio": 1.3612540197588805,
+      "max_drawdown": 14.25782940060993,
+      "win_rate": 36.36363636363637,
+      "total_trades": 238
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2023H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 0.48815875000000003,
+      "sharpe_ratio": 0.16236264086224586,
+      "max_drawdown": 7.706410455858577,
+      "win_rate": 26.08695652173913,
+      "total_trades": 55
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2024H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -3.20260046875,
+      "sharpe_ratio": -0.5612399899919029,
+      "max_drawdown": 8.205600468750001,
+      "win_rate": 22.22222222222222,
+      "total_trades": 78
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2024H2",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": -9.46099296875,
+      "sharpe_ratio": -1.5262874193572658,
+      "max_drawdown": 10.525736701996244,
+      "win_rate": 23.076923076923077,
+      "total_trades": 82
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2025H1",
+    "period_type": "6M",
+    "metrics": {
+      "total_return_pct": 22.89326171875,
+      "sharpe_ratio": 3.1160424442101875,
+      "max_drawdown": 6.586947662191841,
+      "win_rate": 50.0,
+      "total_trades": 61
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2023",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": -5.8107731640625,
+      "sharpe_ratio": -0.4407616783069927,
+      "max_drawdown": 14.147840617449264,
+      "win_rate": 27.536231884057973,
+      "total_trades": 135
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2024",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": -13.7549934375,
+      "sharpe_ratio": -0.8573259483803404,
+      "max_drawdown": 14.41190046875,
+      "win_rate": 23.809523809523807,
+      "total_trades": 166
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2025",
+    "period_type": "1Y",
+    "metrics": {
+      "total_return_pct": 45.16476171875,
+      "sharpe_ratio": 2.5127398442168727,
+      "max_drawdown": 6.586947662191841,
+      "win_rate": 51.28205128205128,
+      "total_trades": 74
+    }
+  },
+  {
+    "strategy": "robust_standard",
+    "period": "2023-2025",
+    "period_type": "3Y",
+    "metrics": {
+      "total_return_pct": 37.1508124609375,
+      "sharpe_ratio": 0.7706010666274872,
+      "max_drawdown": 15.099794060747563,
+      "win_rate": 30.434782608695656,
+      "total_trades": 212
+    }
+  }
+]
